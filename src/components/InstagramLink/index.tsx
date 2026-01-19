@@ -19,7 +19,6 @@ export function InstagramLink({ color = "secondary" }: InstagramLinkProps) {
         "inline-flex items-center gap-2",
         "font-display font-medium",
         "text-lg md:text-xl",
-        "text-soypoy-secondary",
         "hover:text-soypoy-accent",
         "transition-colors",
         color === "secondary" ? "text-soypoy-secondary" : "text-white",

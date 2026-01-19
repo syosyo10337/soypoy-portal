@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageTitle } from "@/components/PageTitle";
 import { createServerCaller } from "@/infrastructure/trpc/server";
@@ -16,6 +17,36 @@ export const revalidate = 60;
 
 interface EventDetailPageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: EventDetailPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const trpc = await createServerCaller();
+  const event = await trpc.events.getById(id);
+
+  if (!event) {
+    return {
+      title: "イベントが見つかりません | SOY-POY",
+    };
+  }
+
+  const description =
+    event.description?.slice(0, 120) ||
+    "SOY-POYで開催されるイベントの詳細情報です。";
+
+  return {
+    title: `${event.title} | SOY-POY`,
+    description,
+    openGraph: {
+      title: event.title,
+      description,
+      ...(event.thumbnail && {
+        images: [{ url: event.thumbnail }],
+      }),
+    },
+  };
 }
 
 export default async function EventDetailPage({
