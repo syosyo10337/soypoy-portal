@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { CldImage } from "next-cloudinary";
 import NoImage from "@/assets/no-image.png";
 import type { EventEntity } from "@/domain/entities";
@@ -29,8 +30,17 @@ export function EventListItem({ event }: EventListItemProps) {
         : null;
 
   return (
-    <div
-      className={cn("relative flex", "gap-4 md:gap-6", "py-3", "font-display")}
+    <Link
+      href={`/events/${event.id}`}
+      className={cn(
+        "relative flex",
+        "gap-4 md:gap-6",
+        "py-3",
+        "font-display",
+        "hover:bg-soypoy-secondary/5",
+        "transition-colors",
+        "cursor-pointer",
+      )}
     >
       <div
         className={cn(
@@ -87,6 +97,6 @@ export function EventListItem({ event }: EventListItemProps) {
         </div>
       </div>
       {event.isPickUp && <PickUpLabel />}
-    </div>
+    </Link>
   );
 }

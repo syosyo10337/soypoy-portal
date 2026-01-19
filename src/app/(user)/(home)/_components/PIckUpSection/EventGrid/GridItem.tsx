@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import BubleLabel from "@/components/BubleLabel";
+import { BubleLabel, getLabelPositionClassName } from "@/components/BubleLabel";
 import type { EventType } from "@/domain/entities";
 import { cn } from "@/utils/cn";
 
@@ -64,17 +64,6 @@ export default function GridItem({
     </Link>
   );
 }
-
-const getLabelPositionClassName = (index: number) => {
-  const position = index % 4;
-  return cn(
-    "absolute",
-    position === 0 && "-top-3 -left-3", // 左上
-    position === 1 && "-bottom-3 -left-3", // 左下
-    position === 2 && "-top-3 -right-3", // 右上
-    position === 3 && "-bottom-3 -right-3", // 右下
-  );
-};
 
 const getBorderClassName = (index: number) => {
   // 2列レイアウト（デフォルト〜lg未満）

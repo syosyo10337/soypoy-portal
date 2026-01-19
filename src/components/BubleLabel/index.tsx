@@ -17,6 +17,8 @@ import {
   WorkshopLabelImage,
 } from "./assets";
 
+export { getLabelPositionClassName } from "./utils";
+
 const variantMap = {
   [EventType.Art]: {
     image: ArtLabelImage,
@@ -81,7 +83,7 @@ interface BubleLabelProps
   size?: number;
 }
 
-export default function BubleLabel({
+export function BubleLabel({
   className,
   variant,
   size = 34,
