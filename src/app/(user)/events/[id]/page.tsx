@@ -41,8 +41,8 @@ export default async function EventDetailPage({
           "font-display",
         )}
       >
-        <EventDate date={event.date} className="order-1 md:order-1" />
-        <EventTitle title={event.title} className="order-2 md:order-2" />
+        <EventDate date={event.date} className="order-1" />
+        <EventTitle title={event.title} className="order-2" />
         <EventThumbnail
           src={event.thumbnail}
           alt={event.title}
