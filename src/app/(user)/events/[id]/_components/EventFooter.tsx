@@ -9,7 +9,6 @@ export function EventFooter() {
           "font-display font-semibold",
           "text-base md:text-lg",
           "mb-4",
-          "hover:text-soypoy-accent",
         )}
       >
         過去のイベントの様子はこちらから
