@@ -9,7 +9,7 @@ import { EventListSkeleton } from "./_components/EventList/EventListSkeleton";
 import { MonthNavigation } from "./_components/MonthNavigation";
 import { ScheduleAnnouncement } from "./_components/ScheduleAnnouncement";
 
-export const revalidate = 60 * 5;
+export const revalidate = 300;
 
 interface EventsPageProps {
   searchParams: Promise<{ month: string }>;
