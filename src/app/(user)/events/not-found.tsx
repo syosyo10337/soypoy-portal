@@ -4,11 +4,10 @@ export default function EventsNotFound() {
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
       <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-        イベント機能は現在実装中です
+        イベントが見つかりません
       </h2>
       <p className="text-gray-300 mb-8 max-w-md">
-        申し訳ありませんが、イベント機能は現在開発中です。
-        もうしばらくお待ちください。
+        お探しのイベントは存在しないか、公開されていません。
       </p>
       <Link
         href="/"

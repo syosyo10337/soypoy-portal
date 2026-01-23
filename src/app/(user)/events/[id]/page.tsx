@@ -22,7 +22,7 @@ interface EventDetailPageProps {
 export async function generateMetadata({
   params,
 }: EventDetailPageProps): Promise<Metadata> {
-  const { id } = awaigst params;
+  const { id } = await params;
   const trpc = await createServerCaller();
   const event = await trpc.events.getPublishedById(id);
 
