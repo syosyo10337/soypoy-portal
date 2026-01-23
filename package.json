@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "dotenvx run -f .env.local -- next dev",
+    "dev": "./bin/runenv next dev",
     "build": "pnpm db:migrate && NODE_ENV=production next build",
     "start": "next start",
     "lint": "biome lint .",
@@ -12,10 +12,10 @@
     "tsc": "tsc --noEmit",
     "check": "concurrently --kill-others-on-fail \"pnpm tsc\" \"pnpm lint:fix\" && pnpm format",
     "db:migrate": "tsx scripts/migrate.ts",
-    "db:seed": "dotenvx run -f .env.local -- tsx scripts/seed.ts",
-    "drzl:gen": "dotenvx run -f .env.local --overload -- drizzle-kit generate",
-    "drzl:migrate": "dotenvx run -f .env.local --overload -- drizzle-kit migrate",
-    "drzl:studio": "dotenvx run -f .env.local --overload -- drizzle-kit studio"
+    "db:seed": "./bin/runenv tsx scripts/seed.ts",
+    "drzl:gen": "./bin/runenv drizzle-kit generate",
+    "drzl:migrate": "./bin/runenv drizzle-kit migrate",
+    "drzl:studio": "./bin/runenv drizzle-kit studio"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.51.1",

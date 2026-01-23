@@ -120,6 +120,21 @@ npx dotenvx set NEW_VAR "value" -f .env.local
 
 設定後、`.env.local`の変更をコミットしてください。
 
+#### ローカル開発用の個人設定（.env.local.dev）
+
+チーム開発時、各開発者が個人用のNeonブランチを使う場合：
+
+1. `.env.local.dev`ファイルをプロジェクトルートに作成
+2. `NETLIFY_DATABASE_URL`を自分のブランチのURLで上書き
+
+```bash
+# .env.local.dev
+NETLIFY_DATABASE_URL="postgresql://..."
+```
+
+このファイルは`.gitignore`に含まれており、コミットされません。
+詳細は[Neonエフェメラルブランチ手順](docs/neon-local-branch.md)を参照してください。
+
 ## 開発サーバーの起動
 dev containerを経由せずにコンテナを起動する場合は、以下のコマンドを利用します。
 

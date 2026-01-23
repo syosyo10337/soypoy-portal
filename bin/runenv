@@ -1,0 +1,16 @@
+#!/bin/bash
+# 環境変数読み込みスクリプト
+# コンテナ内（Dev Container、docker compose）・ホスト両方で動作
+#
+# 使用例:
+#   ./bin/runenv next dev
+#   ./bin/runenv drizzle-kit studio
+#
+# .env.local.devが存在する場合は、.env.localの値を上書きする
+# これにより、個人用のNeonブランチURLなどを設定できる
+
+if [ -f .env.local.dev ]; then
+  exec dotenvx run -f .env.local -f .env.local.dev --overload -- "$@"
+else
+  exec dotenvx run -f .env.local -- "$@"
+fi
