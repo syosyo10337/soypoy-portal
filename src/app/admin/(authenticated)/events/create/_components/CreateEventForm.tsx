@@ -6,6 +6,7 @@ import { useForm } from "@refinedev/react-hook-form";
 import {
   EventDateField,
   EventDescriptionField,
+  EventPublicationStatusField,
   EventThumbnailField,
   EventTitleField,
   EventTypeField,
@@ -21,7 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/card";
-import type { EventEntity } from "@/domain/entities";
+import { type EventEntity, PublicationStatus } from "@/domain/entities";
 import {
   type CreateEventFormData,
   createEventFormSchema,
@@ -50,6 +51,7 @@ export function CreateEventForm() {
       description: "",
       date: "",
       type: undefined,
+      publicationStatus: PublicationStatus.Draft,
       thumbnail: undefined,
     },
   });
@@ -79,6 +81,7 @@ export function CreateEventForm() {
                 <EventTitleField control={control} />
                 <EventDateField control={control} />
                 <EventTypeField control={control} />
+                <EventPublicationStatusField control={control} />
                 <EventDescriptionField control={control} />
               </div>
               <div>

@@ -20,12 +20,16 @@ export class EventService {
   async getEventById(id: string): Promise<EventEntity | undefined> {
     return await this.repository.findById(id);
   }
-  async createEvent(
-    input: Omit<EventEntity, "id" | "publicationStatus">,
-  ): Promise<EventEntity> {
+  async getPublishedEventById(id: string): Promise<EventEntity | undefined> {
+    const event = await this.repository.findById(id);
+    if (!event || event.publicationStatus !== PublicationStatus.Published) {
+      return undefined;
+    }
+    return event;
+  }
+  async createEvent(input: Omit<EventEntity, "id">): Promise<EventEntity> {
     return await this.repository.create({
       id: nanoid(),
-      publicationStatus: PublicationStatus.Draft,
       ...input,
     });
   }

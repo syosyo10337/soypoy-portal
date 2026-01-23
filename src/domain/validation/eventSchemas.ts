@@ -50,10 +50,12 @@ export const baseSchema = z.object({
 });
 
 export const createEventFormSchema = baseSchema.extend({
+  publicationStatus: z.enum(publicationStatusValues),
   thumbnail: z.union([imageFileSchema, z.url()]).optional().nullable(),
 });
 
-export const createEventSchema = createEventFormSchema.extend({
+export const createEventSchema = baseSchema.extend({
+  publicationStatus: z.enum(publicationStatusValues),
   thumbnail: z.url().optional().nullable(),
 });
 
