@@ -9,8 +9,15 @@
 # .env.local.devが存在する場合は、.env.localの値を上書きする
 # これにより、個人用のNeonブランチURLなどを設定できる
 
-if [ -f .env.local.dev ]; then
-  exec dotenvx run -f .env.local -f .env.local.dev --overload -- "$@"
+# dotenvxコマンドを決定（グローバルにあればそれを、なければnpx経由）
+if command -v dotenvx &> /dev/null; then
+  DOTENVX="dotenvx"
 else
-  exec dotenvx run -f .env.local -- "$@"
+  DOTENVX="npx @dotenvx/dotenvx"
+fi
+
+if [ -f .env.local.dev ]; then
+  exec $DOTENVX run -f .env.local -f .env.local.dev --overload -- "$@"
+else
+  exec $DOTENVX run -f .env.local -- "$@"
 fi
