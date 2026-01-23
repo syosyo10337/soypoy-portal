@@ -26,10 +26,12 @@ Neonプロジェクトへのアクセス権限が必要です。
 
 ## セットアップ手順
 
+[Neon CLI Quickstart](https://neon.com/docs/reference/cli-quickstart)を参照してください。
+
 ### 1. Neon CLIのインストール（初回のみ）
 
 ```bash
-brew install neon
+brew install neonctl
 ```
 
 ### 2. Neonへの認証（初回のみ）
