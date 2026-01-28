@@ -28,6 +28,8 @@ Neonプロジェクトへのアクセス権限が必要です。
 
 [Neon CLI Quickstart](https://neon.com/docs/reference/cli-quickstart)を参照してください。
 
+**補足**: このプロジェクトのルートには、Neon CLIが使用する設定ファイル `.neon` があらかじめ含まれています。通常、このファイルを手動で作成・編集する必要はありません。
+
 ### 1. Neon CLIのインストール（初回のみ）
 
 ```bash
@@ -69,6 +71,13 @@ neon connection-string feature/your-branch-name --project-id <project-id>
 echo 'NETLIFY_DATABASE_URL="<取得した接続文字列>"' > .env.local.dev
 ```
 
+または、エディタで直接作成・編集することもできます：
+
+```bash
+# エディタで作成（追加の環境変数を設定する場合に便利）
+code .env.local.dev
+```
+
 **注意**: `.env.local.dev`は`.gitignore`に含まれているため、コミットされません。
 
 ### 6. 開発サーバーの起動
@@ -80,6 +89,8 @@ echo 'NETLIFY_DATABASE_URL="<取得した接続文字列>"' > .env.local.dev
 # または直接実行
 pnpm dev
 ```
+
+**マイグレーションについて**: 新規ブランチはdevelopブランチから最新のスキーマとデータがコピーされるため、通常はマイグレーション不要です。ただし、ローカルで新しいスキーマ変更を適用する場合は `pnpm drzl:migrate` を実行してください。
 
 ## ブランチの削除
 
