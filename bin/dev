@@ -1,11 +1,28 @@
 #!/bin/bash
 
 # Docker Composeを使用して開発環境を起動するスクリプト
-# このスクリプトは、Next.jsアプリとStorybookの両方を含む完全な開発環境を起動します
+# Neon Local でエフェメラルブランチを自動作成し、Next.jsアプリと接続します
+#
+# 必要な環境変数（.env.local に設定）:
+#   - NEON_API_KEY: Neon API キー
+#   - NEON_PROJECT_ID: Neon プロジェクト ID
+#   - PARENT_BRANCH_ID: 親ブランチ ID（develop など）
+#
 # 使用方法: ./bin/dev
 
+set -e
+
+# dotenvx コマンドを決定
+if command -v dotenvx &> /dev/null; then
+  DOTENVX="dotenvx"
+else
+  DOTENVX="npx @dotenvx/dotenvx"
+fi
+
 echo "🚀 開発環境を起動しています..."
-echo "🔹 Next.jsアプリ: http://localhost:3000"
+echo "🔹 Neon Local: エフェメラルブランチを自動作成"
+echo "🔹 Next.js アプリ: http://localhost:3000"
 echo ""
 
-docker compose up
+# dotenvx で環境変数を展開し、docker compose up を実行
+exec $DOTENVX run -f .env.local -- docker compose up -d

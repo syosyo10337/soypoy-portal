@@ -1,4 +1,16 @@
 services:
+  db:
+    image: neondatabase/neon_local:latest
+    ports:
+      - "5432:5432"
+    environment:
+      NEON_API_KEY: ${NEON_API_KEY}
+      NEON_PROJECT_ID: ${NEON_PROJECT_ID}
+      PARENT_BRANCH_ID: ${PARENT_BRANCH_ID}
+    volumes:
+      - ./.neon_local:/tmp/.neon_local
+      - ./.git/HEAD:/tmp/.git/HEAD:ro,consistent
+
   app:
     build:
       context: .
@@ -10,9 +22,12 @@ services:
       - .:/app
       - /app/.next
       - node_modules:/app/node_modules
-    env_file:
-      - .env.local
-    environment: 
+      - ./.env.keys:/app/.env.keys:ro
+    environment:
       - NODE_ENV=development
+      - NEON_LOCAL_HOST=db
+    depends_on:
+      - db
+
 volumes:
   node_modules:

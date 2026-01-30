@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# 開発環境セットアップスクリプト
+# .env.share から .env.local を生成し、NEON_API_KEY を設定します
+#
+# 使用方法: ./bin/setup
+
+set -e
+
+echo "🔧 開発環境をセットアップしています..."
+
+# .env.local が既に存在する場合は確認
+if [ -f .env.local ]; then
+  read -p "⚠️  .env.local が既に存在します。上書きしますか？ [y/N]: " confirm
+  if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+    echo "キャンセルしました"
+    exit 0
+  fi
+fi
+
+# .env.share から .env.local をコピー
+cp .env.share .env.local
+echo "✅ .env.share → .env.local をコピーしました"
+
+# NEON_API_KEY を設定
+echo ""
+echo "Neon API キーを設定します。"
+echo "キーは https://console.neon.tech/app/settings/api-keys で取得できます。"
+echo ""
+read -p "NEON_API_KEY: " neon_api_key
+
+if [ -z "$neon_api_key" ]; then
+  echo "⚠️  NEON_API_KEY が空です。後で手動で設定してください:"
+  echo "   npx dotenvx set NEON_API_KEY \"your-api-key\" -f .env.local"
+else
+  npx dotenvx set NEON_API_KEY "$neon_api_key" -f .env.local
+  echo "✅ NEON_API_KEY を設定しました"
+fi
+
+echo ""
+echo "🎉 セットアップ完了！"
+echo ""
+echo "開発サーバーを起動するには:"
+echo "  ./bin/dev"

@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env.keys
+.env.local
 
 # vercel
 .vercel
@@ -44,3 +45,6 @@ next-env.d.ts
 .cursor/debug.log
 
 .claude/*.local.*
+
+# Neon Local
+.neon_local/
