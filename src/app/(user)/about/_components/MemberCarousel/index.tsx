@@ -124,13 +124,13 @@ export default function MemberCarousel() {
       <div className="overflow-hidden" ref={emblaRef}>
         <div
           className={cn(
-            "flex gap-3 md:gap-4",
+            "flex",
             "pb-4",
             "cursor-grab active:cursor-grabbing select-none"
           )}
         >
           {MEMBERS.map((member, i) => (
-            <div key={member.id} className="shrink-0">
+            <div key={member.id} className="shrink-0 mr-3 md:mr-4">
               <MemberPill
                 name={member.name}
                 role={member.role}
