@@ -1,6 +1,11 @@
 "use client";
 
-import { animate, motion, useMotionValue } from "motion/react";
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+} from "motion/react";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { useEffect, useState } from "react";
@@ -25,14 +30,12 @@ const pickMemberColor = (index: number) => {
 // Carousel constants
 const CAROUSEL_CONFIG = {
   MEMBER_PILL_WIDTH: 156,
-  GAP_MOBILE: 12,
-  GAP_DESKTOP: 16,
+  GAP: 12, // gap-3 = 12px
 } as const;
 
 // Calculate total width: MemberPill width + gap * number of members
 const totalWidth =
-  (CAROUSEL_CONFIG.MEMBER_PILL_WIDTH + CAROUSEL_CONFIG.GAP_MOBILE) *
-  MEMBERS.length;
+  (CAROUSEL_CONFIG.MEMBER_PILL_WIDTH + CAROUSEL_CONFIG.GAP) * MEMBERS.length;
 
 const SPIN_DISTANCE = -totalWidth * 3;
 
@@ -40,6 +43,7 @@ export default function MemberCarousel() {
   const [isInitialAnimating, setIsInitialAnimating] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const x = useMotionValue(SPIN_DISTANCE);
+  const prefersReducedMotion = useReducedMotion();
 
   // Embla Carousel設定（初期アニメーション後に有効化）
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -57,12 +61,19 @@ export default function MemberCarousel() {
         stopOnFocusIn: true,
         playOnInit: false, // 初期アニメーション後に手動開始
       }),
-    ]
+    ],
   );
 
   // 初期アニメーション
   useEffect(() => {
     setIsReady(true);
+
+    // prefers-reduced-motion の場合はアニメーションをスキップ
+    if (prefersReducedMotion) {
+      x.set(0);
+      setIsInitialAnimating(false);
+      return;
+    }
 
     const controls = animate(x, 0, {
       duration: 2.5,
@@ -73,17 +84,18 @@ export default function MemberCarousel() {
     });
 
     return () => controls.stop();
-  }, [x]);
+  }, [x, prefersReducedMotion]);
 
   // Emblaのauto-scrollを初期アニメーション完了後に開始
+  // prefers-reduced-motion の場合は自動スクロールを開始しない
   useEffect(() => {
-    if (!isInitialAnimating && emblaApi) {
+    if (!isInitialAnimating && emblaApi && !prefersReducedMotion) {
       const autoScroll = emblaApi.plugins()?.autoScroll;
       if (autoScroll) {
         autoScroll.play();
       }
     }
-  }, [isInitialAnimating, emblaApi]);
+  }, [isInitialAnimating, emblaApi, prefersReducedMotion]);
 
   // 初期アニメーション中のレンダリング
   if (isInitialAnimating) {
@@ -96,7 +108,7 @@ export default function MemberCarousel() {
               "flex gap-3 md:gap-4",
               "pb-4",
               "cursor-default select-none",
-              !isReady && "invisible"
+              !isReady && "invisible",
             )}
             style={{ x }}
           >
@@ -119,14 +131,14 @@ export default function MemberCarousel() {
 
   // 自動スクロールカルーセル（初期アニメーション後）
   return (
-    <section className="py-12 md:py-20">
+    <section className="py-12 md:py-20" aria-label="メンバー一覧カルーセル">
       <SectionTitle className="mb-8 md:mb-16">Member</SectionTitle>
       <div className="overflow-hidden" ref={emblaRef}>
         <div
           className={cn(
             "flex",
             "pb-4",
-            "cursor-grab active:cursor-grabbing select-none"
+            "cursor-grab active:cursor-grabbing select-none",
           )}
         >
           {MEMBERS.map((member, i) => (
