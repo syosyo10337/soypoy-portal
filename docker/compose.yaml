@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/.next
+      - /app/node_modules
+    env_file:
+      - path: .env.local
+        required: true
+      - path: .env.local.dev
+        required: false
+    environment:
+      - NODE_ENV=development
