@@ -4,7 +4,7 @@ import { cn } from "@/utils/cn";
 export function OpeningHours({ className }: { className?: string }) {
   return (
     <div className={cn("text-left", className)}>
-      <h2 className="text-2xl xl:text-3xl font-bold">PUB「SOY-POY」</h2>
+      <h2 className="text-2xl xl:text-3xl font-bold">Opening Hours</h2>
       <div className="">
         <OpeningHoursDetail title="FRI." open="19:30" close="23:30" />
         <Separator className="my-2" />
