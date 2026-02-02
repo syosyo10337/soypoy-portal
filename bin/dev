@@ -1,11 +1,15 @@
 #!/bin/bash
+set -euo pipefail
 
-# Docker Composeを使用して開発環境を起動するスクリプト
-# このスクリプトは、Next.jsアプリとStorybookの両方を含む完全な開発環境を起動します
-# 使用方法: ./bin/dev
+# Docker Compose開発環境を起動
 
+echo ""
 echo "🚀 開発環境を起動しています..."
-echo "🔹 Next.jsアプリ: http://localhost:3000"
+echo "🔹 Neon Local: エフェメラルブランチを自動作成"
+echo "🔹 Next.js: http://localhost:3000"
 echo ""
 
-docker compose up
+# dbサービス用の.env.dockerを生成（dotenvxのログを除外）
+./bin/runenv sh -c 'env | grep -E "^(NEON_|PARENT_BRANCH_ID=)"' 2>&1 | grep -v "dotenvx" > .env.docker
+
+exec ./bin/runenv docker compose up

@@ -6,8 +6,7 @@
 #   ./bin/runenv next dev
 #   ./bin/runenv drizzle-kit studio
 #
-# .env.local.devが存在する場合は、.env.localの値を上書きする
-# これにより、個人用のNeonブランチURLなどを設定できる
+# .env.local (個人設定) が .env.local.base (共有設定) を上書きする
 
 # dotenvxコマンドを決定（グローバルにあればそれを、なければnpx経由）
 if command -v dotenvx &> /dev/null; then
@@ -16,8 +15,19 @@ else
   DOTENVX="npx @dotenvx/dotenvx"
 fi
 
-if [ -f .env.local.dev ]; then
-  exec $DOTENVX run -f .env.local -f .env.local.dev --overload -- "$@"
+ENV_FILES=""
+
+# 共有設定（暗号化）- 必須
+if [ -f .env.local.base ]; then
+  ENV_FILES="-f .env.local.base"
 else
-  exec $DOTENVX run -f .env.local -- "$@"
+  echo "Error: .env.local.base not found"
+  exit 1
 fi
+
+# 個人設定（平文、上書き）- オプション
+if [ -f .env.local ]; then
+  ENV_FILES="$ENV_FILES -f .env.local --overload"
+fi
+
+exec $DOTENVX run $ENV_FILES -- "$@"

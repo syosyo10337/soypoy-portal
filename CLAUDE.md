@@ -278,33 +278,58 @@ The admin panel uses Refine framework at `/admin`:
 
 ### Environment Variables
 
-The project uses **dotenvx** for encrypted environment variable management:
+プロジェクトでは **dotenvx** を使用して暗号化された環境変数を管理しています。
 
-**Setup:**
-1. Obtain `.env.keys` file from team lead (contains decryption keys)
-2. Place in project root (automatically gitignored)
-3. `.env.local` is already in repo (encrypted)
-4. Environment variables are auto-decrypted when running `pnpm dev` or `./bin/dev`
-
-**Key Variables:**
-- `DATABASE_URL` - PostgreSQL connection string (Neon)
-- `BETTER_AUTH_SECRET` - Secret key for Better Auth
-- `BETTER_AUTH_URL` - Base URL for authentication
-- `CLOUDINARY_*` - Cloudinary API credentials for image uploads
-
-**Managing Variables:**
-```bash
-# View environment variables
-npx dotenvx get -f .env.local
-
-# Add/update variable
-npx dotenvx set NEW_VAR "value" -f .env.local
-
-# Get specific variable
-npx dotenvx get DATABASE_URL -f .env.local
+**ファイル構造:**
+```
+soypoy-potal/
+├── .env.local.base          # Git管理、dotenvx暗号化（共有設定）
+├── .env.local         # Git管理外、平文（個人設定：NEON_API_KEY）
+├── .env.keys          # Git管理外（dotenvx復号キー）
+└── ...
 ```
 
-**Important:** Always commit `.env.local` after changes (it's encrypted and safe to commit)
+**ファイルの役割:**
+- `.env.local.base` - チーム共有の設定（暗号化）。Gitにコミット済み
+- `.env.local` - 個人用の設定（平文）。`.env.local.base`の値を上書き
+- `.env.keys` - dotenvxの復号キー。チームリードから取得
+
+**主な変数:**
+| 変数名 | 配置場所 | 説明 |
+|--------|----------|------|
+| `NETLIFY_DATABASE_URL` | .env.local.base | 本番用PostgreSQL接続文字列 |
+| `BETTER_AUTH_SECRET` | .env.local.base | Better Auth秘密鍵 |
+| `BETTER_AUTH_URL` | .env.local.base | 認証ベースURL |
+| `CLOUDINARY_*` | .env.local.base | Cloudinary APIクレデンシャル |
+| `NEON_PROJECT_ID` | .env.local.base | NeonプロジェクトID |
+| `PARENT_BRANCH_ID` | .env.local.base | Neon親ブランチID |
+| `NEON_API_KEY` | .env.local | Neon APIキー（個人） |
+
+**セットアップ手順:**
+```bash
+# 1. .env.keys を取得（チームリードから）
+
+# 2. .env.local を作成してNEON_API_KEYを設定
+echo "NEON_API_KEY=your_api_key_here" > .env.local
+# キーは https://console.neon.tech/app/settings/api-keys で取得
+
+# 3. 開発サーバー起動
+./bin/dev
+```
+
+**変数の管理:**
+```bash
+# 環境変数を表示（復号済み）
+npx dotenvx get -f .env.local.base
+
+# 変数を追加/更新（暗号化）
+npx dotenvx set NEW_VAR "value" -f .env.local.base
+
+# 特定の変数を取得
+npx dotenvx get NEON_PROJECT_ID -f .env.local.base
+```
+
+**重要:** `.env.local.base` を変更したら必ずコミットしてください（暗号化済みで安全）
 
 ### Testing
 

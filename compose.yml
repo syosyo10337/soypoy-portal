@@ -1,4 +1,14 @@
 services:
+  db:
+    image: neondatabase/neon_local:latest
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env.docker
+    volumes:
+      - ./.neon_local:/tmp/.neon_local
+      - ./.git/HEAD:/tmp/.git/HEAD:ro
+
   app:
     build:
       context: .
@@ -10,12 +20,13 @@ services:
       - .:/app
       - /app/.next
       - node_modules:/app/node_modules
-    env_file:
-      - path: .env.local
-        required: true
-      - path: .env.local.dev
-        required: false
+      # .env.keys, .env.base, .env.local は `. :/app` で自動マウント
     environment:
       - NODE_ENV=development
+      - NEON_LOCAL_HOST=db  # Neon Local接続用
+      # 他の環境変数はコンテナ内で bin/runenv (dotenvx) が読み込む
+    depends_on:
+      - db
+
 volumes:
   node_modules:

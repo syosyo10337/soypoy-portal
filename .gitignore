@@ -30,9 +30,12 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files
 .env.keys
-.env.local.dev
+.env.local
+# dbサービス用の.env.docker
+.env.docker
+.neon_local/
 
 # vercel
 .vercel

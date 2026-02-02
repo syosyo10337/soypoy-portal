@@ -3,6 +3,7 @@
   "dockerComposeFile": "../compose.yml",
   "service": "app",
   "workspaceFolder": "/app",
+  "initializeCommand": "./bin/runenv sh -c 'env | grep -E \"^(NEON_|PARENT_BRANCH_ID=)\"' 2>&1 | grep -v dotenvx > .env.docker",
   "customizations": {
     "vscode": {
       "settings": {
@@ -28,7 +29,6 @@
       "extensions": [
         "biomejs.biome",
         "ms-vscode.vscode-typescript-next",
-
         "bradlc.vscode-tailwindcss",
         "ms-azuretools.vscode-docker"
       ]
