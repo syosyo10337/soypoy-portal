@@ -102,11 +102,11 @@ export default function MemberCarousel() {
     return (
       <section className="py-12 md:py-20">
         <SectionTitle className="mb-8 md:mb-16">Member</SectionTitle>
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden -my-4">
           <motion.div
             className={cn(
               "flex gap-3 md:gap-4",
-              "pb-4",
+              "py-4",
               "cursor-default select-none",
               !isReady && "invisible",
             )}
@@ -133,11 +133,11 @@ export default function MemberCarousel() {
   return (
     <section className="py-12 md:py-20" aria-label="メンバー一覧カルーセル">
       <SectionTitle className="mb-8 md:mb-16">Member</SectionTitle>
-      <div className="overflow-hidden" ref={emblaRef}>
+      <div className="overflow-hidden -my-4" ref={emblaRef}>
         <div
           className={cn(
             "flex",
-            "pb-4",
+            "py-4",
             "cursor-grab active:cursor-grabbing select-none",
           )}
         >
