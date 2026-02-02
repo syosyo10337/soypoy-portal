@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { DAY_OF_WEEK_COLORS } from "./colors";
 
 const DATE_FORMATS = {
   FULL_DATE_JP: "yyyy年MM月dd日(EEE) HH:mm",
@@ -191,7 +192,7 @@ function getMonthName(
 
 /**
  * 曜日に応じた色クラスを取得
- * 土曜日(6): #594DD8, 日曜日(7): soypoy-accent, その他: 空文字列
+ * 土曜日(6): darkBlue, 日曜日(7): red, その他: 空文字列
  */
 function getDayOfWeekColorClass(dateString: string): string {
   const dt = dateTimeFromISO(dateString);
@@ -200,7 +201,9 @@ function getDayOfWeekColorClass(dateString: string): string {
   const weekday = dt.weekday;
   if (weekday < 6) return "";
 
-  return weekday === 6 ? "text-[#594DD8]" : "text-soypoy-accent";
+  return weekday === 6
+    ? `text-[${DAY_OF_WEEK_COLORS.saturday}]`
+    : `text-[${DAY_OF_WEEK_COLORS.sunday}]`;
 }
 
 // =============================================================================
