@@ -18,9 +18,9 @@ export const NAV_ITEMS: NavItem[] = [
     name: "What's Up",
     href: "/whats-up",
     children: [
-      { name: "ArtWorks", href: "/whats-up#artworks" },
-      { name: "Radio", href: "/whats-up#radio" },
-      { name: "Channel", href: "/whats-up#channel" },
+      { name: "ArtWorks", href: "/whats-up?type=artworks" },
+      { name: "Radio", href: "/whats-up?type=radio" },
+      { name: "Channel", href: "/whats-up?type=channel" },
     ],
   },
 ];

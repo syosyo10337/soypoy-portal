@@ -24,7 +24,7 @@ export default function HistorySlider() {
   });
 
   return (
-    <section className="py-12 md:py-20 px-4 md:px-10 lg:px-20">
+    <section id="history" className="py-12 md:py-20 px-4 md:px-10 lg:px-20">
       <div className="flex items-center justify-between px-4 md:px-8 mb-8 md:mb-12">
         <PreviousHistoryButton onClick={() => scroll("left")} />
         <SectionTitle>History</SectionTitle>

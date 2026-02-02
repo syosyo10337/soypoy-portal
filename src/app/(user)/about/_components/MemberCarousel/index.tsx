@@ -1,13 +1,13 @@
 "use client";
 
+import AutoScroll from "embla-carousel-auto-scroll";
+import useEmblaCarousel from "embla-carousel-react";
 import {
   animate,
   motion,
   useMotionValue,
   useReducedMotion,
 } from "motion/react";
-import useEmblaCarousel from "embla-carousel-react";
-import AutoScroll from "embla-carousel-auto-scroll";
 import { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
 import SectionTitle from "../SectionTitle";
@@ -22,6 +22,8 @@ const MEMBER_COLOR_THEME = [
   "#5B3A2E", // Brown
   "#8C6A1F", // Gold
 ] as const;
+
+const ANCHOR_ID = "member" as const;
 
 const pickMemberColor = (index: number) => {
   return MEMBER_COLOR_THEME[index % MEMBER_COLOR_THEME.length];
@@ -100,7 +102,7 @@ export default function MemberCarousel() {
   // 初期アニメーション中のレンダリング
   if (isInitialAnimating) {
     return (
-      <section className="py-12 md:py-20">
+      <section id={ANCHOR_ID} className="py-12 md:py-20">
         <SectionTitle className="mb-8 md:mb-16">Member</SectionTitle>
         <div className="relative overflow-hidden -my-4">
           <motion.div
@@ -131,7 +133,11 @@ export default function MemberCarousel() {
 
   // 自動スクロールカルーセル（初期アニメーション後）
   return (
-    <section className="py-12 md:py-20" aria-label="メンバー一覧カルーセル">
+    <section
+      id={ANCHOR_ID}
+      className="py-12 md:py-20"
+      aria-label="メンバー一覧カルーセル"
+    >
       <SectionTitle className="mb-8 md:mb-16">Member</SectionTitle>
       <div className="overflow-hidden -my-4" ref={emblaRef}>
         <div
