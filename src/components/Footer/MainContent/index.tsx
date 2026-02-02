@@ -8,7 +8,7 @@ export default function MainContent() {
       className={cn(
         "font-display flex w-full",
         "flex-col md:flex-row",
-        "gap-8 lg:gap-20"
+        "gap-8 lg:gap-20",
       )}
     >
       <OpeningHours className="basis-3/10" />

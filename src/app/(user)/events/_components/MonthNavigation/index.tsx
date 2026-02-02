@@ -28,8 +28,8 @@ export function MonthNavigation({ year, month }: MonthNavigationProps) {
       )}
     >
       <PreviousMonthButton onClick={goToPreviousMonth} />
-
-      <div className="flex flex-col items-center">
+      {/* font違うけどいい感じ */}
+      <div className="flex flex-col items-center space-y-2">
         <div className="text-base md:text-lg">{year}</div>
         <div className="text-[40px] md:text-[56px] leading-[26px]">
           {monthNumber}
