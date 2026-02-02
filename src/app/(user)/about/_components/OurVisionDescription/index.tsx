@@ -28,7 +28,7 @@ export default function OurVisionDescription() {
         className={cn(
           "font-display font-semibold",
           "text-sm md:text-[22px]",
-          "leading-relaxed md:leading-[44px]",
+          "leading-relaxed md:leading-11",
           "text-black",
           "mt-8 md:mt-12",
         )}
