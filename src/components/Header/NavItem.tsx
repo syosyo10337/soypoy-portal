@@ -4,7 +4,7 @@ import { cn } from "@/utils/cn";
 import type { NavItem } from "./constant";
 
 const navLinkStyle =
-  "underline decoration-1.5 decoration-transparent hover:decoration-current active:decoration-current transition-colors duration-400";
+  "underline decoration-[1.5px] decoration-transparent hover:decoration-current active:decoration-current transition-colors duration-[400ms]";
 
 interface NavMenuItemProps {
   item: NavItem;
@@ -39,9 +39,9 @@ interface SubNavItemProps {
 function SubNavItem({ child }: SubNavItemProps) {
   return (
     <li className="flex items-center gap-2">
-      <span>•</span>
+      <span aria-hidden="true">•</span>
       <SheetClose asChild>
-        <Link href={child.href} className={cn("text-xl py-1/2", navLinkStyle)}>
+        <Link href={child.href} className={cn("text-xl py-0.5", navLinkStyle)}>
           {child.name}
         </Link>
       </SheetClose>
