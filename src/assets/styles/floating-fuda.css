@@ -1,93 +1,152 @@
-/* Fuda Float Animations - 振り子のように対角線方向に揺れる */
-/* 右上→左下の軌道 */
+/* Fuda Float Animations - 上部を起点に左右にカタカタ揺れる */
+/* 3秒停止 + 0.8秒動作 = 3.8秒サイクル */
+/* 0%〜79%: 静止（3秒）、79%〜100%: カタカタ（0.8秒） */
+
 @keyframes float-1 {
-  0%, 100% {
-    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  0%, 79% {
+    transform: rotate(var(--rotate, 0deg));
   }
-  50% {
-    transform: translate(-5px, 8px) rotate(calc(var(--rotate, 0deg) - 3deg));
+  84% {
+    transform: rotate(calc(var(--rotate, 0deg) + 5deg));
+  }
+  89% {
+    transform: rotate(calc(var(--rotate, 0deg) - 4deg));
+  }
+  94% {
+    transform: rotate(calc(var(--rotate, 0deg) + 2deg));
+  }
+  100% {
+    transform: rotate(var(--rotate, 0deg));
   }
 }
 
-/* 左上→右下の軌道 */
 @keyframes float-2 {
-  0%, 100% {
-    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  0%, 79% {
+    transform: rotate(var(--rotate, 0deg));
   }
-  50% {
-    transform: translate(5px, 8px) rotate(calc(var(--rotate, 0deg) + 3deg));
+  84% {
+    transform: rotate(calc(var(--rotate, 0deg) - 5deg));
+  }
+  89% {
+    transform: rotate(calc(var(--rotate, 0deg) + 4deg));
+  }
+  94% {
+    transform: rotate(calc(var(--rotate, 0deg) - 2deg));
+  }
+  100% {
+    transform: rotate(var(--rotate, 0deg));
   }
 }
 
-/* 右上→左下の軌道（遅め） */
 @keyframes float-3 {
-  0%, 100% {
-    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  0%, 79% {
+    transform: rotate(var(--rotate, 0deg));
   }
-  50% {
-    transform: translate(-6px, 9px) rotate(calc(var(--rotate, 0deg) - 3.5deg));
+  84% {
+    transform: rotate(calc(var(--rotate, 0deg) + 6deg));
+  }
+  89% {
+    transform: rotate(calc(var(--rotate, 0deg) - 4deg));
+  }
+  94% {
+    transform: rotate(calc(var(--rotate, 0deg) + 2deg));
+  }
+  100% {
+    transform: rotate(var(--rotate, 0deg));
   }
 }
 
-/* 左上→右下の軌道（速め） */
 @keyframes float-4 {
-  0%, 100% {
-    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  0%, 79% {
+    transform: rotate(var(--rotate, 0deg));
   }
-  50% {
-    transform: translate(6px, 9px) rotate(calc(var(--rotate, 0deg) + 3.5deg));
+  84% {
+    transform: rotate(calc(var(--rotate, 0deg) - 6deg));
+  }
+  89% {
+    transform: rotate(calc(var(--rotate, 0deg) + 4deg));
+  }
+  94% {
+    transform: rotate(calc(var(--rotate, 0deg) - 2deg));
+  }
+  100% {
+    transform: rotate(var(--rotate, 0deg));
   }
 }
 
-/* 右上→左下の軌道（中間） */
 @keyframes float-5 {
-  0%, 100% {
-    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  0%, 79% {
+    transform: rotate(var(--rotate, 0deg));
   }
-  50% {
-    transform: translate(-5.5px, 8.5px) rotate(calc(var(--rotate, 0deg) - 3.2deg));
+  84% {
+    transform: rotate(calc(var(--rotate, 0deg) + 5deg));
+  }
+  89% {
+    transform: rotate(calc(var(--rotate, 0deg) - 3deg));
+  }
+  94% {
+    transform: rotate(calc(var(--rotate, 0deg) + 1deg));
+  }
+  100% {
+    transform: rotate(var(--rotate, 0deg));
   }
 }
 
-/* 左上→右下の軌道（大きめ） */
 @keyframes float-6 {
-  0%, 100% {
-    transform: translate(0, 0) rotate(var(--rotate, 0deg));
+  0%, 79% {
+    transform: rotate(var(--rotate, 0deg));
   }
-  50% {
-    transform: translate(6.5px, 9.5px) rotate(calc(var(--rotate, 0deg) + 3.8deg));
+  84% {
+    transform: rotate(calc(var(--rotate, 0deg) - 5deg));
+  }
+  89% {
+    transform: rotate(calc(var(--rotate, 0deg) + 3deg));
+  }
+  94% {
+    transform: rotate(calc(var(--rotate, 0deg) - 1deg));
+  }
+  100% {
+    transform: rotate(var(--rotate, 0deg));
   }
 }
 
 /* Fuda Float Animation Classes */
-/* 上部を起点に揺れる（ピン留めされているイメージ） */
+/* 中央を起点に左右にカタカタ揺れる */
+/* 3.8秒サイクル: 3秒停止 + 0.8秒カタカタ */
+/* animation-delay で開始タイミングをずらす */
 .animate-float-1 {
-  animation: float-1 1s ease-in-out infinite;
-  transform-origin: top center;
+  animation: float-1 3.8s ease-out infinite;
+  animation-delay: 0s;
+  transform-origin: center center;
 }
 
 .animate-float-2 {
-  animation: float-2 1.3s ease-in-out infinite;
-  transform-origin: top center;
+  animation: float-2 3.8s ease-out infinite;
+  animation-delay: 0.6s;
+  transform-origin: center center;
 }
 
 .animate-float-3 {
-  animation: float-3 1.5s ease-in-out infinite;
-  transform-origin: top center;
+  animation: float-3 3.8s ease-out infinite;
+  animation-delay: 1.2s;
+  transform-origin: center center;
 }
 
 .animate-float-4 {
-  animation: float-4 1.7s ease-in-out infinite;
-  transform-origin: top center;
+  animation: float-4 3.8s ease-out infinite;
+  animation-delay: 1.8s;
+  transform-origin: center center;
 }
 
 .animate-float-5 {
-  animation: float-5 1.9s ease-in-out infinite;
-  transform-origin: top center;
+  animation: float-5 3.8s ease-out infinite;
+  animation-delay: 2.4s;
+  transform-origin: center center;
 }
 
 .animate-float-6 {
-  animation: float-6 1.5s ease-in-out infinite;
-  transform-origin: top center;
+  animation: float-6 3.8s ease-out infinite;
+  animation-delay: 3.0s;
+  transform-origin: center center;
 }
 
