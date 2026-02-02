@@ -10,18 +10,10 @@ import {
 } from "motion/react";
 import { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
+import { MEMBER_COLOR_THEME } from "@/utils/colors";
 import SectionTitle from "../SectionTitle";
 import { MEMBERS } from "./MEMBERS";
 import MemberPill from "./MemberPill";
-
-// MemberCarouselカラーテーマ
-const MEMBER_COLOR_THEME = [
-  "#D6423B", // Red
-  "#657C60", // Green
-  "#2C3E50", // Dark Blue
-  "#5B3A2E", // Brown
-  "#8C6A1F", // Gold
-] as const;
 
 const ANCHOR_ID = "member" as const;
 
