@@ -26,6 +26,8 @@ export default function MemberPill({
         "rounded-[78px]",
         "pt-9 pb-10 px-6",
         "shrink-0",
+        "transition-transform duration-200 ease-out",
+        "hover:scale-105 active:scale-105",
       )}
       style={{ backgroundColor: color }}
     >
