@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/shadcn/sheet";
+import { cn } from "@/utils/cn";
 import type { NavItem } from "./constant";
 
 export function NavMenu({ navItems }: { navItems: NavItem[] }) {
@@ -19,7 +20,11 @@ export function NavMenu({ navItems }: { navItems: NavItem[] }) {
         <Button
           variant="ghost"
           size="lg"
-          className="p-3 text-inherit font-display rounded-lg hover:bg-transparent hover:text-inherit"
+          className={cn(
+            "p-3 text-inherit font-display rounded-lg",
+            "hover:!bg-transparent hover:!text-inherit",
+            "focus-visible:ring-0 focus-visible:ring-offset-0",
+          )}
           aria-label="メニューを開く"
         >
           <Menu className="size-8" strokeWidth={1.2} />
@@ -45,6 +50,26 @@ export function NavMenu({ navItems }: { navItems: NavItem[] }) {
                     {item.name}
                   </Link>
                 </SheetClose>
+                {item.children && (
+                  <ul className="flex flex-col items-end space-y-2 pr-4">
+                    {item.children.map((child) => (
+                      <li
+                        key={child.name}
+                        className="flex flex-row-reverse items-center gap-2"
+                      >
+                        <span className="text-soypoy-secondary">•</span>
+                        <SheetClose asChild>
+                          <Link
+                            href={child.href}
+                            className="text-base py-2 active:text-soypoy-accent transition-all duration-200 text-soypoy-secondary"
+                          >
+                            {child.name}
+                          </Link>
+                        </SheetClose>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
