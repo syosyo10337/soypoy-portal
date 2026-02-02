@@ -27,8 +27,8 @@ export default function OurVisionDescription() {
       <p
         className={cn(
           "font-display font-semibold",
-          "text-base md:text-[26px]",
-          "leading-relaxed md:leading-[51px]",
+          "text-sm md:text-[22px]",
+          "leading-relaxed md:leading-[44px]",
           "text-black",
           "mt-8 md:mt-12",
         )}
