@@ -1,7 +1,7 @@
 import { cn } from "@/utils/cn";
 import BottomContent from "./BottomContent";
-import { Contact } from "./Contact";
 import MainContent from "./MainContent";
+import { ContactSection } from "./MainContent/ContactSection";
 
 export default function Footer() {
   return (
@@ -16,7 +16,7 @@ export default function Footer() {
         Infomation
       </h1>
       <MainContent />
-      <Contact />
+      <ContactSection />
       <BottomContent />
     </footer>
   );
