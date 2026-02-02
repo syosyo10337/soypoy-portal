@@ -42,3 +42,8 @@
     transform: translateX(-100%);
   }
 }
+
+/* scrollbar-gutter: stable を使用している場合、Radix Dialogが追加するmargin-rightを打ち消す */
+html body[data-scroll-locked] {
+  margin-right: 0 !important;
+}

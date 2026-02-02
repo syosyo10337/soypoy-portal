@@ -4,7 +4,7 @@ import { cn } from "@/utils/cn";
 type ContentType = "artworks" | "radio" | "channel";
 
 const CONTENT_CONFIG = {
-  artworks: { subtitle: "Artwork" },
+  artworks: { subtitle: "Artworks" },
   radio: { subtitle: "Radio" },
   channel: { subtitle: "Channel" },
 } as const;
