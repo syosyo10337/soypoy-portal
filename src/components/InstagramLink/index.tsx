@@ -16,9 +16,10 @@ export function InstagramLink({ color = "secondary" }: InstagramLinkProps) {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
+        "group",
         "inline-flex items-center gap-2",
         "font-display font-medium",
-        "text-lg md:text-xl",
+        "text-lg",
         "hover:text-soypoy-accent",
         "transition-colors",
         color === "secondary" ? "text-soypoy-secondary" : "text-white",
@@ -26,7 +27,9 @@ export function InstagramLink({ color = "secondary" }: InstagramLinkProps) {
     >
       <InstagramIcon
         className={cn(
-          "w-7 h-7",
+          "w-6 h-6", // NOTE: 見た目を揃えるため、ちいちゃく
+          "transition-colors",
+          "group-hover:fill-soypoy-accent",
           color === "secondary" ? "fill-soypoy-secondary" : "fill-white",
         )}
       />

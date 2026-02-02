@@ -15,9 +15,8 @@ export function Acsess({ className }: { className: string }) {
           <p>〒155-0031</p>
           <p>東京都世田谷区北沢2丁目30-14</p>
           <p>重宗ビル 3F</p>
-          <p className="text-sm xl:text-base mt-2">
-            下北沢駅から 東口から徒歩1分
-          </p>
+          <p className="text-sm xl:text-base mt-2">＜最寄り駅＞</p>
+          <p>下北沢駅東口より徒歩1分</p>
         </div>
       </div>
       <div className="my-2 md:my-0 w-full md:w-[52%] h-[300px]">

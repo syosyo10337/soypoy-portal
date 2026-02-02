@@ -3,14 +3,11 @@ import { cn } from "@/utils/cn";
 export function OpeningHours({ className }: { className?: string }) {
   return (
     <div className={cn("text-left", className)}>
-      <h2 className="text-2xl xl:text-3xl font-bold">PUB「SOY-POY」</h2>
+      <h2 className="text-2xl xl:text-3xl font-bold">Opening Hours</h2>
       <div className="">
-        <OpeningHoursDetail title="Every FRI." open="19:30" close="23:30" />
-        <OpeningHoursDetail
-          title="Every SAT. SUN."
-          open="19:00"
-          close="23:30"
-        />
+        <OpeningHoursDetail title="FRI." open="19:30" close="23:30" />
+        <div className="my-2 border-t border-current" />
+        <OpeningHoursDetail title="SAT. SUN." open="19:00" close="23:30" />
       </div>
     </div>
   );
@@ -26,13 +23,13 @@ function OpeningHoursDetail({
   close: string;
 }) {
   return (
-    <div className="flex gap-2 font-display text-xl justify-between">
+    <div className="flex gap-2 text-xl justify-between">
       <p>{title}</p>
-      <div className="grid grid-cols-[auto_auto] gap-x-2">
-        <p>OPEN</p>
-        <p>{open}</p>
-        <p>CLOSE</p>
-        <p>{close}</p>
+      <div className="grid grid-cols-[auto_auto] gap-x-2 items-baseline ">
+        <p className="text-base">OPEN</p>
+        <p className="text-2xl">{open}</p>
+        <p className="text-base">CLOSE</p>
+        <p className="text-2xl">{close}</p>
       </div>
     </div>
   );
