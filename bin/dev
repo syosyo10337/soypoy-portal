@@ -1,8 +1,41 @@
 #!/bin/bash
-
-# Docker Composeを使用して開発環境を起動するスクリプト
-# このスクリプトは、Next.jsアプリとStorybookの両方を含む完全な開発環境を起動します
+# 開発サーバー起動: developmentから最新データを同期してから起動
+#
 # 使用方法: ./bin/dev
+#
+# このスクリプトは以下を実行します:
+# 1. .env.local.devが存在する場合、developmentブランチから最新データを同期
+# 2. Docker Composeで開発環境を起動
+
+set -euo pipefail
+
+sync_neon_branch() {
+  [ ! -f .env.local.dev ] && return 0
+
+  if ! command -v neon &> /dev/null; then
+    echo "⚠️  Neon CLIがインストールされていないため、同期をスキップします"
+    return 0
+  fi
+
+  BRANCH_NAME=$(grep -E '^NEON_BRANCH_NAME=' .env.local.dev | sed 's/^NEON_BRANCH_NAME=//' | tr -d '"' | tr -d "'" || echo "")
+  [ -z "$BRANCH_NAME" ] && echo "⚠️  NEON_BRANCH_NAME が .env.local.dev に見つかりません" && return 0
+
+  PROJECT_ID=$(npx @dotenvx/dotenvx get NEON_PROJECT_ID -f .env.local 2>/dev/null || echo "")
+  [ -z "$PROJECT_ID" ] && echo "⚠️  NEON_PROJECT_ID が .env.local に見つかりません" && return 0
+
+  echo "🔄 developmentから最新データを同期中..."
+  echo "   ブランチ: $BRANCH_NAME"
+
+  if neon branches reset "$BRANCH_NAME" --project-id "$PROJECT_ID" --parent development; then
+    echo "✅ 同期完了"
+  else
+    echo "⚠️  同期に失敗しました（ブランチが見つからないか、権限がない可能性があります）"
+    echo "   続行します..."
+  fi
+  echo ""
+}
+
+sync_neon_branch
 
 echo "🚀 開発環境を起動しています..."
 echo "🔹 Next.jsアプリ: http://localhost:3000"

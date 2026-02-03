@@ -9,13 +9,6 @@ services:
     volumes:
       - .:/app
       - /app/.next
-      - node_modules:/app/node_modules
-    env_file:
-      - path: .env.local
-        required: true
-      - path: .env.local.dev
-        required: false
+      - /app/node_modules
     environment:
       - NODE_ENV=development
-volumes:
-  node_modules:
