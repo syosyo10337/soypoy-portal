@@ -51,7 +51,7 @@ export function Breadcrumb() {
     }
 
     return list;
-  }, [breadcrumbs, Link, rootRouteResource]);
+  }, [breadcrumbs, rootRouteResource]);
 
   return (
     <ShadcnBreadcrumb>
