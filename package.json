@@ -51,7 +51,7 @@
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.487.0",
     "luxon": "^3.6.1",
-    "motion": "^12.23.24",
+    "motion": "^12.31.0",
     "nanoid": "^5.1.6",
     "next": "15.5.9",
     "next-cloudinary": "^6.17.5",
