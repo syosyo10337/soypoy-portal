@@ -26,7 +26,7 @@ sync_neon_branch() {
   echo "🔄 developmentから最新データを同期中..."
   echo "   ブランチ: $BRANCH_NAME"
 
-  if neon branches reset "$BRANCH_NAME" --project-id "$PROJECT_ID" --parent development; then
+  if neon branches reset "$BRANCH_NAME" --project-id "$PROJECT_ID" --parent; then
     echo "✅ 同期完了"
   else
     echo "⚠️  同期に失敗しました（ブランチが見つからないか、権限がない可能性があります）"
