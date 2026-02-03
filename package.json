@@ -53,7 +53,7 @@
     "luxon": "^3.6.1",
     "motion": "^12.23.24",
     "nanoid": "^5.1.6",
-    "next": "15.5.9",
+    "next": "16.1.5",
     "next-cloudinary": "^6.17.5",
     "react": "^19.2.3",
     "react-calendar": "^5.1.0",
