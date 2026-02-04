@@ -1,0 +1,67 @@
+#!/bin/bash
+# 個人ブランチのクリーンアップ: Neonブランチ削除 + .env.local.dev削除
+#
+# 使用方法: ./bin/cleanup
+#
+# このスクリプトは以下を実行します:
+# 1. 個人用Neonブランチの削除
+# 2. .env.local.devの削除
+
+set -euo pipefail
+
+# .env.local.dev が存在しない場合は終了
+if [ ! -f .env.local.dev ]; then
+  echo "ℹ️  .env.local.dev が見つかりません（既にクリーンアップ済み）"
+  exit 0
+fi
+
+# ブランチ名を取得
+BRANCH_NAME=$(grep -E '^NEON_BRANCH_NAME=' .env.local.dev | sed 's/^NEON_BRANCH_NAME=//' | tr -d '"' | tr -d "'" || echo "")
+
+if [ -z "$BRANCH_NAME" ]; then
+  echo "⚠️  NEON_BRANCH_NAME が .env.local.dev に見つかりません"
+  echo "   .env.local.dev を削除します"
+  rm .env.local.dev
+  exit 0
+fi
+
+# 確認プロンプト
+echo "🗑️  以下を削除します:"
+echo "   - Neonブランチ: $BRANCH_NAME"
+echo "   - ファイル: .env.local.dev"
+echo ""
+read -p "続行しますか？ [y/N] " -n 1 -r
+echo ""
+
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+  echo "キャンセルしました"
+  exit 0
+fi
+
+# Neonブランチの削除
+delete_neon_branch() {
+  command -v neon &> /dev/null || { echo "⚠️  Neon CLIがインストールされていません"; return 1; }
+
+  PROJECT_ID=$(npx @dotenvx/dotenvx get NEON_PROJECT_ID -f .env.local 2>/dev/null || echo "")
+  [ -z "$PROJECT_ID" ] && { echo "⚠️  NEON_PROJECT_ID が見つかりません"; return 1; }
+
+  echo "🔄 Neonブランチを削除中..."
+  if neon branches delete "$BRANCH_NAME" --project-id "$PROJECT_ID" 2>/dev/null; then
+    echo "✅ Neonブランチを削除しました: $BRANCH_NAME"
+  else
+    echo "⚠️  Neonブランチの削除に失敗しました（既に削除済みの可能性があります）"
+  fi
+}
+
+delete_neon_branch || echo "   Neonブランチの削除をスキップします"
+
+# .env.local.dev の削除
+rm .env.local.dev
+echo "✅ .env.local.dev を削除しました"
+
+echo ""
+echo "🎉 クリーンアップ完了！"
+echo ""
+echo "再度セットアップするには:"
+echo "   ./bin/setup"
+echo ""

@@ -13,20 +13,16 @@ RUN apt-get update && \
         openssh-client \
     && rm -rf /var/lib/apt/lists/*
 
-# == 依存関係ステージ ==
-FROM base AS prod-deps
-COPY pnpm-lock.yaml ./
+# === 依存関係ステージ ===
+FROM base AS deps
+COPY pnpm-lock.yaml package.json ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm fetch --frozen-lockfile
-COPY package.json ./
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-    pnpm install --prod --frozen-lockfile --offline
+    pnpm install --frozen-lockfile
 
 # === 開発ステージ ===
 FROM base AS dev
 ENV NODE_ENV=development
-
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
 EXPOSE 3000
-CMD ["sh", "-c", "pnpm install --frozen-lockfile && pnpm dev"]
+CMD ["pnpm", "dev"]
