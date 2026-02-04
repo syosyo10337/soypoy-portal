@@ -5,6 +5,9 @@ import ScrollReset from "./_components/ScrollReset";
 import WhatUpSection from "./_components/WhatUpSection";
 
 export default function Page() {
+  // debug: Netlifyのpnpm check確認用 - 確認後削除
+  const unusedVariable = "this will fail pnpm check";
+
   return (
     <div className="min-h-screen">
       <ScrollReset />
