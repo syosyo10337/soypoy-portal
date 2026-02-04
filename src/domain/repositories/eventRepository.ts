@@ -37,4 +37,9 @@ export interface EventRepository {
    * 指定月のイベントを取得
    */
   listByMonth(year: number, month: number): Promise<EventEntity[]>;
+
+  /**
+   * ピックアップイベントを取得（isPickup=true、公開済みのみ、日付降順）
+   */
+  listPickup(): Promise<EventEntity[]>;
 }
