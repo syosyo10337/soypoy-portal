@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { useDelete, useInvalidate } from "@refinedev/core";
 import {
   Eye,
@@ -11,12 +10,16 @@ import {
   Trash,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import type { ReactNode } from "react";
 import { useState } from "react";
 import {
   usePublishEvent,
   useUnpublishEvent,
 } from "@/app/admin/_hooks/useTrpcMutations";
-import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
+import {
+  ActionTypes,
+  EventActionDialog,
+} from "@/components/admin/EventActionDialog";
 import { Button } from "@/components/shadcn/button";
 import {
   DropdownMenu,
@@ -30,8 +33,6 @@ interface EventActionsProps {
   eventId: string;
   publicationStatus: PublicationStatus;
 }
-
-type ConfirmDialogType = "publish" | "unpublish" | "delete" | null;
 
 /**
  * イベント操作ドロップダウンメニュー
@@ -49,12 +50,12 @@ export function EventActions({
     mutate: deleteEvent,
     mutation: { isPending: isDeleting },
   } = useDelete();
-  const [confirmDialog, setConfirmDialog] = useState<ConfirmDialogType>(null);
 
-  const isDraft = publicationStatus === PublicationStatus.Draft;
-  const isPublished = publicationStatus === PublicationStatus.Published;
+  const [activeDialog, setActiveDialog] = useState<ActionTypes | null>(null);
 
-  const closeDialog = () => setConfirmDialog(null);
+  if (publicationStatus === PublicationStatus.Archived) return;
+
+  const closeDialog = () => setActiveDialog(null);
 
   const handlePublish = () => {
     publishEvent(eventId, {
@@ -91,14 +92,17 @@ export function EventActions({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="border-0">
-          {isDraft && (
-            <DropdownMenuItem onSelect={() => setConfirmDialog("publish")}>
+          {publicationStatus === PublicationStatus.Draft ? (
+            <DropdownMenuItem
+              onSelect={() => setActiveDialog(ActionTypes.Publish)}
+            >
               <Eye className="text-green-600" />
               <span>公開</span>
             </DropdownMenuItem>
-          )}
-          {isPublished && (
-            <DropdownMenuItem onSelect={() => setConfirmDialog("unpublish")}>
+          ) : (
+            <DropdownMenuItem
+              onSelect={() => setActiveDialog(ActionTypes.Unpublish)}
+            >
               <EyeOff />
               <span>非公開</span>
             </DropdownMenuItem>
@@ -117,7 +121,7 @@ export function EventActions({
           </DropdownMenuItem>
           <DropdownMenuItem
             variant="destructive"
-            onSelect={() => setConfirmDialog("delete")}
+            onSelect={() => setActiveDialog(ActionTypes.Delete)}
           >
             <Trash />
             <span>削除</span>
@@ -125,35 +129,24 @@ export function EventActions({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <ConfirmDialog
-        open={confirmDialog === "publish"}
+      <EventActionDialog
+        open={activeDialog === ActionTypes.Publish}
         onOpenChange={(open) => !open && !isPublishing && closeDialog()}
-        title="イベントを公開"
-        description="このイベントを公開しますか？公開後はユーザーに表示されます。"
-        confirmLabel="公開する"
-        confirmClassName="bg-green-600 hover:bg-green-700"
+        variant={ActionTypes.Publish}
         onConfirm={handlePublish}
         isPending={isPublishing}
       />
-
-      <ConfirmDialog
-        open={confirmDialog === "unpublish"}
+      <EventActionDialog
+        open={activeDialog === ActionTypes.Unpublish}
         onOpenChange={(open) => !open && !isUnpublishing && closeDialog()}
-        title="イベントを非公開"
-        description="このイベントを非公開にしますか？ユーザーには表示されなくなります。"
-        confirmLabel="非公開にする"
-        confirmVariant="secondary"
+        variant={ActionTypes.Unpublish}
         onConfirm={handleUnpublish}
         isPending={isUnpublishing}
       />
-
-      <ConfirmDialog
-        open={confirmDialog === "delete"}
+      <EventActionDialog
+        open={activeDialog === ActionTypes.Delete}
         onOpenChange={(open) => !open && !isDeleting && closeDialog()}
-        title="イベントを削除"
-        description="このイベントを削除しますか？この操作は取り消せません。"
-        confirmLabel="削除する"
-        confirmVariant="destructive"
+        variant={ActionTypes.Delete}
         onConfirm={handleDelete}
         isPending={isDeleting}
       />

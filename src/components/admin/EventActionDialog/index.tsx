@@ -1,0 +1,100 @@
+"use client";
+
+import { Loader2 } from "lucide-react";
+import type { ComponentProps, ReactNode } from "react";
+import { Button } from "@/components/shadcn/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/shadcn/dialog";
+
+export const ActionTypes = {
+  Publish: "publish",
+  Unpublish: "unpublish",
+  Delete: "delete",
+} as const satisfies Record<string, string>;
+
+export type ActionTypes = (typeof ActionTypes)[keyof typeof ActionTypes];
+
+interface DialogConfig {
+  title: string;
+  description: string;
+  confirmLabel: string;
+  confirmVariant: ComponentProps<typeof Button>["variant"];
+  confirmClassName?: string;
+}
+
+const configs: Record<ActionTypes, DialogConfig> = {
+  [ActionTypes.Publish]: {
+    title: "イベントを公開",
+    description: "このイベントを公開しますか？公開後はユーザーに表示されます。",
+    confirmLabel: "公開する",
+    confirmVariant: "default",
+    confirmClassName: "bg-green-600 hover:bg-green-700",
+  },
+  [ActionTypes.Unpublish]: {
+    title: "イベントを下書きに戻す",
+    description:
+      "このイベントを下書きに戻しますか？ユーザーには表示されなくなります。",
+    confirmLabel: "下書きに戻す",
+    confirmVariant: "secondary",
+    confirmClassName: undefined,
+  },
+  [ActionTypes.Delete]: {
+    title: "イベントを削除",
+    description: "このイベントを削除しますか？この操作は取り消せません。",
+    confirmLabel: "削除する",
+    confirmVariant: "destructive",
+    confirmClassName: undefined,
+  },
+} as const;
+
+interface EventActionDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  variant: ActionTypes;
+  onConfirm: () => void;
+  isPending: boolean;
+}
+
+export function EventActionDialog({
+  open,
+  onOpenChange,
+  onConfirm,
+  variant,
+  isPending,
+}: EventActionDialogProps): ReactNode {
+  const config = configs[variant];
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{config.title}</DialogTitle>
+          <DialogDescription>{config.description}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline" disabled={isPending}>
+              キャンセル
+            </Button>
+          </DialogClose>
+          <Button
+            variant={config.confirmVariant}
+            className={config.confirmClassName}
+            onClick={onConfirm}
+            disabled={isPending}
+          >
+            {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+            {config.confirmLabel}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
