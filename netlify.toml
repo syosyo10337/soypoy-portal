@@ -3,7 +3,7 @@
 
 [build]
   # not to use .env.local file
-  command = "rm -f .env.local && pnpm build"
+  command = "rm -f .env.local && pnpm check && pnpm build"
   publish = ".next"
 
 [build.environment]
@@ -18,14 +18,14 @@
 # Deploy Preview環境の設定（PRごとに自動生成されるURL）
 # NOTE: $DEPLOY_PRIME_URL は [context.*.environment] では展開されないため、commandで設定
 [context.deploy-preview]
-  command = "rm -f .env.local && BETTER_AUTH_URL=$DEPLOY_PRIME_URL pnpm build"
+  command = "rm -f .env.local && pnpm check && BETTER_AUTH_URL=$DEPLOY_PRIME_URL pnpm build"
 
 [context.deploy-preview.environment]
   APP_ENV = "preview"
 
 # Branch Deploy環境の設定
 [context.branch-deploy]
-  command = "rm -f .env.local && BETTER_AUTH_URL=$DEPLOY_PRIME_URL pnpm build"
+  command = "rm -f .env.local && pnpm check && BETTER_AUTH_URL=$DEPLOY_PRIME_URL pnpm build"
 
 [context.branch-deploy.environment]
   APP_ENV = "preview"
