@@ -43,8 +43,11 @@ export function EventTableRow({ event }: EventTableRowProps) {
       <TableCell>
         <EventStatusBadge variant={event.publicationStatus} />
       </TableCell>
-      <TableCell className="text-right">
-        <EventActions eventId={event.id} />
+      <TableCell className="text-center">
+        <EventActions
+          eventId={event.id}
+          publicationStatus={event.publicationStatus}
+        />
       </TableCell>
     </TableRow>
   );
