@@ -1,10 +1,5 @@
 import { nanoid } from "nanoid";
-import {
-  type EventEntity,
-  PublicationStatus,
-  canPublish,
-  canUnpublish,
-} from "@/domain/entities";
+import { type EventEntity, PublicationStatus } from "@/domain/entities";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
 
 /**
@@ -49,17 +44,11 @@ export class EventService {
 
   /**
    * イベントを公開する
-   * Draft → Published への状態遷移
    */
   async publishEvent(id: string): Promise<EventEntity> {
     const event = await this.repository.findById(id);
     if (!event) {
       throw new Error("イベントが見つかりません");
-    }
-    if (!canPublish(event.publicationStatus)) {
-      throw new Error(
-        `この状態からは公開できません（現在: ${event.publicationStatus}）`,
-      );
     }
     return await this.repository.update(id, {
       publicationStatus: PublicationStatus.Published,
@@ -68,17 +57,11 @@ export class EventService {
 
   /**
    * イベントを非公開（下書き）に戻す
-   * Published → Draft への状態遷移
    */
   async unpublishEvent(id: string): Promise<EventEntity> {
     const event = await this.repository.findById(id);
     if (!event) {
       throw new Error("イベントが見つかりません");
-    }
-    if (!canUnpublish(event.publicationStatus)) {
-      throw new Error(
-        `この状態からは非公開にできません（現在: ${event.publicationStatus}）`,
-      );
     }
     return await this.repository.update(id, {
       publicationStatus: PublicationStatus.Draft,

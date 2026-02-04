@@ -24,16 +24,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/shadcn/dropdown-menu";
-import {
-  type PublicationStatus,
-  canPublish,
-  canUnpublish,
-} from "@/domain/entities";
+import { PublicationStatus } from "@/domain/entities";
 
 interface EventActionsProps {
   eventId: string;
   publicationStatus: PublicationStatus;
 }
+
+const isDraft = (status: PublicationStatus) =>
+  status === PublicationStatus.Draft;
+const isPublished = (status: PublicationStatus) =>
+  status === PublicationStatus.Published;
 
 type ConfirmDialogType = "publish" | "unpublish" | "delete" | null;
 
@@ -52,8 +53,8 @@ export function EventActions({
   const isDeleting = mutation.isPending;
   const [confirmDialog, setConfirmDialog] = useState<ConfirmDialogType>(null);
 
-  const isPublishable = canPublish(publicationStatus);
-  const isUnpublishable = canUnpublish(publicationStatus);
+  const canPublish = isDraft(publicationStatus);
+  const canUnpublish = isPublished(publicationStatus);
 
   const closeDialog = () => setConfirmDialog(null);
 
@@ -91,14 +92,14 @@ export function EventActions({
             <span className="sr-only">操作メニュー</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          {isPublishable && (
+        <DropdownMenuContent align="end" className="border-0">
+          {canPublish && (
             <DropdownMenuItem onSelect={() => setConfirmDialog("publish")}>
               <Eye className="text-green-600" />
               <span>公開</span>
             </DropdownMenuItem>
           )}
-          {isUnpublishable && (
+          {canUnpublish && (
             <DropdownMenuItem onSelect={() => setConfirmDialog("unpublish")}>
               <EyeOff />
               <span>非公開</span>

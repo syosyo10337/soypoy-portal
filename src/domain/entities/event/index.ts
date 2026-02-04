@@ -2,12 +2,7 @@ import type { EventType } from "./eventType";
 import type { PublicationStatus } from "./publicationStatus";
 
 export { EventType } from "./eventType";
-export {
-  PublicationStatus,
-  canTransition,
-  canPublish,
-  canUnpublish,
-} from "./publicationStatus";
+export { PublicationStatus } from "./publicationStatus";
 
 /**
  * イベントエンティティ
