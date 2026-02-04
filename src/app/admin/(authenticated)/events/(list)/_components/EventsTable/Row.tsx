@@ -43,6 +43,11 @@ export function EventTableRow({ event }: EventTableRowProps) {
       <TableCell>
         <EventStatusBadge variant={event.publicationStatus} />
       </TableCell>
+      <TableCell>
+        <Badge variant={event.isPickup ? "default" : "secondary"}>
+          {event.isPickup ? "ON" : "OFF"}
+        </Badge>
+      </TableCell>
       <TableCell className="text-right">
         <EventActions eventId={event.id} />
       </TableCell>

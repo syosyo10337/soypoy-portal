@@ -51,6 +51,15 @@ export function EventDetailCard({ event }: EventDetailCardProps) {
               <EventStatusBadge variant={event.publicationStatus} />
             </div>
 
+            <div>
+              <h3 className="text-sm font-medium text-muted-foreground mb-1">
+                ピックアップ
+              </h3>
+              <Badge variant={event.isPickup ? "default" : "secondary"}>
+                {event.isPickup ? "ON" : "OFF"}
+              </Badge>
+            </div>
+
             {event.description && (
               <div>
                 <h3 className="text-sm font-medium text-muted-foreground mb-1">
