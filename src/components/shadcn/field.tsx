@@ -83,7 +83,7 @@ function Field({
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof fieldVariants>) {
   return (
-    // biome-ignore lint/a11y/useSemanticElements: shadcn/ui design pattern
+    // biome-ignore lint/a11y/useSemanticElements: shadcn/ui uses div with role="group" pattern
     <div
       role="group"
       data-slot="field"
