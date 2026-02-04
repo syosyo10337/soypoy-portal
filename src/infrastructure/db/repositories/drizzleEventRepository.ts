@@ -1,6 +1,11 @@
 import { and, eq, sql } from "drizzle-orm";
 import { PublicationStatus } from "@/domain/entities";
-import type { EventEntity } from "@/domain/entities/";
+import type {
+  EventEntity,
+  Performer,
+  PricingTier,
+  Venue,
+} from "@/domain/entities/";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
 import { dateTimeFromISO, dateToIsoFull } from "@/utils/date";
 import { db } from "../index";
@@ -61,6 +66,20 @@ export class DrizzleEventRepository implements EventRepository {
       description: event.description ?? null,
       thumbnail: event.thumbnail ?? null,
       type: event.type,
+      // 構造化フィールド
+      openTime: event.openTime
+        ? dateTimeFromISO(event.openTime).toJSDate()
+        : null,
+      startTime: event.startTime
+        ? dateTimeFromISO(event.startTime).toJSDate()
+        : null,
+      endTime: event.endTime
+        ? dateTimeFromISO(event.endTime).toJSDate()
+        : null,
+      pricing: event.pricing ?? null,
+      venue: event.venue ?? null,
+      performers: event.performers ?? null,
+      hashtags: event.hashtags ?? null,
     };
 
     await db.insert(events).values(insertData);
@@ -90,6 +109,34 @@ export class DrizzleEventRepository implements EventRepository {
         thumbnail: event.thumbnail ?? null,
       }),
       ...(event.type !== undefined && { type: event.type }),
+      // 構造化フィールド
+      ...(event.openTime !== undefined && {
+        openTime: event.openTime
+          ? dateTimeFromISO(event.openTime).toJSDate()
+          : null,
+      }),
+      ...(event.startTime !== undefined && {
+        startTime: event.startTime
+          ? dateTimeFromISO(event.startTime).toJSDate()
+          : null,
+      }),
+      ...(event.endTime !== undefined && {
+        endTime: event.endTime
+          ? dateTimeFromISO(event.endTime).toJSDate()
+          : null,
+      }),
+      ...(event.pricing !== undefined && {
+        pricing: event.pricing ?? null,
+      }),
+      ...(event.venue !== undefined && {
+        venue: event.venue ?? null,
+      }),
+      ...(event.performers !== undefined && {
+        performers: event.performers ?? null,
+      }),
+      ...(event.hashtags !== undefined && {
+        hashtags: event.hashtags ?? null,
+      }),
     };
 
     await db.update(events).set(updateData).where(eq(events.id, id));
@@ -122,6 +169,20 @@ export class DrizzleEventRepository implements EventRepository {
       description: drizzleEvent.description ?? undefined,
       thumbnail: drizzleEvent.thumbnail ?? undefined,
       type: drizzleEvent.type as EventEntity["type"],
+      // 構造化フィールド
+      openTime: drizzleEvent.openTime
+        ? dateToIsoFull(drizzleEvent.openTime)
+        : null,
+      startTime: drizzleEvent.startTime
+        ? dateToIsoFull(drizzleEvent.startTime)
+        : null,
+      endTime: drizzleEvent.endTime
+        ? dateToIsoFull(drizzleEvent.endTime)
+        : null,
+      pricing: (drizzleEvent.pricing as PricingTier[] | null) ?? null,
+      venue: (drizzleEvent.venue as Venue | null) ?? null,
+      performers: (drizzleEvent.performers as Performer[] | null) ?? null,
+      hashtags: drizzleEvent.hashtags ?? null,
     };
   }
 }
