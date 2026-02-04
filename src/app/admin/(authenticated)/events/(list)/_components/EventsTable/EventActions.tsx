@@ -31,11 +31,6 @@ interface EventActionsProps {
   publicationStatus: PublicationStatus;
 }
 
-const isDraft = (status: PublicationStatus) =>
-  status === PublicationStatus.Draft;
-const isPublished = (status: PublicationStatus) =>
-  status === PublicationStatus.Published;
-
 type ConfirmDialogType = "publish" | "unpublish" | "delete" | null;
 
 /**
@@ -56,8 +51,8 @@ export function EventActions({
   } = useDelete();
   const [confirmDialog, setConfirmDialog] = useState<ConfirmDialogType>(null);
 
-  const canPublish = isDraft(publicationStatus);
-  const canUnpublish = isPublished(publicationStatus);
+  const isDraft = publicationStatus === PublicationStatus.Draft;
+  const isPublished = publicationStatus === PublicationStatus.Published;
 
   const closeDialog = () => setConfirmDialog(null);
 
@@ -96,13 +91,13 @@ export function EventActions({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="border-0">
-          {canPublish && (
+          {isDraft && (
             <DropdownMenuItem onSelect={() => setConfirmDialog("publish")}>
               <Eye className="text-green-600" />
               <span>公開</span>
             </DropdownMenuItem>
           )}
-          {canUnpublish && (
+          {isPublished && (
             <DropdownMenuItem onSelect={() => setConfirmDialog("unpublish")}>
               <EyeOff />
               <span>非公開</span>
