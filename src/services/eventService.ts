@@ -61,4 +61,7 @@ export class EventService {
       publicationStatus: PublicationStatus.Draft,
     });
   }
+  async getPickupEvents(): Promise<EventEntity[]> {
+    return await this.repository.listPickup();
+  }
 }
