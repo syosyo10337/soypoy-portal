@@ -1,4 +1,5 @@
-import { and, eq, sql } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
+import { PICKUP_EVENTS_LIMIT } from "@/constant/pickupEvents";
 import { PublicationStatus } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities/";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
@@ -37,6 +38,25 @@ export class DrizzleEventRepository implements EventRepository {
   }
 
   /**
+   * ピックアップイベントを取得
+   * isPickup=true、公開済みのみ、日付降順（最新順）、最大4件
+   */
+  async listPickup(): Promise<EventEntity[]> {
+    const drizzleEvents = await db
+      .select()
+      .from(events)
+      .where(
+        and(
+          eq(events.isPickup, true),
+          eq(events.publicationStatus, PublicationStatus.Published),
+        ),
+      )
+      .orderBy(desc(events.date))
+      .limit(PICKUP_EVENTS_LIMIT);
+    return drizzleEvents.map(this.toDomainEntity);
+  }
+
+  /**
    * IDによるイベント取得
    */
   async findById(id: string): Promise<EventEntity | undefined> {
@@ -61,6 +81,7 @@ export class DrizzleEventRepository implements EventRepository {
       description: event.description ?? null,
       thumbnail: event.thumbnail ?? null,
       type: event.type,
+      isPickup: event.isPickup,
     };
 
     await db.insert(events).values(insertData);
@@ -90,6 +111,7 @@ export class DrizzleEventRepository implements EventRepository {
         thumbnail: event.thumbnail ?? null,
       }),
       ...(event.type !== undefined && { type: event.type }),
+      ...(event.isPickup !== undefined && { isPickup: event.isPickup }),
     };
 
     await db.update(events).set(updateData).where(eq(events.id, id));
@@ -122,6 +144,7 @@ export class DrizzleEventRepository implements EventRepository {
       description: drizzleEvent.description ?? undefined,
       thumbnail: drizzleEvent.thumbnail ?? undefined,
       type: drizzleEvent.type as EventEntity["type"],
+      isPickup: drizzleEvent.isPickup,
     };
   }
 }

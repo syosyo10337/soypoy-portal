@@ -41,4 +41,7 @@ export class EventService {
   async getEventsByMonth(year: number, month: number): Promise<EventEntity[]> {
     return await this.repository.listByMonth(year, month);
   }
+  async getPickupEvents(): Promise<EventEntity[]> {
+    return await this.repository.listPickup();
+  }
 }
