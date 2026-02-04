@@ -47,10 +47,13 @@ export function EventActions({
 }: EventActionsProps): ReactNode {
   const router = useRouter();
   const invalidate = useInvalidate();
-  const publishEvent = usePublishEvent();
-  const unpublishEvent = useUnpublishEvent();
-  const { mutate: deleteEvent, mutation } = useDelete();
-  const isDeleting = mutation.isPending;
+  const { mutate: publishEvent, isPending: isPublishing } = usePublishEvent();
+  const { mutate: unpublishEvent, isPending: isUnpublishing } =
+    useUnpublishEvent();
+  const {
+    mutate: deleteEvent,
+    mutation: { isPending: isDeleting },
+  } = useDelete();
   const [confirmDialog, setConfirmDialog] = useState<ConfirmDialogType>(null);
 
   const canPublish = isDraft(publicationStatus);
@@ -59,7 +62,7 @@ export function EventActions({
   const closeDialog = () => setConfirmDialog(null);
 
   const handlePublish = () => {
-    publishEvent.mutate(eventId, {
+    publishEvent(eventId, {
       onSuccess: () => {
         closeDialog();
         invalidate({ resource: "events", invalidates: ["list"] });
@@ -68,7 +71,7 @@ export function EventActions({
   };
 
   const handleUnpublish = () => {
-    unpublishEvent.mutate(eventId, {
+    unpublishEvent(eventId, {
       onSuccess: () => {
         closeDialog();
         invalidate({ resource: "events", invalidates: ["list"] });
@@ -129,28 +132,24 @@ export function EventActions({
 
       <ConfirmDialog
         open={confirmDialog === "publish"}
-        onOpenChange={(open) =>
-          !open && !publishEvent.isPending && closeDialog()
-        }
+        onOpenChange={(open) => !open && !isPublishing && closeDialog()}
         title="イベントを公開"
         description="このイベントを公開しますか？公開後はユーザーに表示されます。"
         confirmLabel="公開する"
         confirmClassName="bg-green-600 hover:bg-green-700"
         onConfirm={handlePublish}
-        isPending={publishEvent.isPending}
+        isPending={isPublishing}
       />
 
       <ConfirmDialog
         open={confirmDialog === "unpublish"}
-        onOpenChange={(open) =>
-          !open && !unpublishEvent.isPending && closeDialog()
-        }
+        onOpenChange={(open) => !open && !isUnpublishing && closeDialog()}
         title="イベントを非公開"
         description="このイベントを非公開にしますか？ユーザーには表示されなくなります。"
         confirmLabel="非公開にする"
         confirmVariant="secondary"
         onConfirm={handleUnpublish}
-        isPending={unpublishEvent.isPending}
+        isPending={isUnpublishing}
       />
 
       <ConfirmDialog
