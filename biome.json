@@ -37,24 +37,6 @@
   },
   "files": {
     "maxSize": 2000000,
-    "includes": [
-      "**/*.js",
-      "**/*.jsx",
-      "**/*.ts",
-      "**/*.tsx",
-      "**/*.json",
-      "!**/.next",
-      "!**/node_modules",
-      "!**/dist",
-      "!**/build",
-      "!**/public",
-      "!**/*.css",
-      "!**/*.scss",
-      "!**/*.html",
-      "!**/*.mjs",
-      "!**/*.mts",
-      "!**/.vscode/**/*",
-      "!**/.pnpm-store/**/*"
-    ]
+    "includes": ["src/**", "*.json", "*.ts", "*.js", "!**/*.css"]
   }
 }
