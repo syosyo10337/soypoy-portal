@@ -2,7 +2,6 @@
 
 import { DeleteButton } from "@/components/refine-ui/buttons/delete";
 import { EditButton } from "@/components/refine-ui/buttons/edit";
-import { ShowButton } from "@/components/refine-ui/buttons/show";
 
 interface EventActionsProps {
   eventId: string;
@@ -15,11 +14,7 @@ interface EventActionsProps {
  */
 export function EventActions({ eventId }: EventActionsProps) {
   return (
-    <div className="flex justify-end gap-2">
-      <ShowButton
-        recordItemId={eventId}
-        className="bg-primary text-primary-foreground"
-      />
+    <div className="flex justify-end gap-2" data-actions>
       <EditButton
         recordItemId={eventId}
         className="bg-secondary text-secondary-foreground"
@@ -27,6 +22,7 @@ export function EventActions({ eventId }: EventActionsProps) {
       <DeleteButton
         recordItemId={eventId}
         className="bg-destructive text-destructive-foreground"
+        confirmDescription="ユーザーには表示されなくなります"
       />
     </div>
   );
