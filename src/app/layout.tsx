@@ -12,8 +12,8 @@ import { cn } from "@/utils/cn";
 
 // metadataBase用のURL取得（環境に応じて自動切替）
 const baseUrl =
-  process.env.URL || // Netlify本番
-  process.env.DEPLOY_PRIME_URL || // Netlifyプレビュー
+  process.env.DEPLOY_PRIME_URL || // 各デプロイ固有URL（プレビュー・本番両方）
+  process.env.URL || // フォールバック
   "http://localhost:3000"; // ローカル開発
 
 const title = "SOY-POY | 表現と創作を楽しむパブリックハウス";
