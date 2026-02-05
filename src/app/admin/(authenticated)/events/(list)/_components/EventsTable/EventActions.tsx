@@ -139,9 +139,9 @@ export function EventActions({
       <ConfirmDialog
         open={confirmDialog === "unpublish"}
         onOpenChange={(open) => !open && !isUnpublishing && closeDialog()}
-        title="イベントを非公開"
-        description="このイベントを非公開にしますか？ユーザーには表示されなくなります。"
-        confirmLabel="非公開にする"
+        title="下書きに戻す"
+        description="このイベントを下書きに戻しますか？ユーザーには表示されなくなります。"
+        confirmLabel="下書きに戻す"
         confirmVariant="secondary"
         onConfirm={handleUnpublish}
         isPending={isUnpublishing}
