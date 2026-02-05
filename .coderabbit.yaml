@@ -1,0 +1,59 @@
+# CodeRabbit Configuration
+# https://docs.coderabbit.ai/reference/configuration
+
+language: "ja-JP"
+
+# トーン設定（簡潔なレビュアーとして振る舞う）
+tone_instructions: "簡潔に要点のみ指摘してください。冗長な説明は不要です。"
+
+reviews:
+  # レビューの厳しさ: chill（緩め）
+  profile: "chill"
+
+  # リクエストの変更を無効化
+  request_changes_workflow: false
+
+  # PRサマリーを無効化
+  high_level_summary: false
+
+  # 詩的なサマリーを無効化
+  poem: false
+
+  # 進行中コメントを無効化
+  review_status: false
+
+  # ウォークスルーを折りたたむ
+  collapse_walkthrough: true
+
+  # シーケンス図を無効化（簡潔化）
+  sequence_diagrams: false
+
+  # 変更ファイルサマリーを無効化（簡潔化）
+  changed_files_summary: false
+
+  # 自動レビュー設定
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+
+  # パス固有の指示
+  path_instructions:
+    - path: "**/*.lock"
+      instructions: "レビュー不要"
+    - path: "pnpm-lock.yaml"
+      instructions: "レビュー不要"
+    - path: "**/*.md"
+      instructions: "軽めにレビュー"
+    - path: "**/*"
+      instructions: |
+        - Biome使用のためESLint/Prettier指摘は不要
+        - 日本語コメントは許容
+        - セキュリティ問題は必ず指摘
+        - パフォーマンス問題は指摘
+        - 細かいスタイル指摘は不要
+
+# チャット機能
+chat:
+  auto_reply: true
