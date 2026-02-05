@@ -100,7 +100,7 @@ export function EventActions({
           {isPublished && (
             <DropdownMenuItem onSelect={() => setConfirmDialog("unpublish")}>
               <EyeOff />
-              <span>非公開</span>
+              <span>下書きに戻す</span>
             </DropdownMenuItem>
           )}
           <DropdownMenuItem
