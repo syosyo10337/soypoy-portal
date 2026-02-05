@@ -21,11 +21,12 @@ export function EventTableRow({ event }: EventTableRowProps) {
   const router = useRouter();
 
   const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    // アクションボタン領域のクリックは無視
     const target = e.target as HTMLElement;
     if (target.closest("[data-actions]") || target.closest("button")) {
       return;
     }
-    router.push(`/admin/events/${event.id}`);
+    router.push(`/admin/events/show/${event.id}`);
   };
 
   return (
