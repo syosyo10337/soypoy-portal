@@ -12,8 +12,8 @@ export default function ConnectionLine() {
         xmlns="http://www.w3.org/2000/svg"
         className="w-full h-full"
         preserveAspectRatio="none"
+        role="none"
       >
-        <title>ヒストリー接続線</title>
         <line
           x1="0"
           y1="11.5"
