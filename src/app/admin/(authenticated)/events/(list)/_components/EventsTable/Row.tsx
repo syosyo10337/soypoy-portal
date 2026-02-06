@@ -63,7 +63,10 @@ export function EventTableRow({ event }: EventTableRowProps) {
         </Badge>
       </TableCell>
       <TableCell className="text-right">
-        <EventActions eventId={event.id} />
+        <EventActions
+          eventId={event.id}
+          publicationStatus={event.publicationStatus}
+        />
       </TableCell>
     </TableRow>
   );

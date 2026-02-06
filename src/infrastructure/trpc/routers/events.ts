@@ -48,4 +48,14 @@ export const eventsRouter = router({
   delete: adminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
     return await ctx.eventService.deleteEvent(input);
   }),
+  publish: adminProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.eventService.publishEvent(input.id);
+    }),
+  unpublish: adminProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.eventService.unpublishEvent(input.id);
+    }),
 });

@@ -43,3 +43,17 @@ export function useChangePassword() {
 export function useResetPassword() {
   return trpc.admins.resetPassword.useMutation();
 }
+
+/**
+ * イベント公開用フック
+ */
+export function usePublishEvent() {
+  return trpc.events.publish.useMutation();
+}
+
+/**
+ * イベント非公開（下書きに戻す）用フック
+ */
+export function useUnpublishEvent() {
+  return trpc.events.unpublish.useMutation();
+}
