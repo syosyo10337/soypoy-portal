@@ -35,8 +35,14 @@ export class EventService {
   ): Promise<EventEntity> {
     return await this.repository.update(id, input);
   }
-  async deleteEvent(id: string): Promise<void> {
-    return await this.repository.delete(id);
+  async deleteEvent(id: string): Promise<EventEntity> {
+    const event = await this.repository.findById(id);
+    if (!event) {
+      throw new Error("イベントが見つかりません");
+    }
+    return await this.repository.update(id, {
+      publicationStatus: PublicationStatus.Archived,
+    });
   }
   async getEventsByMonth(year: number, month: number): Promise<EventEntity[]> {
     return await this.repository.listByMonth(year, month);

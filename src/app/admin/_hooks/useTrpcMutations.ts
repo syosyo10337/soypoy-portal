@@ -73,3 +73,10 @@ export function usePublishEvent() {
 export function useUnpublishEvent() {
   return trpc.events.unpublish.useMutation();
 }
+
+/**
+ * イベント削除（Archived化）用フック
+ */
+export function useDeleteEvent() {
+  return trpc.events.delete.useMutation();
+}

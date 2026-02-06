@@ -1,22 +1,19 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useDelete, useInvalidate } from "@refinedev/core";
-import {
-  Eye,
-  EyeOff,
-  MoreHorizontal,
-  Pencil,
-  Search,
-  Trash,
-} from "lucide-react";
+import { useInvalidate } from "@refinedev/core";
+import { Eye, EyeOff, MoreHorizontal, Pencil, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
+  useDeleteEvent,
   usePublishEvent,
   useUnpublishEvent,
 } from "@/app/admin/_hooks/useTrpcMutations";
-import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
+import {
+  ActionTypes,
+  EventActionDialog,
+} from "@/components/admin/ConfirmDialog";
 import { Button } from "@/components/shadcn/button";
 import {
   DropdownMenu,
@@ -31,8 +28,6 @@ interface EventActionsProps {
   publicationStatus: PublicationStatus;
 }
 
-type ConfirmDialogType = "publish" | "unpublish" | "delete" | null;
-
 /**
  * イベント操作ドロップダウンメニュー
  */
@@ -45,41 +40,34 @@ export function EventActions({
   const { mutate: publishEvent, isPending: isPublishing } = usePublishEvent();
   const { mutate: unpublishEvent, isPending: isUnpublishing } =
     useUnpublishEvent();
-  const {
-    mutate: deleteEvent,
-    mutation: { isPending: isDeleting },
-  } = useDelete();
-  const [confirmDialog, setConfirmDialog] = useState<ConfirmDialogType>(null);
+  const { mutate: deleteEvent, isPending: isDeleting } = useDeleteEvent();
+  const [dialogAction, setDialogAction] = useState<ActionTypes | null>(null);
 
   const isDraft = publicationStatus === PublicationStatus.Draft;
   const isPublished = publicationStatus === PublicationStatus.Published;
 
-  const closeDialog = () => setConfirmDialog(null);
+  const closeDialog = () => setDialogAction(null);
 
-  const handlePublish = () => {
-    publishEvent(eventId, {
-      onSuccess: () => {
-        closeDialog();
-        invalidate({ resource: "events", invalidates: ["list"] });
-      },
-    });
+  const handleConfirm = () => {
+    const onSuccess = () => {
+      closeDialog();
+      invalidate({ resource: "events", invalidates: ["list"] });
+    };
+
+    switch (dialogAction) {
+      case ActionTypes.Publish:
+        publishEvent(eventId, { onSuccess });
+        break;
+      case ActionTypes.Unpublish:
+        unpublishEvent(eventId, { onSuccess });
+        break;
+      case ActionTypes.Delete:
+        deleteEvent(eventId, { onSuccess });
+        break;
+    }
   };
 
-  const handleUnpublish = () => {
-    unpublishEvent(eventId, {
-      onSuccess: () => {
-        closeDialog();
-        invalidate({ resource: "events", invalidates: ["list"] });
-      },
-    });
-  };
-
-  const handleDelete = () => {
-    deleteEvent(
-      { resource: "events", id: eventId },
-      { onSuccess: closeDialog },
-    );
-  };
+  const isPending = isPublishing || isUnpublishing || isDeleting;
 
   return (
     <>
@@ -92,23 +80,21 @@ export function EventActions({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="border-0">
           {isDraft && (
-            <DropdownMenuItem onSelect={() => setConfirmDialog("publish")}>
+            <DropdownMenuItem
+              onSelect={() => setDialogAction(ActionTypes.Publish)}
+            >
               <Eye className="text-green-600" />
               <span>公開</span>
             </DropdownMenuItem>
           )}
           {isPublished && (
-            <DropdownMenuItem onSelect={() => setConfirmDialog("unpublish")}>
+            <DropdownMenuItem
+              onSelect={() => setDialogAction(ActionTypes.Unpublish)}
+            >
               <EyeOff />
               <span>下書きに戻す</span>
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem
-            onSelect={() => router.push(`/admin/events/${eventId}`)}
-          >
-            <Search />
-            <span>詳細</span>
-          </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={() => router.push(`/admin/events/${eventId}/edit`)}
           >
@@ -117,7 +103,7 @@ export function EventActions({
           </DropdownMenuItem>
           <DropdownMenuItem
             variant="destructive"
-            onSelect={() => setConfirmDialog("delete")}
+            onSelect={() => setDialogAction(ActionTypes.Delete)}
           >
             <Trash />
             <span>削除</span>
@@ -125,37 +111,12 @@ export function EventActions({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <ConfirmDialog
-        open={confirmDialog === "publish"}
-        onOpenChange={(open) => !open && !isPublishing && closeDialog()}
-        title="イベントを公開"
-        description="このイベントを公開しますか？公開後はユーザーに表示されます。"
-        confirmLabel="公開する"
-        confirmClassName="bg-green-600 hover:bg-green-700"
-        onConfirm={handlePublish}
-        isPending={isPublishing}
-      />
-
-      <ConfirmDialog
-        open={confirmDialog === "unpublish"}
-        onOpenChange={(open) => !open && !isUnpublishing && closeDialog()}
-        title="下書きに戻す"
-        description="このイベントを下書きに戻しますか？ユーザーには表示されなくなります。"
-        confirmLabel="下書きに戻す"
-        confirmVariant="secondary"
-        onConfirm={handleUnpublish}
-        isPending={isUnpublishing}
-      />
-
-      <ConfirmDialog
-        open={confirmDialog === "delete"}
-        onOpenChange={(open) => !open && !isDeleting && closeDialog()}
-        title="イベントを削除"
-        description="このイベントを削除しますか？この操作は取り消せません。"
-        confirmLabel="削除する"
-        confirmVariant="destructive"
-        onConfirm={handleDelete}
-        isPending={isDeleting}
+      <EventActionDialog
+        action={dialogAction}
+        open={dialogAction !== null}
+        onOpenChange={(open) => !open && !isPending && closeDialog()}
+        onConfirm={handleConfirm}
+        isPending={isPending}
       />
     </>
   );

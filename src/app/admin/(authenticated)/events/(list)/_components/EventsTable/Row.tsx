@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { CldImage } from "next-cloudinary";
 import { EventStatusBadge } from "@/components/admin/EventStatusBadge";
 import { Badge } from "@/components/shadcn/badge";
@@ -12,10 +15,21 @@ interface EventTableRowProps {
 
 /**
  * イベント一覧の1行
+ * 行クリックで詳細画面に遷移（操作ボタン領域を除く）
  */
 export function EventTableRow({ event }: EventTableRowProps) {
+  const router = useRouter();
+
+  const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest("[data-actions]") || target.closest("button")) {
+      return;
+    }
+    router.push(`/admin/events/${event.id}`);
+  };
+
   return (
-    <TableRow>
+    <TableRow onClick={handleRowClick} className="cursor-pointer">
       <TableCell>
         {event.thumbnail ? (
           <div className="relative w-16 h-16 rounded-md overflow-hidden">
@@ -43,7 +57,7 @@ export function EventTableRow({ event }: EventTableRowProps) {
       <TableCell>
         <EventStatusBadge variant={event.publicationStatus} />
       </TableCell>
-      <TableCell className="text-center">
+      <TableCell className="text-center" data-actions>
         <EventActions
           eventId={event.id}
           publicationStatus={event.publicationStatus}
