@@ -64,4 +64,24 @@ export class EventService {
   async getPickupEvents(): Promise<EventEntity[]> {
     return await this.repository.listPickup();
   }
+  async publishEvent(id: string): Promise<EventEntity> {
+    const event = await this.repository.findById(id);
+    if (!event) throw new Error("イベントが見つかりません");
+    if (event.publicationStatus !== PublicationStatus.Draft) {
+      throw new Error("下書きのみ公開できます");
+    }
+    return await this.repository.update(id, {
+      publicationStatus: PublicationStatus.Published,
+    });
+  }
+  async unpublishEvent(id: string): Promise<EventEntity> {
+    const event = await this.repository.findById(id);
+    if (!event) throw new Error("イベントが見つかりません");
+    if (event.publicationStatus !== PublicationStatus.Published) {
+      throw new Error("公開中イベントのみ下書きに戻せます");
+    }
+    return await this.repository.update(id, {
+      publicationStatus: PublicationStatus.Draft,
+    });
+  }
 }
