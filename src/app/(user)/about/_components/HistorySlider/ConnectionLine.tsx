@@ -1,6 +1,9 @@
 export default function ConnectionLine() {
   return (
-    <div className="relative w-[574px] md:w-[840px] h-[23px]" aria-hidden="true">
+    <div
+      className="relative w-[574px] md:w-[840px] h-[23px]"
+      aria-hidden="true"
+    >
       {/* Circle at the start - CSS で描画して潰れを防止 */}
       <div className="absolute left-1 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-soypoy-accent" />
       {/* Horizontal line */}

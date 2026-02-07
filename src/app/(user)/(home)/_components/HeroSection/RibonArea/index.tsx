@@ -29,7 +29,10 @@ export default function RibonArea() {
       )}
     >
       <HeroSecRibon
-        className={cn("relative w-full h-auto", `z-[${Z_INDEX.archDecoration}]`)}
+        className={cn(
+          "relative w-full h-auto",
+          `z-[${Z_INDEX.archDecoration}]`,
+        )}
       />
       <InnerContent
         className={cn(
