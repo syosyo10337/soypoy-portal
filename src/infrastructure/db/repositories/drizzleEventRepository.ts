@@ -1,4 +1,4 @@
-import { and, eq, sql } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { PublicationStatus } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities/";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
@@ -15,7 +15,10 @@ export class DrizzleEventRepository implements EventRepository {
    * 全てのイベントを取得
    */
   async list(): Promise<EventEntity[]> {
-    const drizzleEvents = await db.select().from(events);
+    const drizzleEvents = await db
+      .select()
+      .from(events)
+      .orderBy(desc(events.date));
     return drizzleEvents.map(this.toDomainEntity);
   }
 

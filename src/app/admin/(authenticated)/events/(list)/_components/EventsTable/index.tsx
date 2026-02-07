@@ -36,7 +36,7 @@ export function EventsTable() {
               <TableHead>日付</TableHead>
               <TableHead>種類</TableHead>
               <TableHead>ステータス</TableHead>
-              <TableHead className="text-right">操作</TableHead>
+              <TableHead className="text-center">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
