@@ -54,15 +54,18 @@ export function EventActions({
       invalidate({ resource: "events", invalidates: ["list"] });
     };
 
+    // TODO: toast導入後にエラー通知を追加
+    const onError = () => closeDialog();
+
     switch (dialogAction) {
       case ActionTypes.Publish:
-        publishEvent(eventId, { onSuccess });
+        publishEvent(eventId, { onSuccess, onError });
         break;
       case ActionTypes.Unpublish:
-        unpublishEvent(eventId, { onSuccess });
+        unpublishEvent(eventId, { onSuccess, onError });
         break;
       case ActionTypes.Delete:
-        deleteEvent(eventId, { onSuccess });
+        deleteEvent(eventId, { onSuccess, onError });
         break;
     }
   };
