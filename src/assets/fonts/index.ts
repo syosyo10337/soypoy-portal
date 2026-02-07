@@ -25,6 +25,7 @@ export const bernardMT = localFont({
 export const bricolageGrotesque = Bricolage_Grotesque({
   variable: "--font-bricolage-grotesque",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const notoSansJP = Noto_Sans_JP({

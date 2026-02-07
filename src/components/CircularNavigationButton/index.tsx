@@ -39,7 +39,7 @@ export function CircularNavigationButton({
       )}
       aria-label={ariaLabel}
     >
-      <Icon aria-hidden="true" />
+      <Icon aria-hidden="true" className="w-full h-full" />
     </button>
   );
 }

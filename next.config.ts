@@ -22,8 +22,25 @@ const nextConfig: NextConfig = {
         resourceQuery: { not: /url/ }, // exclude if *.svg?url
         loader: "@svgr/webpack",
         options: {
-          dimensions: false,
+          dimensions: true,
           titleProp: true,
+          svgoConfig: {
+            plugins: [
+              {
+                name: "preset-default",
+                params: {
+                  overrides: {
+                    // viewBoxを削除しない（レスポンシブSVGに必須）
+                    removeViewBox: false,
+                    // Safari対応: stroke-width="1"を削除しないようにする
+                    removeUnknownsAndDefaults: {
+                      defaultAttrs: false,
+                    },
+                  },
+                },
+              },
+            ],
+          },
         },
       },
     );
