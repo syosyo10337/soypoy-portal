@@ -36,10 +36,6 @@ export class EventService {
     return await this.repository.update(id, input);
   }
   async deleteEvent(id: string): Promise<EventEntity> {
-    const event = await this.repository.findById(id);
-    if (!event) {
-      throw new Error("イベントが見つかりません");
-    }
     return await this.repository.update(id, {
       publicationStatus: PublicationStatus.Archived,
     });
@@ -52,10 +48,6 @@ export class EventService {
    * イベントを公開する
    */
   async publishEvent(id: string): Promise<EventEntity> {
-    const event = await this.repository.findById(id);
-    if (!event) {
-      throw new Error("イベントが見つかりません");
-    }
     return await this.repository.update(id, {
       publicationStatus: PublicationStatus.Published,
     });
@@ -65,10 +57,6 @@ export class EventService {
    * イベントを非公開（下書き）に戻す
    */
   async unpublishEvent(id: string): Promise<EventEntity> {
-    const event = await this.repository.findById(id);
-    if (!event) {
-      throw new Error("イベントが見つかりません");
-    }
     return await this.repository.update(id, {
       publicationStatus: PublicationStatus.Draft,
     });

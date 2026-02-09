@@ -95,14 +95,17 @@ export class DrizzleEventRepository implements EventRepository {
       ...(event.type !== undefined && { type: event.type }),
     };
 
-    await db.update(events).set(updateData).where(eq(events.id, id));
+    const [updated] = await db
+      .update(events)
+      .set(updateData)
+      .where(eq(events.id, id))
+      .returning();
 
-    const updated = await this.findById(id);
     if (!updated) {
-      throw new Error(`Event with id ${id} not found after update`);
+      throw new Error(`イベントが見つかりません (id: ${id})`);
     }
 
-    return updated;
+    return this.toDomainEntity(updated);
   }
 
   /**
