@@ -12,6 +12,9 @@ export const eventsRouter = router({
   list: publicProcedure.query(async ({ ctx }) => {
     return await ctx.eventService.getAllEvents();
   }),
+  listPickup: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.eventService.getPickupEvents();
+  }),
   listByMonth: publicProcedure
     .input(
       z.object({
