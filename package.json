@@ -36,7 +36,7 @@
     "@refinedev/react-hook-form": "^5.0.2",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.90.6",
-    "@trpc/client": "^11.7.1",
+    "@trpc/client": "^11.10.0",
     "@trpc/react-query": "^11.7.1",
     "@trpc/server": "^11.8.0",
     "@types/luxon": "^3.6.2",
