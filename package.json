@@ -72,7 +72,6 @@
     "@types/react-dom": "^19",
     "@types/ws": "^8.5.13",
     "concurrently": "^9.1.0",
-    "dotenv": "^17.2.3",
     "drizzle-kit": "^0.31.6",
     "esbuild": "^0.27.1",
     "svgo": "^4.0.0",
