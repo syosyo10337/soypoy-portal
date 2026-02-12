@@ -1,5 +1,13 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { pgEnum, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import {
+  jsonb,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
+import type { Performer, PricingTier, Venue } from "@/domain/entities";
 import { EventType, PublicationStatus } from "@/domain/entities";
 
 export * from "./authSchema";
@@ -34,6 +42,14 @@ export const events = pgTable("events", {
   description: text(),
   thumbnail: text(),
   type: eventTypeEnum().notNull(),
+  // 構造化フィールド
+  openTime: timestamp({ mode: "date", withTimezone: true }),
+  startTime: timestamp({ mode: "date", withTimezone: true }),
+  endTime: timestamp({ mode: "date", withTimezone: true }),
+  pricing: jsonb().$type<PricingTier[]>(),
+  venue: jsonb().$type<Venue>(),
+  performers: jsonb().$type<Performer[]>(),
+  hashtags: text().array(),
 });
 
 export const closedDays = pgTable("closed_days", {
