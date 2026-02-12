@@ -5,7 +5,7 @@ export default function ConnectionLine() {
       aria-hidden="true"
     >
       {/* Circle at the start - CSS で描画して潰れを防止 */}
-      <div className="absolute left-1 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-soypoy-accent" />
+      <div className="absolute left-1 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-soypoy-accent z-10" />
       {/* Horizontal line */}
       <svg
         width="840"
