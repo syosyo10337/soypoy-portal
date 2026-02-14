@@ -3,26 +3,17 @@ name: Claude Code Review
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
-    # Optional: Only run on specific file changes
-    # paths:
-    #   - "src/**/*.ts"
-    #   - "src/**/*.tsx"
-    #   - "src/**/*.js"
-    #   - "src/**/*.jsx"
 
 jobs:
   claude-review:
-    # Optional: Filter by PR author
-    # if: |
-    #   github.event.pull_request.user.login == 'external-contributor' ||
-    #   github.event.pull_request.user.login == 'new-developer' ||
-    #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
-
+    if: |
+      github.event.pull_request.head.repo.full_name == github.repository ||
+      github.event.pull_request.user.login == 'genki-miyachi'
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
-      issues: read
+      pull-requests: write
+      issues: write
       id-token: write
 
     steps:
@@ -38,7 +29,29 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
           plugins: 'code-review@claude-code-plugins'
-          prompt: '/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
-          # or https://code.claude.com/docs/en/cli-reference for available options
+          allowed_tools: 'Bash(./bin/check),Bash(./bin/dev)'
+          prompt: |
+            /code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}
 
+            ## Additional Review Guidelines
+
+            In addition to general code review, please verify the following:
+
+            1. **Static Analysis**: Run `./bin/check` (runs tsc + biome lint + format in Docker container) and report any errors or warnings found.
+
+            2. **CLAUDE.md Compliance**: Read the CLAUDE.md file at the repository root and verify that the changes follow all conventions and rules defined there, including:
+               - Clean Architecture dependency rules
+               - TypeScript conventions (type imports, path aliases)
+               - Biome formatting rules (double quotes, semicolons, 2-space indent)
+               - Styling conventions (Tailwind CSS, cn() utility, color theme)
+               - Date handling (Luxon, Asia/Tokyo timezone)
+               - File organization patterns
+
+            3. **Documentation Compliance**: Read all files under the `docs/` directory and verify the changes do not violate any architectural decisions, setup guides, or project conventions documented there. Key docs include:
+               - docs/architecture-responsibilities.md
+               - docs/project-structure.md
+               - docs/database-setup.md
+               - docs/admin-authentication.md
+               - docs/admin-management.md
+
+            If any violations are found, clearly explain which rule or convention is being violated and suggest a fix.
