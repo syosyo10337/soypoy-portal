@@ -8,7 +8,10 @@ jobs:
   claude-review:
     if: |
       github.event.pull_request.head.repo.full_name == github.repository ||
-      github.event.pull_request.user.login == 'genki-miyachi'
+      (
+        github.event.pull_request.user.login == 'genki-miyachi' &&
+        github.event.pull_request.author_association == 'COLLABORATOR'
+      )
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -29,7 +32,7 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
           plugins: 'code-review@claude-code-plugins'
-          allowed_tools: 'Bash(./bin/check),Bash(./bin/dev)'
+          claude_args: '--allowedTools "Bash(./bin/check),Bash(./bin/dev)"'
           prompt: |
             /code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}
 
