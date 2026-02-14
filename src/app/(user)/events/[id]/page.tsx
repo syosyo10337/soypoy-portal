@@ -28,7 +28,7 @@ export async function generateMetadata({
 
   if (!event) {
     return {
-      title: "イベントが見つかりません | SOY-POY",
+      title: "イベントが見つかりません",
     };
   }
 
@@ -37,7 +37,7 @@ export async function generateMetadata({
     "SOY-POYで開催されるイベントの詳細情報です。";
 
   return {
-    title: `${event.title} | SOY-POY`,
+    title: event.title,
     description,
     openGraph: {
       title: event.title,

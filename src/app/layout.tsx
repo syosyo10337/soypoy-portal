@@ -21,7 +21,10 @@ const description =
   "「好きに生きて、一緒に生きる」をコンセプトに、週末限定のパブリックハウスSOY-POYでは、オープンマイク、コンサート、即興コメディワークショップなどのイベントを開催。";
 
 export const metadata: Metadata = {
-  title,
+  title: {
+    default: title,
+    template: "%s | SOY-POY",
+  },
   description,
   metadataBase: new URL(baseUrl),
   openGraph: {

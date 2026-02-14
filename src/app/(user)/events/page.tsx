@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { DateTime } from "luxon";
 import { Suspense } from "react";
 import { PageTitle } from "@/components/PageTitle";
@@ -8,6 +9,12 @@ import { EventList } from "./_components/EventList";
 import { EventListSkeleton } from "./_components/EventList/EventListSkeleton";
 import { MonthNavigation } from "./_components/MonthNavigation";
 import { ScheduleAnnouncement } from "./_components/ScheduleAnnouncement";
+
+export const metadata: Metadata = {
+  title: "イベント",
+  description:
+    "SOY-POYで開催されるイベント一覧。オープンマイク、コンサート、ワークショップなど。",
+};
 
 export const revalidate = 300;
 

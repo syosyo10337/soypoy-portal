@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
 import {
   Card,
   CardContent,
@@ -6,6 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/card";
+
+export const metadata: Metadata = {
+  title: "ダッシュボード",
+};
 
 export default function AdminDashboard() {
   return (
