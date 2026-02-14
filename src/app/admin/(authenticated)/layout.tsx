@@ -1,6 +1,14 @@
+import type { Metadata } from "next";
 import { Authenticated } from "@refinedev/core";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import AdminLoading from "../loading";
+
+export const metadata: Metadata = {
+  title: {
+    default: "SOY-POY 管理画面",
+    template: "%s | SOY-POY 管理画面",
+  },
+};
 
 interface AdminLayoutProps {
   children: React.ReactNode;
