@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import { PageTitle } from "@/components/PageTitle";
 import { cn } from "@/utils/cn";
+
+export const metadata: Metadata = {
+  title: "What's Up",
+};
 
 type ContentType = "artworks" | "radio" | "channel";
 
