@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
 import { Z_INDEX } from "../../constants";
@@ -9,20 +9,19 @@ import ArchImage from "./soypoyArch.png";
 import { useArchAnimation } from "./useArchAnimation";
 
 export default function ArchDecoration() {
-  const shouldReduceMotion = useReducedMotion();
   const { opacity, isInitialAnimationComplete, setIsInitialAnimationComplete } =
     useArchAnimation();
 
   return (
     <motion.div
       className={cn("fixed top-0 left-0 right-0 w-full pointer-events-none")}
-      initial={shouldReduceMotion ? false : { scale: 0.1, y: "100%" }}
+      initial={{ scale: 0.1, y: "100%" }}
       animate={{
         scale: [0.1, 1],
         y: ["100%", "0%"],
       }}
       transition={{
-        duration: shouldReduceMotion ? 0 : 1.5,
+        duration: 1.5,
         ease: "easeInOut",
       }}
       onAnimationComplete={() => setIsInitialAnimationComplete(true)}
