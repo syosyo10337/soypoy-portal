@@ -33,14 +33,14 @@ export function useClipPathAnimation(
   },
 ): ClipPathAnimationReturn {
   const shouldReduceMotion = useReducedMotion();
-  const effectiveDelay = shouldReduceMotion ? 0 : delay;
-  const effectiveSpring = shouldReduceMotion
-    ? ANIMATION_CONFIG.REDUCED_SPRING
-    : { stiffness, damping, mass };
 
+  // SSR 時に useReducedMotion() は null を返すため、初期値は常に 0 にして
+  // サーバーとクライアントの初期レンダーを一致させる（hydration mismatch 防止）
   const clipProgress = useMotionValue(0);
   const springClipProgress = useSpring(clipProgress, {
-    ...effectiveSpring,
+    stiffness,
+    damping,
+    mass,
   });
 
   const animationProgress = useTransform(
@@ -102,13 +102,21 @@ export function useClipPathAnimation(
   `;
 
   // Trigger animation on mount
+  // shouldReduceMotion は SSR 時に null を返すため、useMotionValue の初期値だけでは
+  // hydration 後に clipProgress が 0 のまま残る可能性がある。
+  // useEffect で shouldReduceMotion が true になったタイミングでも即座に最終状態へ遷移させる。
   useEffect(() => {
+    if (shouldReduceMotion) {
+      clipProgress.set(1);
+      return;
+    }
+
     const timeout = setTimeout(() => {
       clipProgress.set(1);
-    }, effectiveDelay);
+    }, delay);
 
     return () => clearTimeout(timeout);
-  }, [clipProgress, effectiveDelay]);
+  }, [clipProgress, delay, shouldReduceMotion]);
 
   return {
     mobilePath,

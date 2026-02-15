@@ -27,3 +27,9 @@
 .bg-filmroll-right {
   background-image: url('/layouts/fuda_filmroll_right.png');
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .film-roll-flow {
+    animation: none;
+  }
+}

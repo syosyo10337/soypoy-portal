@@ -7,6 +7,7 @@ This document provides essential context for AI assistants working on the SOY-PO
 SOY-POY Portal is a full-stack web application for a community bar's event management platform. It features a public-facing website for event discovery and an admin panel for content management.
 
 **Tech Stack:**
+
 - **Framework**: Next.js 15 (App Router) + React 19
 - **Language**: TypeScript (strict mode)
 - **Database**: PostgreSQL (Neon serverless) + Drizzle ORM
@@ -73,10 +74,12 @@ src/
 ### Dependency Rules
 
 **Allowed:**
+
 - `app/` → `services/` → `domain/`
 - `infrastructure/` → `domain/`
 
 **Forbidden:**
+
 - `domain/` → anything (domain must be framework-agnostic)
 - `services/` → `infrastructure/` (use dependency injection)
 
@@ -115,6 +118,7 @@ src/
 - Custom CSS files in `src/assets/styles/` for animations
 
 **Color Theme:**
+
 - Main: `#F3F0E6` (beige)
 - Secondary: `#000000` (black)
 - Accent: `#F0433C` (red)
@@ -133,6 +137,7 @@ src/
 ### Available Routers
 
 **Events Router (`events.*`):**
+
 - `events.list` - Get all published events
 - `events.listByMonth({ year, month })` - Get events for specific month
 - `events.getById(id)` - Get single event
@@ -141,9 +146,11 @@ src/
 - `events.delete(id)` - Delete event (requires admin auth)
 
 **Closed Days Router (`closedDays.*`):**
+
 - `closedDays.listByMonth({ year, month })` - Get closed days for month
 
 **Admins Router (`admins.*`):** (requires admin authentication)
+
 - `admins.list` - Get all admin users
 - `admins.getById(id)` - Get single admin user
 - `admins.create(data)` - Create new admin (SuperAdmin only)
@@ -152,6 +159,7 @@ src/
 - `admins.resetPassword({ userId })` - Reset admin password (SuperAdmin only)
 
 **Auth Router (`auth.*`):** (requires admin authentication)
+
 - `auth.changePassword({ oldPassword, newPassword })` - Change own password
 
 ### Adding New API Routes
@@ -166,6 +174,7 @@ src/
 ### Tables
 
 **events:**
+
 - `id` (text, PK)
 - `publicationStatus` (enum: Draft, Published, Archived)
 - `title` (varchar 255)
@@ -175,10 +184,12 @@ src/
 - `type` (enum: Art, Comedy, Dance, Design, Impro, Impro_Kanji, Movie, Music, Photo, Talk, Theater, Workshop, Other)
 
 **closed_days:**
+
 - `id` (text, PK)
 - `date` (timestamp with timezone)
 
 **admin_user:** (Better Auth)
+
 - `id` (text, PK)
 - `name` (text)
 - `email` (text, unique)
@@ -191,6 +202,7 @@ src/
 - `createdAt`, `updatedAt` (timestamp)
 
 **admin_session:** (Better Auth)
+
 - `id` (text, PK)
 - `userId` (text, FK to admin_user)
 - `token` (text, unique)
@@ -199,6 +211,7 @@ src/
 - `createdAt`, `updatedAt` (timestamp)
 
 **admin_account:** (Better Auth)
+
 - `id` (text, PK)
 - `userId` (text, FK to admin_user)
 - `accountId`, `providerId` (text)
@@ -209,6 +222,7 @@ src/
 - `createdAt`, `updatedAt` (timestamp)
 
 **verification:** (Better Auth)
+
 - `id` (text, PK)
 - `identifier`, `value` (text)
 - `expiresAt` (timestamp)
@@ -217,6 +231,7 @@ src/
 ### Adding New Tables
 
 Follow the guide in `docs/database-setup.md`:
+
 1. Define entity in `src/domain/entities/`
 2. Define repository interface in `src/domain/repositories/`
 3. Add Drizzle schema in `src/infrastructure/db/schema.ts`
@@ -261,6 +276,7 @@ This project uses **Better Auth** for admin authentication:
 ## Admin Panel
 
 The admin panel uses Refine framework at `/admin`:
+
 - **Authentication**: Protected by Better Auth middleware (see above)
 - **Login**: `/admin/login` for admin access
 - **Custom UI**: `src/components/refine-ui/`
@@ -281,18 +297,21 @@ The admin panel uses Refine framework at `/admin`:
 The project uses **dotenvx** for encrypted environment variable management:
 
 **Setup:**
+
 1. Obtain `.env.keys` file from team lead (contains decryption keys)
 2. Place in project root (automatically gitignored)
 3. `.env.local` is already in repo (encrypted)
 4. Environment variables are auto-decrypted when running `pnpm dev` or `./bin/dev`
 
 **Key Variables:**
+
 - `DATABASE_URL` - PostgreSQL connection string (Neon)
 - `BETTER_AUTH_SECRET` - Secret key for Better Auth
 - `BETTER_AUTH_URL` - Base URL for authentication
 - `CLOUDINARY_*` - Cloudinary API credentials for image uploads
 
 **Managing Variables:**
+
 ```bash
 # View environment variables
 npx dotenvx get -f .env.local
@@ -309,6 +328,7 @@ npx dotenvx get DATABASE_URL -f .env.local
 ### Testing
 
 No test framework is currently configured. Code quality is maintained through:
+
 - TypeScript strict mode
 - Biome linting
 - Zod runtime validation

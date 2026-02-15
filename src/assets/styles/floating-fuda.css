@@ -150,3 +150,15 @@
   transform-origin: center center;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-1,
+  .animate-float-2,
+  .animate-float-3,
+  .animate-float-4,
+  .animate-float-5,
+  .animate-float-6 {
+    animation: none;
+    transform: rotate(var(--rotate, 0deg));
+  }
+}
+
