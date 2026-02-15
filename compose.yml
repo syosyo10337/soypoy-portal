@@ -6,6 +6,7 @@ services:
       target: dev
     ports:
       - "3000:3000"
+      - "4983:4983"
     volumes:
       - .:/app
       - /app/.next
