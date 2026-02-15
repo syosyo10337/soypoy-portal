@@ -5,6 +5,7 @@ import { useInvalidate } from "@refinedev/core";
 import { Eye, EyeOff, MoreHorizontal, Pencil, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   useDeleteEvent,
   usePublishEvent,
@@ -54,8 +55,11 @@ export function EventActions({
       invalidate({ resource: "events", invalidates: ["list"] });
     };
 
-    // TODO: toast導入後にエラー通知を追加
-    const onError = () => closeDialog();
+    const onError = (err: unknown) => {
+      const message = err instanceof Error ? err.message : "操作に失敗しました";
+      toast.error(message);
+      closeDialog();
+    };
 
     switch (dialogAction) {
       case ActionTypes.Publish:

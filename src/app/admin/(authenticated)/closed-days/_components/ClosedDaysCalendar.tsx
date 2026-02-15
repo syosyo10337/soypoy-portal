@@ -2,6 +2,7 @@
 
 import { DateTime } from "luxon";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/shadcn/button";
 import { trpc } from "@/infrastructure/trpc/client";
 import { APP_TIMEZONE } from "@/utils/date";
@@ -14,10 +15,6 @@ export function ClosedDaysCalendar() {
   const [currentMonth, setCurrentMonth] = useState(now.month);
   const [closedDates, setClosedDates] = useState<Set<string>>(new Set());
   const [isSaving, setIsSaving] = useState(false);
-  const [message, setMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
 
   const closedDaysQuery = trpc.closedDays.listByMonth.useQuery({
     year: currentYear,
@@ -47,7 +44,6 @@ export function ClosedDaysCalendar() {
   }, [eventsQuery.data]);
 
   const handlePreviousMonth = useCallback(() => {
-    setMessage(null);
     if (currentMonth === 1) {
       setCurrentYear((y) => y - 1);
       setCurrentMonth(12);
@@ -57,7 +53,6 @@ export function ClosedDaysCalendar() {
   }, [currentMonth]);
 
   const handleNextMonth = useCallback(() => {
-    setMessage(null);
     if (currentMonth === 12) {
       setCurrentYear((y) => y + 1);
       setCurrentMonth(1);
@@ -80,18 +75,17 @@ export function ClosedDaysCalendar() {
 
   const handleSave = useCallback(async () => {
     setIsSaving(true);
-    setMessage(null);
     try {
       await syncMutation.mutateAsync({
         year: currentYear,
         month: currentMonth,
         dates: Array.from(closedDates),
       });
-      setMessage({ type: "success", text: "保存しました" });
+      toast.success("保存しました");
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "保存に失敗しました";
-      setMessage({ type: "error", text: errorMessage });
+      toast.error(errorMessage);
     } finally {
       setIsSaving(false);
     }
@@ -118,16 +112,6 @@ export function ClosedDaysCalendar() {
           eventDates={eventDates}
           onToggleDate={handleToggleDate}
         />
-      )}
-
-      {message && (
-        <div
-          className={
-            message.type === "success" ? "text-green-600" : "text-red-600"
-          }
-        >
-          {message.text}
-        </div>
       )}
 
       <div className="flex justify-end">
