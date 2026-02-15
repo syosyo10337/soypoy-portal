@@ -24,7 +24,7 @@ export function CalendarCell({
     <button
       type="button"
       disabled={!isClickable}
-      onClick={isClickable ? onClick : undefined}
+      onClick={onClick}
       className={cn(
         "aspect-square flex flex-col items-center rounded-md text-sm transition-colors pt-1.5",
         status === "weekday" && "bg-gray-100 text-gray-400 cursor-not-allowed",

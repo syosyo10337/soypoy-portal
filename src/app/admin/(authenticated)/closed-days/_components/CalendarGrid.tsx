@@ -15,26 +15,31 @@ interface CalendarGridProps {
   onToggleDate: (date: string) => void;
 }
 
-function getCellStatus(
+type CellStatus = "weekday" | "event" | "closed" | "open";
+type DayType = "sunday" | "saturday" | "other";
+
+function getDayInfo(
   dateStr: string,
   weekday: number,
   closedDates: Set<string>,
   eventDates: Set<string>,
-): "weekday" | "event" | "closed" | "open" {
+): { status: CellStatus; dayType: DayType } {
+  const dayType =
+    weekday === 7 ? "sunday" : weekday === 6 ? "saturday" : "other";
+
   // 平日（月〜木）= Luxon weekday 1〜4
-  const isWeekday = weekday >= 1 && weekday <= 4;
-  if (isWeekday) return "weekday";
+  if (weekday >= 1 && weekday <= 4) return { status: "weekday", dayType };
 
   // 金/土/日でイベントがある日
-  if (eventDates.has(dateStr)) return "event";
+  if (eventDates.has(dateStr)) return { status: "event", dayType };
 
   // 休業日として選択済み
-  if (closedDates.has(dateStr)) return "closed";
+  if (closedDates.has(dateStr)) return { status: "closed", dayType };
 
   // 通常営業日（金/土/日）
-  return "open";
+  return { status: "open", dayType };
 }
-
+// TODO: refactor
 export function CalendarGrid({
   year,
   month,
@@ -65,11 +70,12 @@ export function CalendarGrid({
       { zone: APP_TIMEZONE },
     );
     const dateStr = dt.toISODate() ?? "";
-    const weekday = dt.weekday; // 1(月)〜7(日)
-
-    const status = getCellStatus(dateStr, weekday, closedDates, eventDates);
-    const dayType =
-      weekday === 7 ? "sunday" : weekday === 6 ? "saturday" : "other";
+    const { status, dayType } = getDayInfo(
+      dateStr,
+      dt.weekday,
+      closedDates,
+      eventDates,
+    );
 
     cells.push(
       <CalendarCell

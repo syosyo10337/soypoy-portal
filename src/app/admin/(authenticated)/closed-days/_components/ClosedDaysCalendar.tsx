@@ -14,7 +14,6 @@ export function ClosedDaysCalendar() {
   const [currentYear, setCurrentYear] = useState(now.year);
   const [currentMonth, setCurrentMonth] = useState(now.month);
   const [closedDates, setClosedDates] = useState<Set<string>>(new Set());
-  const [isSaving, setIsSaving] = useState(false);
 
   const closedDaysQuery = trpc.closedDays.listByMonth.useQuery({
     year: currentYear,
@@ -74,7 +73,6 @@ export function ClosedDaysCalendar() {
   }, []);
 
   const handleSave = useCallback(async () => {
-    setIsSaving(true);
     try {
       await syncMutation.mutateAsync({
         year: currentYear,
@@ -86,8 +84,6 @@ export function ClosedDaysCalendar() {
       const errorMessage =
         error instanceof Error ? error.message : "保存に失敗しました";
       toast.error(errorMessage);
-    } finally {
-      setIsSaving(false);
     }
   }, [syncMutation, currentYear, currentMonth, closedDates]);
 
@@ -114,9 +110,15 @@ export function ClosedDaysCalendar() {
         />
       )}
 
-      <div className="flex justify-end">
-        <Button onClick={handleSave} disabled={isSaving || isLoading}>
-          {isSaving ? "保存中..." : "保存"}
+      <div className="flex items-center justify-between">
+        <p className="text-xs text-gray-400">
+          ※ 下書きのイベントは、この画面では確認できません
+        </p>
+        <Button
+          onClick={handleSave}
+          disabled={syncMutation.isPending || isLoading}
+        >
+          {syncMutation.isPending ? "保存中..." : "保存"}
         </Button>
       </div>
     </div>
