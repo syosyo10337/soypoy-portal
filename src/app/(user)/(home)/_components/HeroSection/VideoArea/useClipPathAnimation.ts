@@ -33,14 +33,12 @@ export function useClipPathAnimation(
   },
 ): ClipPathAnimationReturn {
   const shouldReduceMotion = useReducedMotion();
-  const effectiveDelay = shouldReduceMotion ? 0 : delay;
-  const effectiveSpring = shouldReduceMotion
-    ? ANIMATION_CONFIG.REDUCED_SPRING
-    : { stiffness, damping, mass };
 
-  const clipProgress = useMotionValue(0);
+  const clipProgress = useMotionValue(shouldReduceMotion ? 1 : 0);
   const springClipProgress = useSpring(clipProgress, {
-    ...effectiveSpring,
+    stiffness,
+    damping,
+    mass,
   });
 
   const animationProgress = useTransform(
@@ -101,14 +99,16 @@ export function useClipPathAnimation(
     Z
   `;
 
-  // Trigger animation on mount
+  // Trigger animation on mount (skip if reduced motion — already at final state)
   useEffect(() => {
+    if (shouldReduceMotion) return;
+
     const timeout = setTimeout(() => {
       clipProgress.set(1);
-    }, effectiveDelay);
+    }, delay);
 
     return () => clearTimeout(timeout);
-  }, [clipProgress, effectiveDelay]);
+  }, [clipProgress, delay, shouldReduceMotion]);
 
   return {
     mobilePath,

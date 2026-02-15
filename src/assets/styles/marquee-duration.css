@@ -28,3 +28,10 @@
 .animate-marquee-reverse {
   animation: marquee-reverse var(--marquee-duration) var(--marquee-timing) var(--marquee-iteration);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation: none;
+  }
+}

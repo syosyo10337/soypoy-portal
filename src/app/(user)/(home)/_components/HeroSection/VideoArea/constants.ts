@@ -9,11 +9,6 @@ export const ANIMATION_CONFIG = {
     input: [0, 0.5, 0.8, 1.0],
     output: [0, 1.1, 0.85, 1.0],
   },
-  REDUCED_SPRING: {
-    stiffness: 300,
-    damping: 30,
-    mass: 1,
-  },
 };
 
 // Mobile path coefficients
