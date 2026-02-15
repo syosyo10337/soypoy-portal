@@ -3,14 +3,21 @@
 import { cn } from "@/utils/cn";
 
 type CellStatus = "weekday" | "event" | "closed" | "open";
+type DayType = "sunday" | "saturday" | "other";
 
 interface CalendarCellProps {
   day: number;
   status: CellStatus;
+  dayType: DayType;
   onClick?: () => void;
 }
 
-export function CalendarCell({ day, status, onClick }: CalendarCellProps) {
+export function CalendarCell({
+  day,
+  status,
+  dayType,
+  onClick,
+}: CalendarCellProps) {
   const isClickable = status === "closed" || status === "open";
 
   return (
@@ -27,6 +34,8 @@ export function CalendarCell({ day, status, onClick }: CalendarCellProps) {
           "bg-[#F0433C] text-white cursor-pointer hover:bg-[#d93a34]",
         status === "open" &&
           "bg-white text-gray-900 cursor-pointer hover:bg-gray-50 border border-gray-200",
+        dayType === "sunday" && "border-2 border-day-sunday/50",
+        dayType === "saturday" && "border-2 border-day-saturday/50",
       )}
     >
       <span className="font-medium">{day}</span>

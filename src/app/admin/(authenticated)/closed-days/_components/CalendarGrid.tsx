@@ -68,12 +68,15 @@ export function CalendarGrid({
     const weekday = dt.weekday; // 1(月)〜7(日)
 
     const status = getCellStatus(dateStr, weekday, closedDates, eventDates);
+    const dayType =
+      weekday === 7 ? "sunday" : weekday === 6 ? "saturday" : "other";
 
     cells.push(
       <CalendarCell
         key={dateStr}
         day={day}
         status={status}
+        dayType={dayType}
         onClick={() => onToggleDate(dateStr)}
       />,
     );
