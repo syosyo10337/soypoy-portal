@@ -26,7 +26,7 @@ export function CalendarCell({
       disabled={!isClickable}
       onClick={isClickable ? onClick : undefined}
       className={cn(
-        "aspect-square flex flex-col items-center justify-center rounded-md text-sm transition-colors",
+        "aspect-square flex flex-col items-center rounded-md text-sm transition-colors pt-1.5",
         status === "weekday" && "bg-gray-100 text-gray-400 cursor-not-allowed",
         status === "event" &&
           "bg-blue-50 text-blue-600 cursor-not-allowed border border-blue-200",
@@ -38,12 +38,16 @@ export function CalendarCell({
         dayType === "saturday" && "border-2 border-day-saturday/50",
       )}
     >
-      <span className="font-medium">{day}</span>
+      <span className="font-medium text-xs">{day}</span>
       {status === "event" && (
-        <span className="text-[10px] leading-tight">イベント</span>
+        <span className="text-sm font-semibold flex-1 flex items-center">
+          イベント
+        </span>
       )}
       {status === "closed" && (
-        <span className="text-[10px] leading-tight">休業</span>
+        <span className="text-sm font-semibold flex-1 flex items-center">
+          休業
+        </span>
       )}
     </button>
   );
