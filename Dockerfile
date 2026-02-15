@@ -20,6 +20,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
     pnpm install --frozen-lockfile
 
 # === 開発ステージ ===
+# ソースコードとpackage.jsonはcompose.ymlのbind mount(.:/app)で提供される
 FROM base AS dev
 ENV NODE_ENV=development
 COPY bin/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
