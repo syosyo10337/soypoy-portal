@@ -4,6 +4,10 @@ export const navItems = [
     href: "/admin/events",
   },
   {
+    label: "休業日",
+    href: "/admin/closed-days",
+  },
+  {
     label: "管理者",
     href: "/admin/admins",
   },

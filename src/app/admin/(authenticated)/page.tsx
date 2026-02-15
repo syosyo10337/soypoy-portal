@@ -34,6 +34,21 @@ export default function AdminDashboard() {
 
         <Card>
           <CardHeader>
+            <CardTitle>休業日管理</CardTitle>
+            <CardDescription>休業日の設定、解除を行います</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link
+              href="/admin/closed-days"
+              className="text-primary hover:underline"
+            >
+              休業日管理へ →
+            </Link>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
             <CardTitle>管理者一覧</CardTitle>
             <CardDescription>
               管理者の確認、追加、削除を行います

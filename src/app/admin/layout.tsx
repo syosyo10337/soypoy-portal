@@ -3,6 +3,7 @@
 import { Refine } from "@refinedev/core";
 import routerProvider from "@refinedev/nextjs-router/app";
 import { Suspense } from "react";
+import { Toaster } from "@/components/shadcn/sonner";
 import { authProvider } from "./_providers/authProvider";
 import { dataProvider } from "./_providers/dataProvider";
 import { TRPCProvider } from "./_providers/trpcProvider";
@@ -32,6 +33,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               },
             },
             {
+              name: "closed-days",
+              list: "/admin/closed-days",
+              meta: {
+                label: "休業日",
+              },
+            },
+            {
               name: "admins",
               list: "/admin/admins",
               create: "/admin/admins/create",
@@ -50,6 +58,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         >
           {children}
         </Refine>
+        <Toaster richColors />
       </TRPCProvider>
     </Suspense>
   );
