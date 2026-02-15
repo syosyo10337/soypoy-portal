@@ -5,16 +5,19 @@
 ### Domain層 (`src/domain/`)
 
 **責務:**
+
 - 純粋なビジネスルール
 - エンティティ定義
 - リポジトリインターフェース
 
 **禁止事項:**
+
 - ❌ フレームワークへの依存
 - ❌ 外部ライブラリへの依存
 - ❌ Infrastructure/Service/App層への依存
 
 **例:**
+
 ```typescript
 // ✅ GOOD: 純粋なエンティティ
 export interface EventEntity {
@@ -33,6 +36,7 @@ export interface EventRepository {
 ### Infrastructure層 (`src/infrastructure/`)
 
 **責務:**
+
 - 外部システムとの連携
 - データ永続化の具体実装
 - バリデーションスキーマ
@@ -41,6 +45,7 @@ export interface EventRepository {
 **サブレイヤー:**
 
 #### 1. **Schemas** (`infrastructure/schemas/`)
+
 ```typescript
 // ✅ 責務: バリデーション + 型変換のみ
 export const requiredImageFieldSchema = z.discriminatedUnion(...);
@@ -53,6 +58,7 @@ export function extractExistingImageUrl(value: ImageFieldValue): string;
 ```
 
 #### 2. **Storage** (`infrastructure/storage/`)
+
 ```typescript
 // ✅ 責務: 外部ストレージとの連携
 export async function uploadImageToCloudinary({ file }): Promise<string>;
@@ -60,6 +66,7 @@ export async function deleteImageFromCloudinary(url: string): Promise<void>;
 ```
 
 #### 3. **Database** (`infrastructure/db/`)
+
 ```typescript
 // ✅ 責務: DB操作の具体実装
 export class DrizzleEventRepository implements EventRepository {
@@ -68,6 +75,7 @@ export class DrizzleEventRepository implements EventRepository {
 ```
 
 #### 4. **tRPC** (`infrastructure/trpc/`)
+
 ```typescript
 // ✅ 責務: API定義とルーティング
 export const eventsRouter = router({
@@ -80,11 +88,13 @@ export const eventsRouter = router({
 ### Service層 (`src/services/`)
 
 **責務:**
+
 - ビジネスロジックのオーケストレーション
 - 複数のInfrastructure層コンポーネントの組み合わせ
 - トランザクション管理
 
 **正しい実装例:**
+
 ```typescript
 // ✅ GOOD: Service層がオーケストレーション
 export class EventService {
@@ -108,6 +118,7 @@ export class EventService {
 ```
 
 **アンチパターン:**
+
 ```typescript
 // ❌ BAD: Schema層がアップロード処理を持つ
 // infrastructure/schemas/imageFieldSchema.ts
@@ -119,6 +130,7 @@ export async function extractImageUrl(value: ImageFieldValue) {
 ```
 
 **なぜダメ?**
+
 - スキーマの責務: バリデーション + 型変換
 - アップロードの責務: 外部ストレージ連携
 - **単一責任の原則 (SRP) 違反**
@@ -128,11 +140,13 @@ export async function extractImageUrl(value: ImageFieldValue) {
 ### App層 (`src/app/`, `src/components/`)
 
 **責務:**
+
 - UI表示
 - ユーザー操作のハンドリング
 - フォーム管理
 
 **例:**
+
 ```typescript
 // ✅ GOOD: UIコンポーネント
 export function EventThumbnailField({ control }) {

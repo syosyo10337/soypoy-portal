@@ -42,6 +42,7 @@ DATABASE_URL=postgresql://user:password@host/database?sslmode=require
 ### Netlify環境
 
 Netlifyのダッシュボードで環境変数を設定：
+
 - `NETLIFY_DATABASE_URL`: Neon Databaseの接続文字列（自動設定される場合あり）
 
 ## 新しいテーブルの追加手順
@@ -331,10 +332,12 @@ export default async function MembersPage() {
 このプロジェクトではClean Architectureを採用しており、以下の依存関係ルールを守る必要があります：
 
 ### ✅ 許可される依存関係
+
 - `app/` → `services/` → `domain/`
 - `infrastructure/` → `domain/`
 
 ### ❌ 禁止される依存関係
+
 - `domain/` → `infrastructure/`, `services/`, `app/`
 - `services/` → `infrastructure/`, `app/`
 
@@ -360,6 +363,7 @@ export const memberService = new MemberService(new DrizzleMemberRepository());
 現在のプロジェクトには、すでにEventテーブルの実装例があります：
 
 ### ファイル構造
+
 ```
 src/
 ├── domain/
@@ -426,6 +430,7 @@ pnpm drzl:studio
 エラー: `NETLIFY_DATABASE_URL environment variable is not set`
 
 **解決方法**:
+
 - ローカル開発: `.env.local`に`NETLIFY_DATABASE_URL`または`DATABASE_URL`を設定
 - Netlify: 環境変数設定で`NETLIFY_DATABASE_URL`を確認
 
@@ -434,6 +439,7 @@ pnpm drzl:studio
 エラー: `Connection refused` または `SSL connection required`
 
 **解決方法**:
+
 - 接続文字列に`?sslmode=require`が含まれているか確認
 - Neon Dashboardで接続文字列を再確認
 
@@ -442,6 +448,6 @@ pnpm drzl:studio
 エラー: `relation "table_name" does not exist`
 
 **解決方法**:
+
 - `pnpm drzl:gen`でマイグレーションファイルを生成
 - `pnpm drzl:migrate`でマイグレーションを実行
-
