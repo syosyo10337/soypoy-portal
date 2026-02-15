@@ -57,6 +57,13 @@
       "when": 1735307400000,
       "tag": "0007_rename_admin_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1771169970847,
+      "tag": "0008_condemned_phantom_reporter",
+      "breakpoints": true
     }
   ]
 }

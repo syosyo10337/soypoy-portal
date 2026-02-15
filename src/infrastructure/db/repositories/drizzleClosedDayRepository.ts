@@ -1,9 +1,9 @@
 import { and, sql } from "drizzle-orm";
 import type { ClosedDayEntity } from "@/domain/entities/closedDay";
 import type { ClosedDayRepository } from "@/domain/repositories/closedDayRepository";
-import { dateToIsoFull } from "@/utils/date";
+import { dateTimeFromISO, dateToIsoFull } from "@/utils/date";
 import { db } from "../index";
-import type { DrizzleClosedDay } from "../schema";
+import type { DrizzleClosedDay, DrizzleClosedDayInsert } from "../schema";
 import { closedDays } from "../schema";
 
 /**
@@ -25,6 +25,35 @@ export class DrizzleClosedDayRepository implements ClosedDayRepository {
       );
 
     return drizzleClosedDays.map(this.toDomainEntity);
+  }
+
+  /**
+   * 指定月の休業日を全削除
+   */
+  async deleteByMonth(year: number, month: number): Promise<void> {
+    await db
+      .delete(closedDays)
+      .where(
+        and(
+          sql`EXTRACT(YEAR FROM ${closedDays.date}) = ${year}`,
+          sql`EXTRACT(MONTH FROM ${closedDays.date}) = ${month}`,
+        ),
+      );
+  }
+
+  /**
+   * 複数の休業日を一括作成
+   */
+  async createMany(entities: ClosedDayEntity[]): Promise<ClosedDayEntity[]> {
+    if (entities.length === 0) return [];
+
+    const insertData: DrizzleClosedDayInsert[] = entities.map((entity) => ({
+      id: entity.id,
+      date: dateTimeFromISO(entity.date).toJSDate(),
+    }));
+
+    await db.insert(closedDays).values(insertData);
+    return entities;
   }
 
   /**

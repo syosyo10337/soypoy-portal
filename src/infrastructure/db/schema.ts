@@ -38,7 +38,7 @@ export const events = pgTable("events", {
 
 export const closedDays = pgTable("closed_days", {
   id: text().primaryKey(),
-  date: timestamp({ mode: "date", withTimezone: true }).notNull(),
+  date: timestamp({ mode: "date", withTimezone: true }).notNull().unique(),
 });
 
 export type DrizzleEvent = InferSelectModel<typeof events>;
