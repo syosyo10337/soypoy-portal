@@ -24,7 +24,7 @@ export function MonthSelector({
       <Button variant="outline" size="icon" onClick={onPreviousMonth}>
         <ChevronLeft className="h-4 w-4" />
       </Button>
-      <div className="text-lg font-medium min-w-[200px] text-center">
+      <div className="text-lg font-medium min-w-50 text-center">
         {year}/{String(month).padStart(2, "0")} ({monthName})
       </div>
       <Button variant="outline" size="icon" onClick={onNextMonth}>

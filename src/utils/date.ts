@@ -1,5 +1,4 @@
 import { DateTime } from "luxon";
-import { DAY_OF_WEEK_COLORS } from "./colors";
 
 const DATE_FORMATS = {
   FULL_DATE_JP: "yyyy年MM月dd日(EEE) HH:mm",
@@ -193,6 +192,9 @@ function getMonthName(
 /**
  * 曜日に応じた色クラスを取得
  * 土曜日(6): darkBlue, 日曜日(7): red, その他: 空文字列
+ *
+ * CSS変数 --color-day-saturday / --color-day-sunday を使用
+ * (Tailwind v4 は動的クラス名を検出できないため静的クラス名を使用)
  */
 function getDayOfWeekColorClass(dateString: string): string {
   const dt = dateTimeFromISO(dateString);
@@ -201,9 +203,7 @@ function getDayOfWeekColorClass(dateString: string): string {
   const weekday = dt.weekday;
   if (weekday < 6) return "";
 
-  return weekday === 6
-    ? `text-[${DAY_OF_WEEK_COLORS.saturday}]`
-    : `text-[${DAY_OF_WEEK_COLORS.sunday}]`;
+  return weekday === 6 ? "text-day-saturday" : "text-day-sunday";
 }
 
 // =============================================================================

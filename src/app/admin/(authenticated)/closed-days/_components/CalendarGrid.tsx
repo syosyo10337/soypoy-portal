@@ -2,7 +2,6 @@
 
 import { DateTime } from "luxon";
 import { cn } from "@/utils/cn";
-import { DAY_OF_WEEK_COLORS } from "@/utils/colors";
 import { APP_TIMEZONE } from "@/utils/date";
 import { CalendarCell } from "./CalendarCell";
 
@@ -88,8 +87,8 @@ export function CalendarGrid({
             key={label}
             className={cn(
               "text-center text-xs font-medium py-2",
-              index === 0 && `text-[${DAY_OF_WEEK_COLORS.sunday}]`,
-              index === 6 && `text-[${DAY_OF_WEEK_COLORS.saturday}]`,
+              index === 0 && "text-day-sunday",
+              index === 6 && "text-day-saturday",
               index !== 0 && index !== 6 && "text-gray-500",
             )}
           >
