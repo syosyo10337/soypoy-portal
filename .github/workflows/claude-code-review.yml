@@ -1,0 +1,60 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+
+jobs:
+  claude-review:
+    if: |
+      github.event.pull_request.head.repo.full_name == github.repository ||
+      (
+        github.event.pull_request.user.login == 'genki-miyachi' &&
+        github.event.pull_request.author_association == 'COLLABORATOR'
+      )
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code Review
+        id: claude-review
+        uses: anthropics/claude-code-action@ea36d6abdedc17fc2a671b36060770b208a6f8f1 # v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
+          plugins: 'code-review@claude-code-plugins'
+          claude_args: '--allowedTools "Bash(pnpm check)"'
+          prompt: |
+            /code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}
+
+            ## Additional Review Guidelines
+
+            In addition to general code review, please verify the following:
+
+            1. **Static Analysis**: Run `pnpm check` (runs tsc + biome lint + format) and report any errors or warnings found.
+
+            2. **CLAUDE.md Compliance**: Read the CLAUDE.md file at the repository root and verify that the changes follow all conventions and rules defined there, including:
+               - Clean Architecture dependency rules
+               - TypeScript conventions (type imports, path aliases)
+               - Biome formatting rules (double quotes, semicolons, 2-space indent)
+               - Styling conventions (Tailwind CSS, cn() utility, color theme)
+               - Date handling (Luxon, Asia/Tokyo timezone)
+               - File organization patterns
+
+            3. **Documentation Compliance**: Read all files under the `docs/` directory and verify the changes do not violate any architectural decisions, setup guides, or project conventions documented there. Key docs include:
+               - docs/architecture-responsibilities.md
+               - docs/project-structure.md
+               - docs/database-setup.md
+               - docs/admin-authentication.md
+               - docs/admin-management.md
+
+            If any violations are found, clearly explain which rule or convention is being violated and suggest a fix.
