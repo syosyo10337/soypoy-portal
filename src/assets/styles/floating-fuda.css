@@ -158,6 +158,7 @@
   .animate-float-5,
   .animate-float-6 {
     animation: none;
+    transform: rotate(var(--rotate, 0deg));
   }
 }
 
