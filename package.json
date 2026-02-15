@@ -15,7 +15,7 @@
     "db:seed": "./bin/runenv tsx scripts/seed.ts",
     "drzl:gen": "./bin/runenv drizzle-kit generate",
     "drzl:migrate": "./bin/runenv drizzle-kit migrate",
-    "drzl:studio": "./bin/runenv drizzle-kit studio"
+    "drzl:studio": "./bin/runenv drizzle-kit studio --host 0.0.0.0"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.52.0",
