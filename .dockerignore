@@ -1,4 +1,3 @@
-cat > .dockerignore << 'EOF'
 # === 依存関係 ===
 node_modules/
 .pnpm-store/
@@ -86,5 +85,4 @@ temp/
 # === その他 ===
 .eslintcache
 .prettier*
-EOF
 .env.keys
