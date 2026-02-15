@@ -34,7 +34,9 @@ export function useClipPathAnimation(
 ): ClipPathAnimationReturn {
   const shouldReduceMotion = useReducedMotion();
 
-  const clipProgress = useMotionValue(shouldReduceMotion ? 1 : 0);
+  // SSR 時に useReducedMotion() は null を返すため、初期値は常に 0 にして
+  // サーバーとクライアントの初期レンダーを一致させる（hydration mismatch 防止）
+  const clipProgress = useMotionValue(0);
   const springClipProgress = useSpring(clipProgress, {
     stiffness,
     damping,
@@ -99,9 +101,15 @@ export function useClipPathAnimation(
     Z
   `;
 
-  // Trigger animation on mount (skip if reduced motion — already at final state)
+  // Trigger animation on mount
+  // shouldReduceMotion は SSR 時に null を返すため、useMotionValue の初期値だけでは
+  // hydration 後に clipProgress が 0 のまま残る可能性がある。
+  // useEffect で shouldReduceMotion が true になったタイミングでも即座に最終状態へ遷移させる。
   useEffect(() => {
-    if (shouldReduceMotion) return;
+    if (shouldReduceMotion) {
+      clipProgress.set(1);
+      return;
+    }
 
     const timeout = setTimeout(() => {
       clipProgress.set(1);

@@ -1,17 +1,18 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { cn } from "@/utils/cn";
+import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { Z_INDEX } from "../constants";
 import { HeroSecRibon } from "./assets";
 import { InnerContent } from "./InnerContent";
 
 export default function RibonArea() {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useHydrationSafeReducedMotion();
 
   return (
     <motion.div
-      initial={shouldReduceMotion ? false : { opacity: 0, y: 0 }}
+      initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: -10 }}
       transition={{
         delay: shouldReduceMotion ? 0 : 2.4,
