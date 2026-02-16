@@ -26,7 +26,7 @@ export function EventTableRow({ event }: EventTableRowProps) {
     if (target.closest("[data-actions]") || target.closest("button")) {
       return;
     }
-    router.push(`/admin/events/show/${event.id}`);
+    router.push(`/admin/events/${event.id}`);
   };
 
   return (
