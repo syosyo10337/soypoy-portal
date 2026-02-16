@@ -49,8 +49,7 @@ SOY-POYは金・土・日に営業するコミュニティバー。各営業候�
 | ルール | レイヤー | 詳細 |
 | --- | --- | --- |
 | イベント日との重複禁止 | Service | `syncMonth` 時に `eventService` 経由でイベント一覧を取得し、日付の重複をチェック。重複があればエラー |
-| 日付の一意性 | DB | 同一日付の重複登録を防止（date カラムに UNIQUE 制約を追加） |  # MD013: 行の長さ制限を無効化（または上限を変更）
-  MD013: false
+| 日付の一意性 | DB | 同一日付の重複登録を防止（date カラムに UNIQUE 制約を追加） |
 | 曜日制限 | なし | APIレベルでは曜日を制限しない（将来の営業日変更に対応可能にするため） |
 
 ## 実装フェーズ
@@ -60,5 +59,4 @@ SOY-POYは金・土・日に営業するコミュニティバー。各営業候�
 | 1 | [01-db-repository.md](./01-db-repository.md) | DB スキーマ変更 + Repository 層 |
 | 2 | [02-service.md](./02-service.md) | Service 層（syncMonth ロジック） |
 | 3 | [03-trpc-api.md](./03-trpc-api.md) | tRPC API エンドポイント |
-| 4 | [04-admin-ui.md](./04-admin-ui.md) | Admin UI（カレンダートグル画面）   # MD013: 行の長さ制限を無効化（または上限を変更）
-  MD013: false
+| 4 | [04-admin-ui.md](./04-admin-ui.md) | Admin UI（カレンダートグル画面） |

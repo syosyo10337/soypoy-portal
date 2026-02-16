@@ -36,7 +36,8 @@ Client Component。以下を管理:
 | `currentYear` | `number` | 表示中の年 |
 | `currentMonth` | `number` | 表示中の月 |
 | `closedDates` | `Set<string>` | 選択中の休業日（YYYY-MM-DD） |
-| `isSaving` | `boolean` | 保存中フラグ |
+
+保存中の状態は `syncMutation.isPending` を直接参照する（専用 state は不要）。
 
 #### データ取得
 
