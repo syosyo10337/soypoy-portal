@@ -34,6 +34,7 @@ export function CalendarCell({
           "bg-[#F0433C] text-white cursor-pointer hover:bg-[#d93a34]",
         status === "open" &&
           "bg-white text-gray-900 cursor-pointer hover:bg-gray-50 border border-gray-200",
+        // 曜日識別のボーダーは status のボーダーより優先（後置で twMerge に勝たせる）
         dayType === "sunday" && "border-2 border-day-sunday/50",
         dayType === "saturday" && "border-2 border-day-saturday/50",
       )}
