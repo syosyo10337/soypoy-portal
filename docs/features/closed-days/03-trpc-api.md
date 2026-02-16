@@ -30,22 +30,40 @@ export const closedDaysRouter = router({
 **新規ファイル:** `src/infrastructure/trpc/schemas/closedDay.ts`
 
 ```typescript
+import { DateTime } from "luxon";
 import { z } from "zod";
 
-export const syncMonthSchema = z.object({
-  year: z.number().int().min(2000).max(2100),
-  month: z.number().int().min(1).max(12),
-  dates: z.array(
-    z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "YYYY-MM-DD形式で指定してください"),
-  ),
-});
+const dateString = z.iso.date().refine((val) => {
+  return DateTime.fromISO(val).isValid;
+}, "有効な日付を指定してください");
+
+export const syncMonthSchema = z
+  .object({
+    year: z.number().int().min(2000).max(2100),
+    month: z.number().int().min(1).max(12),
+    dates: z.array(dateString),
+  })
+  .superRefine((data, ctx) => {
+    for (const [i, d] of data.dates.entries()) {
+      const dt = DateTime.fromISO(d);
+      if (dt.year !== data.year || dt.month !== data.month) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["dates", i],
+          message: `${d} は ${data.year}年${data.month}月に属しません`,
+        });
+      }
+    }
+  });
 ```
 
 | フィールド | バリデーション | 備考 |
 | --- | --- | --- |
 | `year` | 整数、2000〜2100 | 合理的な範囲に制限 |
 | `month` | 整数、1〜12 | |
-| `dates` | `YYYY-MM-DD` 形式の文字列配列 | 空配列は許可（月の休業日をすべて解除） |
+| `dates` (フォーマット) | `z.iso.date()` で ISO 8601 日付形式 | 空配列は許可（月の休業日をすべて解除） |
+| `dates` (実在性) | Luxon で有効な日付か検証 | `2026-02-31` のような存在しない日付を拒否 |
+| `dates` (cross-field) | `.superRefine()` で各日付が `year`/`month` に属するか検証 | 不正な日付のインデックスとパス付きでエラーを返す |
 
 ### 2. ルーターへの `syncMonth` 追加
 
