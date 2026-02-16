@@ -47,7 +47,7 @@ export function ClosedDaysCalendar() {
         <CalendarContent
           year={currentYear}
           month={currentMonth}
-          isPending={isPending}
+          isNavigating={isPending}
         />
       </Suspense>
     </div>

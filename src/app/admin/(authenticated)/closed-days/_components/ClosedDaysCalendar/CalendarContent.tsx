@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/shadcn/button";
 import { trpc } from "@/infrastructure/trpc/client";
@@ -9,13 +9,13 @@ import { CalendarGrid } from "./CalendarGrid";
 interface CalendarContentProps {
   year: number;
   month: number;
-  isPending: boolean;
+  isNavigating: boolean;
 }
 
 export function CalendarContent({
   year,
   month,
-  isPending,
+  isNavigating,
 }: CalendarContentProps) {
   const [closedDates, setClosedDates] = useState<Set<string>>(new Set());
 
@@ -24,12 +24,10 @@ export function CalendarContent({
       year,
       month,
     });
-
   const [eventsData] = trpc.events.listByMonth.useSuspenseQuery({
     year,
     month,
   });
-
   const syncMutation = trpc.closedDays.syncMonth.useMutation();
 
   useEffect(() => {
@@ -37,12 +35,13 @@ export function CalendarContent({
     setClosedDates(dates);
   }, [closedDaysData]);
 
-  const eventDates = useMemo(() => {
-    return new Set(eventsData.map((e) => e.date.split("T")[0]));
-  }, [eventsData]);
+  const eventDates = new Map(
+    eventsData.map((e) => [e.date.split("T")[0], e.title]),
+  );
 
-  const handleToggleDate = useCallback((date: string) => {
+  const handleToggleDate = (date: string) => {
     setClosedDates((prev) => {
+      // React は参照の同一性(Object.is)で変更を検知するため、新しい Set を生成する
       const next = new Set(prev);
       if (next.has(date)) {
         next.delete(date);
@@ -51,7 +50,7 @@ export function CalendarContent({
       }
       return next;
     });
-  }, []);
+  };
 
   const handleSave = async () => {
     try {
@@ -72,7 +71,7 @@ export function CalendarContent({
   return (
     <div
       className={
-        isPending
+        isNavigating
           ? "space-y-6 opacity-60 pointer-events-none transition-opacity"
           : "space-y-6"
       }
@@ -88,10 +87,7 @@ export function CalendarContent({
         <p className="text-xs text-gray-400">
           ※ 下書きのイベントは、この画面では確認できません
         </p>
-        <Button
-          onClick={handleSave}
-          disabled={syncMutation.isPending}
-        >
+        <Button onClick={handleSave} disabled={syncMutation.isPending}>
           {syncMutation.isPending ? "保存中..." : "保存"}
         </Button>
       </div>
