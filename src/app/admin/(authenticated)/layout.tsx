@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import { Authenticated } from "@refinedev/core";
+import type { Metadata } from "next";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import AdminLoading from "../loading";
 
