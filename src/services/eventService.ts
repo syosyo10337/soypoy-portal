@@ -43,24 +43,6 @@ export class EventService {
   async getEventsByMonth(year: number, month: number): Promise<EventEntity[]> {
     return await this.repository.listByMonth(year, month);
   }
-
-  /**
-   * イベントを公開する
-   */
-  async publishEvent(id: string): Promise<EventEntity> {
-    return await this.repository.update(id, {
-      publicationStatus: PublicationStatus.Published,
-    });
-  }
-
-  /**
-   * イベントを非公開（下書き）に戻す
-   */
-  async unpublishEvent(id: string): Promise<EventEntity> {
-    return await this.repository.update(id, {
-      publicationStatus: PublicationStatus.Draft,
-    });
-  }
   async getPickupEvents(): Promise<EventEntity[]> {
     return await this.repository.listPickup();
   }
