@@ -72,20 +72,21 @@ export function ClosedDaysCalendar() {
     });
   }, []);
 
-  const handleSave = useCallback(async () => {
+  const handleSave = async () => {
     try {
       await syncMutation.mutateAsync({
         year: currentYear,
         month: currentMonth,
         dates: Array.from(closedDates),
       });
+      await closedDaysQuery.refetch();
       toast.success("保存しました");
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "保存に失敗しました";
       toast.error(errorMessage);
     }
-  }, [syncMutation, currentYear, currentMonth, closedDates]);
+  };
 
   const isLoading = closedDaysQuery.isLoading || eventsQuery.isLoading;
 
