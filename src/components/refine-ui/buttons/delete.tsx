@@ -109,6 +109,7 @@ export const DeleteButton = React.forwardRef<
                 variant="outline"
                 size="sm"
                 onClick={() => setOpen(false)}
+                disabled={loading}
               >
                 {confirmCancelText}
               </Button>
