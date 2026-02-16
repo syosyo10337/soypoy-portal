@@ -78,7 +78,7 @@ export function EventActionDialog({
           <DialogDescription>{config.description}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
             キャンセル
           </Button>
           <Button

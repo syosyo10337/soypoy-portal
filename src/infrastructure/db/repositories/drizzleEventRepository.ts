@@ -134,10 +134,15 @@ export class DrizzleEventRepository implements EventRepository {
    * イベントを削除（論理削除：Archived に変更）
    */
   async delete(id: string): Promise<void> {
-    await db
+    const [deleted] = await db
       .update(events)
       .set({ publicationStatus: PublicationStatus.Archived })
-      .where(eq(events.id, id));
+      .where(eq(events.id, id))
+      .returning();
+
+    if (!deleted) {
+      throw new Error(`イベントが見つかりません (id: ${id})`);
+    }
   }
 
   /**

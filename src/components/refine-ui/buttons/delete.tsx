@@ -82,7 +82,7 @@ export const DeleteButton = React.forwardRef<
     const confirmTitle = confirmDescription ?? defaultConfirmTitle;
 
     return (
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={(v) => { if (!isDisabled) setOpen(v); }}>
         <PopoverTrigger asChild>
           <span>
             <Button
@@ -120,7 +120,6 @@ export const DeleteButton = React.forwardRef<
                   if (typeof onConfirm === "function") {
                     onConfirm();
                   }
-                  setOpen(false);
                 }}
               >
                 {confirmOkText}

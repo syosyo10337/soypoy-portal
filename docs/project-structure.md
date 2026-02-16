@@ -144,14 +144,14 @@ assets/
 ```
 
 ##### Utils (`/src/utils/`) - ユーティリティ
-```
+```text
 utils/
 ├── cn.ts                  # className結合ユーティリティ
 └── date.ts                # 日付処理ユーティリティ
 ```
 
 ##### Constant (`/src/constant/`) - 定数
-```
+```text
 constant/
 ├── adminRoleLabel.ts      # 管理者ロールラベル
 ├── eventPublicationStatusLabel.ts  # 公開ステータスラベル
@@ -159,7 +159,7 @@ constant/
 ```
 
 ##### Types (`/src/types/`) - 型定義
-```
+```text
 types/
 └── svg.d.ts              # SVG型定義
 ```

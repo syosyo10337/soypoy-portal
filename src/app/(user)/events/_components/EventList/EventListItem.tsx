@@ -16,7 +16,7 @@ import { truncate } from "@/utils/text";
 import { PickUpLabel } from "./PickUpLabel";
 
 interface EventListItemProps {
-  event: EventEntity & { isPickUp?: boolean };
+  event: EventEntity;
 }
 
 export function EventListItem({ event }: EventListItemProps) {
@@ -96,7 +96,7 @@ export function EventListItem({ event }: EventListItemProps) {
           <p>{`START: ${formatTime(event.date)}`}</p>
         </div>
       </div>
-      {event.isPickUp && <PickUpLabel />}
+      {event.isPickup && <PickUpLabel />}
     </Link>
   );
 }
