@@ -1,7 +1,7 @@
 import { and, sql } from "drizzle-orm";
 import type { ClosedDayEntity } from "@/domain/entities/closedDay";
 import type { ClosedDayRepository } from "@/domain/repositories/closedDayRepository";
-import { dateTimeFromISO, dateToIsoFull } from "@/utils/date";
+import { dateTimeFromISO, dateToIso } from "@/utils/date";
 import { db } from "../index";
 import type { DrizzleClosedDay, DrizzleClosedDayInsert } from "../schema";
 import { closedDays } from "../schema";
@@ -62,7 +62,7 @@ export class DrizzleClosedDayRepository implements ClosedDayRepository {
   private toDomainEntity(drizzleClosedDay: DrizzleClosedDay): ClosedDayEntity {
     return {
       id: drizzleClosedDay.id,
-      date: dateToIsoFull(drizzleClosedDay.date),
+      date: dateToIso(drizzleClosedDay.date) ?? "",
     };
   }
 }

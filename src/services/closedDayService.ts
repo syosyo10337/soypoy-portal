@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import type { ClosedDayEntity } from "@/domain/entities/closedDay";
 import type { ClosedDayRepository } from "@/domain/repositories/closedDayRepository";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
+import { dateTimeFromISO } from "@/utils/date";
 import { ClosedDayConflictError } from "./errors/closedDayConflictError";
 
 /**
@@ -28,7 +29,9 @@ export class ClosedDayService {
   ): Promise<ClosedDayEntity[]> {
     // 1. イベント重複チェック
     const events = await this.eventRepository.listByMonth(year, month);
-    const eventDates = events.map((e) => e.date.split("T")[0]);
+    const eventDates = events.map((e) =>
+      dateTimeFromISO(e.date).toFormat("yyyy-MM-dd"),
+    );
     const conflicts = dates.filter((d) => eventDates.includes(d));
 
     if (conflicts.length > 0) {

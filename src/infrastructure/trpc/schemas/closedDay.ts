@@ -1,8 +1,8 @@
-import { DateTime } from "luxon";
 import { z } from "zod";
+import { dateTimeFromISO } from "@/utils/date";
 
 const dateString = z.iso.date().refine((val) => {
-  return DateTime.fromISO(val).isValid;
+  return dateTimeFromISO(val).isValid;
 }, "有効な日付を指定してください");
 
 export const syncMonthSchema = z
@@ -13,7 +13,7 @@ export const syncMonthSchema = z
   })
   .superRefine((data, ctx) => {
     for (const [i, d] of data.dates.entries()) {
-      const dt = DateTime.fromISO(d);
+      const dt = dateTimeFromISO(d);
       if (dt.year !== data.year || dt.month !== data.month) {
         ctx.addIssue({
           code: "custom",

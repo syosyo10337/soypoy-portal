@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/shadcn/button";
 import { trpc } from "@/infrastructure/trpc/client";
+import { dateTimeFromISO } from "@/utils/date";
 import { CalendarGrid } from "./CalendarGrid";
 
 interface CalendarContentProps {
@@ -31,12 +32,15 @@ export function CalendarContent({
   const syncMutation = trpc.closedDays.syncMonth.useMutation();
 
   useEffect(() => {
-    const dates = new Set(closedDaysData.map((cd) => cd.date.split("T")[0]));
+    const dates = new Set(closedDaysData.map((cd) => cd.date));
     setClosedDates(dates);
   }, [closedDaysData]);
 
   const eventDates = new Map(
-    eventsData.map((e) => [e.date.split("T")[0], e.title]),
+    eventsData.map((e) => [
+      dateTimeFromISO(e.date).toFormat("yyyy-MM-dd"),
+      e.title,
+    ]),
   );
 
   const handleToggleDate = (date: string) => {
