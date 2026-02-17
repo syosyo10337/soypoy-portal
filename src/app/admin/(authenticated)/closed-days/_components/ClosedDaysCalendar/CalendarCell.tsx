@@ -32,7 +32,7 @@ export function CalendarCell({
         status === DayStatus.Event &&
           "bg-blue-50 text-blue-600 cursor-not-allowed border border-blue-200",
         status === DayStatus.Closed &&
-          "bg-[#F0433C] text-white cursor-pointer hover:bg-[#d93a34]",
+          "bg-soypoy-accent text-white cursor-pointer hover:bg-soypoy-accent/85",
         status === DayStatus.Open &&
           "bg-white text-gray-900 cursor-pointer hover:bg-gray-50 border border-gray-200",
         // 曜日識別のボーダーは status のボーダーより優先（後置で twMerge に勝たせる）
