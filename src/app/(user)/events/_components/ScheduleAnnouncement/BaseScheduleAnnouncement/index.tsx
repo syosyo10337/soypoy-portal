@@ -55,13 +55,13 @@ export function BaseScheduleAnnouncement({
               {/* Vertical separator */}
               {showVerticalSeparator && (
                 <div className="absolute top-0 bottom-0 flex items-center -right-1">
-                  <div className="w-[1px] h-[calc(100%-0.5rem)] bg-soypoy-secondary" />
+                  <div className="w-px h-[calc(100%-0.5rem)] bg-soypoy-secondary" />
                 </div>
               )}
               {/* Horizontal separator */}
               {showHorizontalSeparator && (
-                <div className="absolute left-0 right-0 flex justify-center -bottom-0">
-                  <div className="w-[calc(100%-0.5rem)] h-[1px] bg-soypoy-secondary" />
+                <div className="absolute left-0 right-0 flex justify-center bottom-0">
+                  <div className="w-[calc(100%-0.5rem)] h-px bg-soypoy-secondary" />
                 </div>
               )}
             </div>
