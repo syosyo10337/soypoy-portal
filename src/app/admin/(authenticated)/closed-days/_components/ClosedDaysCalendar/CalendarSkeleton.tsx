@@ -8,7 +8,7 @@ export function CalendarSkeleton() {
         <div className="grid grid-cols-7 gap-4">
           {Array.from({ length: 35 }, (_, i) => (
             <div
-              // biome-ignore lint/suspicious/noArrayIndexKey: skeltonなので問題ない
+              // biome-ignore lint/suspicious/noArrayIndexKey: skeletonなので問題ない
               key={i}
               className="aspect-square rounded-md bg-gray-100 animate-pulse"
             />
