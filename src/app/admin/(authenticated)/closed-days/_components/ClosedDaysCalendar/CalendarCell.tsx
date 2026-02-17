@@ -6,22 +6,25 @@ import { DayStatus, DayType } from "./types";
 type CalendarCellProps = {
   day: number;
   dayType: DayType;
-} & (
-  | { status: typeof DayStatus.WeekDay }
-  | { status: typeof DayStatus.Event; eventTitle: string }
-  | { status: typeof DayStatus.Closed; onClick: () => void }
-  | { status: typeof DayStatus.Open; onClick: () => void }
-);
+  status: DayStatus;
+  eventTitle?: string;
+  onClick?: () => void;
+};
 
-export function CalendarCell(props: CalendarCellProps) {
-  const { day, status, dayType } = props;
+export function CalendarCell({
+  day,
+  dayType,
+  status,
+  eventTitle,
+  onClick,
+}: CalendarCellProps) {
   const isClickable = status === DayStatus.Closed || status === DayStatus.Open;
 
   return (
     <button
       type="button"
       disabled={!isClickable}
-      onClick={isClickable ? props.onClick : undefined}
+      onClick={isClickable ? onClick : undefined}
       className={cn(
         "aspect-square flex flex-col items-center rounded-md text-sm transition-colors pt-1.5",
         status === DayStatus.WeekDay &&
@@ -38,9 +41,9 @@ export function CalendarCell(props: CalendarCellProps) {
       )}
     >
       <span className="font-medium text-xs">{day}</span>
-      {status === DayStatus.Event && (
+      {status === DayStatus.Event && eventTitle && (
         <span className="text-[10px] leading-tight flex-1 flex items-center text-center px-0.5 line-clamp-2">
-          {props.eventTitle}
+          {eventTitle}
         </span>
       )}
       {status === DayStatus.Closed && (
