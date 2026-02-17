@@ -35,7 +35,9 @@ jobs:
           claude_args: >-
             --allowedTools
             "Bash(pnpm *)"
-            "Bash(node *)"
+            "Bash(node -e *)"
+            "Bash(node -p *)"
+            "Bash(node --version)"
             "Bash(cat *)"
             "Bash(head *)"
             "Bash(tail *)"
@@ -46,8 +48,7 @@ jobs:
             "Bash(find *)"
             "Bash(grep *)"
             "Bash(gh pr view *)"
-            "Bash(gh api *)"
-            "Bash(gh diff *)"
+            "Bash(gh pr diff *)"
             "mcp__github_comment__update_claude_comment"
             "mcp__github_inline_comment__create_inline_comment"
           prompt: |
