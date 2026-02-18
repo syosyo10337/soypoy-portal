@@ -19,7 +19,8 @@ export default async function PickUpSection() {
         <PickUpMarquee direction={MarqueeDirection.reverse} />
       </section>
     );
-  } catch {
+  } catch (error) {
+    console.error("[PickUpSection] ピックアップイベント取得エラー:", error);
     return null;
   }
 }
