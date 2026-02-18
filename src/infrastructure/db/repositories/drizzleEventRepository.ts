@@ -1,4 +1,4 @@
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, notInArray, sql } from "drizzle-orm";
 import { PICKUP_EVENTS_LIMIT } from "@/constant/pickupEvents";
 import { PublicationStatus } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities/";
@@ -56,6 +56,28 @@ export class DrizzleEventRepository implements EventRepository {
       )
       .orderBy(desc(events.date))
       .limit(PICKUP_EVENTS_LIMIT);
+    return drizzleEvents.map(this.toDomainEntity);
+  }
+
+  /**
+   * 最新の公開済みイベントを取得（日付降順）
+   */
+  async listLatestPublished(
+    limit: number,
+    excludeIds: string[] = [],
+  ): Promise<EventEntity[]> {
+    const conditions = [
+      eq(events.publicationStatus, PublicationStatus.Published),
+    ];
+    if (excludeIds.length > 0) {
+      conditions.push(notInArray(events.id, excludeIds));
+    }
+    const drizzleEvents = await db
+      .select()
+      .from(events)
+      .where(and(...conditions))
+      .orderBy(desc(events.date))
+      .limit(limit);
     return drizzleEvents.map(this.toDomainEntity);
   }
 

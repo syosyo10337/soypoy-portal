@@ -73,22 +73,16 @@ export default function GridItem({
  */
 const getBorderClassName = (index: number) => {
   // 2列レイアウト（デフォルト〜lg未満）
-  // 0列目（左列）にのみ右borderを追加 → 縦の線1本
   const needsRightBorder2Col = index % 2 === 0;
-  // 0行目（上行）にのみ下borderを追加 → 横の線1本
   const needsBottomBorder2Col = index < 2;
 
-  // 4列レイアウト（lg以上）
-  // 0,1,2列目（最後以外）にのみ右borderを追加 → 縦の線3本
+  // 4列レイアウト（lg以上）: 4件=1行なので bottom border 不要
   const needsRightBorder4Col = index % 4 < 3;
-  // 0行目（1行目）にのみ下borderを追加 → 横の線1本（5件以上の場合に有効）
-  const needsBottomBorder4Col = index < 4;
 
   return cn(
     needsRightBorder2Col && "border-r border-soypoy-secondary",
     needsBottomBorder2Col && "border-b border-soypoy-secondary",
     "lg:border-r-0 lg:border-b-0",
     needsRightBorder4Col && "lg:border-r lg:border-soypoy-secondary",
-    needsBottomBorder4Col && "lg:border-b lg:border-soypoy-secondary",
   );
 };

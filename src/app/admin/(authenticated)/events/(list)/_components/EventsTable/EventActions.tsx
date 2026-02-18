@@ -81,7 +81,11 @@ export function EventActions({
             <span className="sr-only">操作メニュー</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="border-0">
+        <DropdownMenuContent
+          align="end"
+          className="border-0"
+          onClick={(e) => e.stopPropagation()}
+        >
           {isDraft && (
             <DropdownMenuItem
               onSelect={() => setDialogAction(ActionTypes.Publish)}

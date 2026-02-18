@@ -1,27 +1,25 @@
-import type { EventEntity } from "@/domain/entities";
-import { eventService } from "@/services";
+import { createServerCaller } from "@/infrastructure/trpc/server";
 import EventGrid from "./EventGrid";
 import { MarqueeDirection, PickUpMarquee } from "./PickUpMarquee";
 
 export default async function PickUpSection() {
-  let events: EventEntity[] = [];
   try {
-    events = await eventService.getPickupEvents();
+    const trpc = await createServerCaller();
+    const events = await trpc.events.listPickup();
+
+    if (events.length === 0) {
+      return null;
+    }
+
+    return (
+      //NOTE:  relativeとbgでfudaより前に配置する。
+      <section className="relative bg-soypoy-main">
+        <PickUpMarquee direction={MarqueeDirection.normal} />
+        <EventGrid events={events} />
+        <PickUpMarquee direction={MarqueeDirection.reverse} />
+      </section>
+    );
   } catch {
     return null;
   }
-
-  // ピックアップイベントがない場合は表示しない
-  if (events.length === 0) {
-    return null;
-  }
-
-  return (
-    //NOTE:  relativeとbgでfudaより前に配置する。
-    <section className="relative bg-soypoy-main">
-      <PickUpMarquee direction={MarqueeDirection.normal} />
-      <EventGrid events={events} />
-      <PickUpMarquee direction={MarqueeDirection.reverse} />
-    </section>
-  );
 }
