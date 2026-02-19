@@ -3,8 +3,6 @@ import type { SVGProps } from "react";
 export default function InstagramIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      id="Layer_1"
-      data-name="Layer 1"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1000 1000"
       aria-hidden="true"
