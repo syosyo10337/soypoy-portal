@@ -18,18 +18,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v6
         with:
           node-version-file: ".node-version"
-
-      - uses: pnpm/action-setup@v4
-
-      - name: pnpm ストアをキャッシュ
-        uses: actions/cache@v4
-        with:
-          path: ~/.local/share/pnpm/store/v10
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: ${{ runner.os }}-pnpm-
+          cache: "pnpm"
 
       - run: pnpm install --frozen-lockfile
 
