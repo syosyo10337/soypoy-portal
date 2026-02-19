@@ -33,7 +33,7 @@ export default function HistorySlider() {
 
       <div className="relative">
         {/* Gradient Overlays */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-48 bg-gradient-to-r from-soypoy-main to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-16 md:hidden bg-gradient-to-r from-soypoy-main to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-16 md:w-48 bg-gradient-to-l from-soypoy-main to-transparent z-10 pointer-events-none" />
 
         <div
@@ -51,7 +51,7 @@ export default function HistorySlider() {
             isReady ? "opacity-100" : "opacity-0",
           )}
         >
-          <div className="shrink-0" style={{ width: sidePadding }} />
+          <div className="shrink-0 md:hidden" style={{ width: sidePadding }} />
           {HISTORY_EVENTS.map((event) => (
             <HistoryItem
               key={event.id}
@@ -61,6 +61,7 @@ export default function HistorySlider() {
             />
           ))}
           <div className="shrink-0" style={{ width: sidePadding }} />
+          <div className="shrink-0 hidden md:block" style={{ width: sidePadding }} />
         </div>
       </div>
 
