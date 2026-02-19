@@ -34,7 +34,7 @@ export function CircularNavigationButton({
         "rounded-full",
         "bg-soypoy-accent",
         "flex items-center justify-center",
-        "transition-opacity hover:opacity-80",
+        "transition-opacity hover:opacity-80 active:opacity-80",
         className,
       )}
       aria-label={ariaLabel}

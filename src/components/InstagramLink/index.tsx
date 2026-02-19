@@ -20,7 +20,7 @@ export function InstagramLink({ color = "secondary" }: InstagramLinkProps) {
         "inline-flex items-center gap-2",
         "font-display font-medium",
         "text-lg",
-        "hover:text-soypoy-accent",
+        "hover:text-soypoy-accent active:text-soypoy-accent",
         "transition-colors",
         color === "secondary" ? "text-soypoy-secondary" : "text-white",
       )}
@@ -29,7 +29,7 @@ export function InstagramLink({ color = "secondary" }: InstagramLinkProps) {
         className={cn(
           "w-6 h-6", // NOTE: 見た目を揃えるため、ちいちゃく
           "transition-colors",
-          "group-hover:fill-soypoy-accent",
+          "group-hover:fill-soypoy-accent group-active:fill-soypoy-accent",
           color === "secondary" ? "fill-soypoy-secondary" : "fill-white",
         )}
       />

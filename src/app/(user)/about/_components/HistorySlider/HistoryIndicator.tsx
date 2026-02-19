@@ -22,7 +22,7 @@ export default function HistoryIndicator({
             onClick={() => onIndicatorClick(index)}
             className={cn(
               "rounded-full transition-all duration-300",
-              "hover:scale-110 hover:opacity-80",
+              "hover:scale-110 hover:opacity-80 active:scale-110 active:opacity-80",
               "focus:outline-none focus:ring-2 focus:ring-soypoy-accent focus:ring-offset-2",
               "cursor-pointer",
               index === activeIndex
