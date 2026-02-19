@@ -18,9 +18,9 @@ export default function HistoryItem({
     <div
       className={cn(
         "relative",
-        "w-[287px] md:w-[420px]",
+        "w-71.75 md:w-105",
         "shrink-0",
-        "snap-center",
+        "snap-center md:snap-start",
         "snap-always",
       )}
     >
@@ -43,8 +43,8 @@ export default function HistoryItem({
       <div
         className={cn(
           "relative",
-          "w-[263px] h-[195px]",
-          "md:w-[350px] md:h-[260px]",
+          "w-65.75 h-48.75",
+          "md:w-87.5 md:h-65",
           "ml-3",
           "overflow-hidden",
           "bg-gray-200",
@@ -68,9 +68,9 @@ export default function HistoryItem({
       <p
         className={cn(
           "font-display font-normal",
-          "text-[16px] leading-[25px]",
+          "text-[16px] leading-6.25",
           "text-black text-justify",
-          "w-[263px] md:w-[350px]",
+          "w-65.75 md:w-87.5",
           "ml-3 mt-6",
         )}
       >
