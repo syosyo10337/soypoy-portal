@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["*.md", "docs/**", "public/**"]
+  pull_request:
+    branches: [main]
+    paths-ignore: ["*.md", "docs/**", "public/**"]
+
+jobs:
+  static-analysis:
+    name: 静的解析
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".node-version"
+
+      - uses: pnpm/action-setup@v4
+
+      - name: pnpm ストアをキャッシュ
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store/v10
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: TypeScript 型チェック
+        run: pnpm tsc
+
+      - name: Biome lint
+        run: pnpm lint
+
+      - name: Biome フォーマットチェック
+        run: pnpm format:check
