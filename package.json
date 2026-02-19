@@ -9,6 +9,7 @@
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
+    "format:check": "biome format .",
     "tsc": "tsc --noEmit",
     "check": "concurrently --kill-others-on-fail \"pnpm tsc\" \"pnpm lint:fix\" && pnpm format",
     "db:migrate": "tsx scripts/migrate.ts",
