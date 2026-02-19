@@ -28,8 +28,7 @@ const CAROUSEL_CONFIG = {
   GAP: 12, // gap-3 = 12px
 } as const;
 
-const SLIDE_WIDTH =
-  CAROUSEL_CONFIG.MEMBER_PILL_WIDTH + CAROUSEL_CONFIG.GAP;
+const SLIDE_WIDTH = CAROUSEL_CONFIG.MEMBER_PILL_WIDTH + CAROUSEL_CONFIG.GAP;
 
 // Calculate total width: MemberPill width + gap * number of members
 const totalWidth = SLIDE_WIDTH * MEMBERS.length;
