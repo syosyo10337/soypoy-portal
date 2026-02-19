@@ -27,6 +27,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # next-env.d.ts は .gitignore 対象のため CI 上に存在しない
+      # typegen で生成し、画像インポート等の型宣言を解決する
+      - name: Next.js 型生成
+        run: pnpm next typegen
+
       - name: TypeScript 型チェック
         run: pnpm tsc
 
