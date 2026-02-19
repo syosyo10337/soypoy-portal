@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
-import ArrowLeftIcon from "./ArrowLeftIcon.svg";
-import ArrowRightIcon from "./ArrowRightIcon.svg";
+import ArrowLeftIcon from "./ArrowLeftIcon";
+import ArrowRightIcon from "./ArrowRightIcon";
 
 interface CircularNavigationButtonProps {
   onClick: () => void;

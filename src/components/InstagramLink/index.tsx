@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cn } from "@/utils/cn";
-import InstagramIcon from "./instagram.svg";
+import InstagramIcon from "./instagram";
 
 export const INSTAGRAM_URL = "https://instagram.com/soy.poy_";
 export const INSTAGRAM_HANDLE = "@soy.poy_";
