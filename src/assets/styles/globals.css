@@ -57,7 +57,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden; /* prevent horizontal scroll */
+    overflow-x: clip; /* prevent horizontal scroll (clip avoids touch event issues on Safari) */
     scrollbar-gutter: stable; /* prevent layout shift when scrollbar appears/disappears */
   }
 }
