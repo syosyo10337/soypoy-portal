@@ -22,6 +22,7 @@ export function NavMenu({ navItems }: { navItems: NavItem[] }) {
           className={cn(
             "p-3 text-inherit font-display rounded-lg",
             "hover:!bg-transparent hover:!text-inherit",
+            "active:opacity-70",
             "focus-visible:ring-0 focus-visible:ring-offset-0",
           )}
           aria-label="メニューを開く"

@@ -25,7 +25,7 @@ export function EventBreadcrumb({ eventTitle }: EventBreadcrumbProps) {
       className={cn("text-sm font-display tracking-tight")}
       aria-label="パンくずリスト"
     >
-      <BreadcrumbList className="gap-1 text-soypoy-muted hover:text-soypoy-accent">
+      <BreadcrumbList className="gap-1 text-soypoy-muted hover:text-soypoy-accent active:text-soypoy-accent">
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link href="/events">EVENTS</Link>
