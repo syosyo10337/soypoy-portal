@@ -61,7 +61,10 @@ export default function HistorySlider() {
             />
           ))}
           <div className="shrink-0" style={{ width: sidePadding }} />
-          <div className="shrink-0 hidden md:block" style={{ width: sidePadding }} />
+          <div
+            className="shrink-0 hidden md:block"
+            style={{ width: sidePadding }}
+          />
         </div>
       </div>
 

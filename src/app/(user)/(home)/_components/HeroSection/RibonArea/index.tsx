@@ -1,10 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
-import { cn } from "@/utils/cn";
 import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
+import { cn } from "@/utils/cn";
 import { Z_INDEX } from "../constants";
-import { HeroSecRibon } from "./assets";
 import { InnerContent } from "./InnerContent";
 
 export default function RibonArea() {
@@ -31,7 +30,11 @@ export default function RibonArea() {
         "2xl:-mt-[clamp(180px,12vw,280px)]",
       )}
     >
-      <HeroSecRibon
+      {/* biome-ignore lint/performance/noImgElement: SVGは next/image の最適化対象外 */}
+      <img
+        src="/images/HeroSecRibon.svg"
+        alt=""
+        aria-hidden="true"
         className={cn(
           "relative w-full h-auto",
           `z-[${Z_INDEX.archDecoration}]`,
