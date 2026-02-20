@@ -29,7 +29,7 @@ export function EventDate({ date, className }: EventDateProps) {
           "font-semibold",
           "text-xl md:text-2xl",
           "leading-tight",
-          "block mt-1",
+          "block mt-.5",
           "ml-1", // 視覚的に左揃えに見えるように
           getDayOfWeekColorClass(date),
         )}

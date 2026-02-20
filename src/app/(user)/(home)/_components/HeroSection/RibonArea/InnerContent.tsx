@@ -18,7 +18,7 @@ export function InnerContent({ className }: InnerContentProps) {
       >
         <SoypoySlogan />
       </div>
-      <div className={cn("flex justify-center", "mt-6 md:mt-8")}>
+      <div className={cn("flex justify-center", "mt-6 mb-2 md:mt-8 md:mb-4")}>
         <AboutLinkButton />
       </div>
     </div>

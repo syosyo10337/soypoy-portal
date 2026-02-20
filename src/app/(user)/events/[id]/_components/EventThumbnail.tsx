@@ -22,11 +22,13 @@ export function EventThumbnail({
   className,
 }: EventThumbnailProps) {
   return (
-    <div className={cn("relative mx-auto", className)}>
+    <div className={cn("relative mx-auto md:mx-0", className)}>
       <EventImage src={src} alt={alt} />
       <div
         className={cn(
-          getLabelPositionClassName(getRandomNumberWithRange(4)),
+          getLabelPositionClassName(getRandomNumberWithRange(4), {
+            skipTopLeft: true,
+          }),
           "scale-100 md:scale-110",
         )}
       >
