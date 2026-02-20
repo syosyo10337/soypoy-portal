@@ -28,9 +28,7 @@
         "closed_days_date_unique": {
           "name": "closed_days_date_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "date"
-          ]
+          "columns": ["date"]
         }
       },
       "policies": {},
@@ -207,12 +205,8 @@
           "name": "admin_account_user_id_admin_user_id_fk",
           "tableFrom": "admin_account",
           "tableTo": "admin_user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -299,12 +293,8 @@
           "name": "admin_session_user_id_admin_user_id_fk",
           "tableFrom": "admin_session",
           "tableTo": "admin_user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -314,9 +304,7 @@
         "admin_session_token_unique": {
           "name": "admin_session_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -406,9 +394,7 @@
         "admin_user_email_unique": {
           "name": "admin_user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -506,11 +492,7 @@
     "public.publication_status": {
       "name": "publication_status",
       "schema": "public",
-      "values": [
-        "draft",
-        "published",
-        "archived"
-      ]
+      "values": ["draft", "published", "archived"]
     }
   },
   "schemas": {},
