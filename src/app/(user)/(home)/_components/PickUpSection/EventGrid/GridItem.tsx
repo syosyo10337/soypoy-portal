@@ -83,9 +83,7 @@ const getBorderClassName = (index: number) => {
   // 不要な箇所はtransparentで非表示にする
   return cn(
     "border-r border-b",
-    needsRightBorder2Col
-      ? "border-r-soypoy-secondary"
-      : "border-r-transparent",
+    needsRightBorder2Col ? "border-r-soypoy-secondary" : "border-r-transparent",
     needsBottomBorder2Col
       ? "border-b-soypoy-secondary"
       : "border-b-transparent",
