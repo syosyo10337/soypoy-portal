@@ -45,7 +45,7 @@ export function NavMenu({ navItems }: { navItems: NavItem[] }) {
             "md:py-16 md:px-10",
           )}
         >
-          <ul className="divide-y-2 divide-soypoy-secondary/20">
+          <ul className="divide-y divide-black">
             {navItems.map((item) => (
               <NavMenuItem key={item.name} item={item} />
             ))}
