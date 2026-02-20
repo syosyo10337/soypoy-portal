@@ -14,7 +14,7 @@ export function AboutLinkButton() {
         "border-2 border-soypoy-secondary",
         "rounded-full",
         "shadow-[4.9125px_4.9125px_0px_#F0433C]",
-        "hover:bg-soypoy-accent hover:shadow-none",
+        "hover:bg-soypoy-accent hover:shadow-none active:bg-soypoy-accent active:shadow-none",
         "transition-all duration-200",
         "text-soypoy-secondary font-anymale font-bold",
         "flex items-center justify-center gap-2",

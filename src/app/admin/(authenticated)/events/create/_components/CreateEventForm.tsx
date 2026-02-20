@@ -6,6 +6,7 @@ import { useForm } from "@refinedev/react-hook-form";
 import {
   EventDateField,
   EventDescriptionField,
+  EventIsPickupField,
   EventThumbnailField,
   EventTitleField,
   EventTypeField,
@@ -51,6 +52,7 @@ export function CreateEventForm() {
       date: "",
       type: undefined,
       thumbnail: undefined,
+      isPickup: false,
     },
   });
 
@@ -79,6 +81,7 @@ export function CreateEventForm() {
                 <EventTitleField control={control} />
                 <EventDateField control={control} />
                 <EventTypeField control={control} />
+                <EventIsPickupField control={control} />
                 <EventDescriptionField control={control} />
               </div>
               <div>

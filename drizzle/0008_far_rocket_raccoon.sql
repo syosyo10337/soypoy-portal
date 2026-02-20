@@ -1,0 +1,1 @@
+ALTER TABLE "events" ADD COLUMN "is_pickup" boolean DEFAULT false NOT NULL;

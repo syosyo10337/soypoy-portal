@@ -8,7 +8,7 @@ import { TableCell, TableRow } from "@/components/shadcn/table";
 export function NoEventsRow() {
   return (
     <TableRow>
-      <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+      <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
         イベントがありません
       </TableCell>
     </TableRow>

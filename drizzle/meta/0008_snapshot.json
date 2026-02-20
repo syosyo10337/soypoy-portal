@@ -1,5 +1,5 @@
 {
-  "id": "63589a45-35cd-46df-8ebd-da8dc168dcc2",
+  "id": "03008370-7e40-4900-87a7-ed25ecfb28d7",
   "prevId": "b1234567-8901-2345-6789-012345678901",
   "version": "7",
   "dialect": "postgresql",
@@ -24,13 +24,7 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "closed_days_date_unique": {
-          "name": "closed_days_date_unique",
-          "nullsNotDistinct": false,
-          "columns": ["date"]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -82,6 +76,13 @@
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
+        },
+        "is_pickup": {
+          "name": "is_pickup",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         }
       },
       "indexes": {},

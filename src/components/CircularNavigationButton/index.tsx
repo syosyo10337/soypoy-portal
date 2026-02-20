@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
-import ArrowLeftIcon from "./ArrowLeftIcon.svg";
-import ArrowRightIcon from "./ArrowRightIcon.svg";
+import ArrowLeftIcon from "./ArrowLeftIcon";
+import ArrowRightIcon from "./ArrowRightIcon";
 
 interface CircularNavigationButtonProps {
   onClick: () => void;
@@ -34,7 +34,7 @@ export function CircularNavigationButton({
         "rounded-full",
         "bg-soypoy-accent",
         "flex items-center justify-center",
-        "transition-opacity hover:opacity-80",
+        "transition-opacity hover:opacity-80 active:opacity-80",
         className,
       )}
       aria-label={ariaLabel}

@@ -1,16 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import NoImage from "@/assets/no-image.png";
 import { BubleLabel, getLabelPositionClassName } from "@/components/BubleLabel";
 import type { EventType } from "@/domain/entities";
 import { cn } from "@/utils/cn";
+import { formatMonthDayOnly } from "@/utils/date";
 
 interface GridItemProps {
-  thumbnail: string;
+  thumbnail?: string | null;
   title: string;
   link: string;
   date: string;
-  eventType: EventType;
+  type: EventType;
   index: number;
 }
 
@@ -19,7 +21,7 @@ export default function GridItem({
   title,
   link,
   date,
-  eventType,
+  type,
   index,
 }: GridItemProps) {
   return (
@@ -33,7 +35,7 @@ export default function GridItem({
     >
       <div className="relative mb-2 aspect-insta">
         <Image
-          src={thumbnail}
+          src={thumbnail ?? NoImage}
           alt={title}
           width={400}
           height={500}
@@ -48,7 +50,7 @@ export default function GridItem({
             "scale-100 md:scale-110",
           )}
         >
-          <BubleLabel variant={eventType} />
+          <BubleLabel variant={type} />
         </div>
       </div>
       <p
@@ -58,25 +60,26 @@ export default function GridItem({
           "transition-colors",
         )}
       >
-        {date}
+        {formatMonthDayOnly(date)}
         <span className="block mt-1">Read More &gt;</span>
       </p>
     </Link>
   );
 }
 
+/**
+ * グリッドアイテムのボーダースタイルを計算
+ * NOTE: ピックアップイベントは最大4件の前提で実装（@see PICKUP_EVENTS_LIMIT）
+ */
 const getBorderClassName = (index: number) => {
   // 2列レイアウト（デフォルト〜lg未満）
-  // 0列目（左列）にのみ右borderを追加 → 縦の線1本
   const needsRightBorder2Col = index % 2 === 0;
-  // 0行目（上行）にのみ下borderを追加 → 横の線1本
   const needsBottomBorder2Col = index < 2;
 
-  // 4列レイアウト（lg以上）
-  // 0,1,2列目（最後以外）にのみ右borderを追加 → 縦の線3本
+  // 4列レイアウト（lg以上）: 4件=1行なので bottom border 不要
   const needsRightBorder4Col = index % 4 < 3;
+
   return cn(
-    "border-soypoy-secondary",
     needsRightBorder2Col && "border-r border-soypoy-secondary",
     needsBottomBorder2Col && "border-b border-soypoy-secondary",
     "lg:border-r-0 lg:border-b-0",

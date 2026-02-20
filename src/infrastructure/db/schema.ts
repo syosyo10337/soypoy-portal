@@ -1,5 +1,12 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { pgEnum, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { EventType, PublicationStatus } from "@/domain/entities";
 
 export * from "./authSchema";
@@ -34,6 +41,7 @@ export const events = pgTable("events", {
   description: text(),
   thumbnail: text(),
   type: eventTypeEnum().notNull(),
+  isPickup: boolean().notNull().default(false),
 });
 
 export const closedDays = pgTable("closed_days", {

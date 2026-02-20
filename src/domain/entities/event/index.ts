@@ -23,4 +23,8 @@ export interface EventEntity {
    */
   thumbnail?: string | null;
   type: EventType;
+  /**
+   * ピックアップイベントとして表示するかどうか
+   */
+  isPickup: boolean;
 }

@@ -51,22 +51,26 @@ export const baseSchema = z.object({
 
 export const createEventFormSchema = baseSchema.extend({
   thumbnail: z.union([imageFileSchema, z.url()]).optional().nullable(),
+  isPickup: z.boolean().optional(),
 });
 
-export const createEventSchema = createEventFormSchema.extend({
+export const createEventSchema = baseSchema.extend({
   thumbnail: z.url().optional().nullable(),
+  isPickup: z.boolean().default(false),
 });
 
 // NOTE: react-hook-formのnullable対応のため、optionalとnullableを両方指定
 export const updateEventFormSchema = baseSchema.extend({
   publicationStatus: z.enum(publicationStatusValues),
   thumbnail: z.union([imageFileSchema, z.url()]).optional().nullable(),
+  isPickup: z.boolean().optional(),
 });
 
 // NOTE: react-hook-formのnullable対応のため、optionalとnullableを両方指定
 export const updateEventSchema = baseSchema.extend({
   publicationStatus: z.enum(publicationStatusValues),
   thumbnail: z.url().optional().nullable(),
+  isPickup: z.boolean().default(false),
 });
 
 // 型エクスポート

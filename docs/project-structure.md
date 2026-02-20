@@ -26,9 +26,8 @@ app/
 │   ├── (home)/            # ホームページ（ネストされたルートグループ）
 │   │   ├── _components/   # ホームページ専用コンポーネント
 │   │   │   ├── HeroSection/
-│   │   │   ├── PIckUpSection/
+│   │   │   ├── PickUpSection/
 │   │   │   └── WhatUpSection/
-│   │   ├── _dummies/      # ダミーデータ
 │   │   ├── layout.tsx
 │   │   └── page.tsx
 │   ├── about/             # アバウトページ
@@ -62,7 +61,7 @@ app/
 - 管理画面はRefineフレームワークを使用
 - tRPC APIは`/api/trpc`エンドポイントで提供
 
-#### 2. Domain層 (`/app/src/domain/`) - ドメイン層
+#### 2. Domain層 (`/src/domain/`) - ドメイン層
 
 ビジネスエンティティとリポジトリインターフェースを定義。
 
@@ -81,7 +80,7 @@ domain/
 - ビジネスルールを表現
 - リポジトリパターンでデータアクセスを抽象化
 
-#### 3. Services層 (`/app/src/services/`) - アプリケーション層
+#### 3. Services層 (`/src/services/`) - アプリケーション層
 
 ビジネスロジックとユースケースを実装。
 
@@ -96,7 +95,7 @@ services/
 - ビジネスロジックを担当
 - リポジトリを依存性注入で受け取る
 
-#### 4. Infrastructure層 (`/app/src/infrastructure/`) - インフラストラクチャ層
+#### 4. Infrastructure層 (`/src/infrastructure/`) - インフラストラクチャ層
 
 外部システム（Neon Database + Drizzle ORM）との接続を実装。
 
@@ -125,7 +124,7 @@ infrastructure/
 
 #### 5. 共通リソース
 
-##### Components (`/app/src/components/`) - 共通コンポーネント
+##### Components (`/src/components/`) - 共通コンポーネント
 
 ```
 components/
@@ -144,7 +143,7 @@ components/
 └── shadcn/                # shadcn/uiコンポーネント
 ```
 
-##### Assets (`/app/src/assets/`) - 共通アセット
+##### Assets (`/src/assets/`) - 共通アセット
 
 ```
 assets/
@@ -156,17 +155,26 @@ assets/
 └── no-image.png          # デフォルト画像
 ```
 
-##### Utils (`/app/src/utils/`) - ユーティリティ
+##### Utils (`/src/utils/`) - ユーティリティ
 
-```
+```text
 utils/
 ├── cn.ts                  # className結合ユーティリティ
 └── date.ts                # 日付処理ユーティリティ
 ```
 
-##### Types (`/app/src/types/`) - 型定義
+##### Constant (`/src/constant/`) - 定数
 
+```text
+constant/
+├── adminRoleLabel.ts      # 管理者ロールラベル
+├── eventPublicationStatusLabel.ts  # 公開ステータスラベル
+└── pickupEvents.ts        # ピックアップイベント定数
 ```
+
+##### Types (`/src/types/`) - 型定義
+
+```text
 types/
 └── svg.d.ts              # SVG型定義
 ```

@@ -21,6 +21,7 @@ export function EventTableRow({ event }: EventTableRowProps) {
   const router = useRouter();
 
   const handleRowClick = (e: React.MouseEvent<HTMLTableRowElement>) => {
+    // アクションボタン領域のクリックは無視
     const target = e.target as HTMLElement;
     if (target.closest("[data-actions]") || target.closest("button")) {
       return;
@@ -56,6 +57,11 @@ export function EventTableRow({ event }: EventTableRowProps) {
       </TableCell>
       <TableCell>
         <EventStatusBadge variant={event.publicationStatus} />
+      </TableCell>
+      <TableCell>
+        <Badge variant={event.isPickup ? "default" : "secondary"}>
+          {event.isPickup ? "ON" : "OFF"}
+        </Badge>
       </TableCell>
       <TableCell className="text-center" data-actions>
         <EventActions
