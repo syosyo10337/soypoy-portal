@@ -3,31 +3,34 @@
 import type { Control, FieldValues, Path, PathValue } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { Field, FieldError, FieldLabel } from "@/components/shadcn/field";
-import { Textarea } from "@/components/shadcn/textarea";
+import { Input } from "@/components/shadcn/input";
 
-interface EventDescriptionFieldProps<T extends FieldValues> {
+interface EventTimeFieldProps<T extends FieldValues> {
   control: Control<T>;
   defaultValue?: string;
 }
 
-export function EventDescriptionField<T extends FieldValues>({
+/**
+ * イベント開始時間入力フィールド
+ */
+export function EventTimeField<T extends FieldValues>({
   control,
   defaultValue,
-}: EventDescriptionFieldProps<T>) {
+}: EventTimeFieldProps<T>) {
   return (
     <Controller
-      name={"description" as Path<T>}
+      name={"time" as Path<T>}
       control={control}
       defaultValue={defaultValue as PathValue<T, Path<T>>}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor="description">説明</FieldLabel>
-          <Textarea
+          <FieldLabel htmlFor="time">開始時間</FieldLabel>
+          <Input
             {...field}
-            id="description"
+            id="time"
+            type="time"
             aria-invalid={fieldState.invalid}
-            placeholder="イベントの説明を入力"
-            rows={4}
+            placeholder="開始時間を入力"
           />
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
         </Field>

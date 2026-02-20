@@ -43,6 +43,7 @@ export const baseSchema = z.object({
   date: z.string({ message: "日付を選択してください" }).min(1, {
     message: "日付は必須です",
   }),
+  time: z.string().optional(),
   description: z.string().optional(),
   type: z.enum(eventTypeValues, {
     message: "イベントの種類を選択してください",
