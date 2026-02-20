@@ -23,10 +23,7 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
     <li>
       <div className={cn("flex items-center", navLinkStyle)}>
         <SheetClose asChild>
-          <Link
-            href={item.href}
-            className="block text-2xl py-3 px-4 flex-1"
-          >
+          <Link href={item.href} className="block text-2xl py-3 px-4 flex-1">
             {item.name}
           </Link>
         </SheetClose>
