@@ -79,10 +79,20 @@ const getBorderClassName = (index: number) => {
   // 4列レイアウト（lg以上）: 4件=1行なので bottom border 不要
   const needsRightBorder4Col = index % 4 < 3;
 
+  // 全アイテムにborder-r/border-bを付けてコンテンツ領域を揃え、
+  // 不要な箇所はtransparentで非表示にする
   return cn(
-    needsRightBorder2Col && "border-r border-soypoy-secondary",
-    needsBottomBorder2Col && "border-b border-soypoy-secondary",
-    "lg:border-r-0 lg:border-b-0",
-    needsRightBorder4Col && "lg:border-r lg:border-soypoy-secondary",
+    "border-r border-b",
+    needsRightBorder2Col
+      ? "border-r-soypoy-secondary"
+      : "border-r-transparent",
+    needsBottomBorder2Col
+      ? "border-b-soypoy-secondary"
+      : "border-b-transparent",
+    // 4列: border-b不要、border-rは最後以外に表示
+    "lg:border-b-0",
+    needsRightBorder4Col
+      ? "lg:border-r-soypoy-secondary"
+      : "lg:border-r-transparent",
   );
 };
