@@ -22,21 +22,20 @@ export function MirrorBall({ className }: MirrorBallProps) {
               rotate: [0, 8, 0, -8, 0],
             }
       }
-      transition={{
-        duration: 2.4,
-        repeat: Number.POSITIVE_INFINITY,
-        repeatType: "loop",
-        ease: "easeInOut",
-      }}
+      transition={
+        shouldReduceMotion
+          ? undefined
+          : {
+              duration: 2.4,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "loop",
+              ease: "easeInOut",
+            }
+      }
       className={className}
       aria-hidden="true"
     >
-      <Image
-        src={mirrorballImage}
-        alt=""
-        className="w-full h-auto"
-        priority
-      />
+      <Image src={mirrorballImage} alt="" className="w-full h-auto" priority />
     </motion.div>
   );
 }

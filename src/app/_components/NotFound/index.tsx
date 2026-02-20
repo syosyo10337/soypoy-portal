@@ -23,7 +23,7 @@ export default function NotFound() {
   const shouldReduceMotion = useHydrationSafeReducedMotion();
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center px-4 py-16">
+    <div className="flex-1 flex flex-col items-center justify-center px-4 py-16">
       {/* 4🪩4 + Back to homepage */}
       <motion.div
         {...fadeIn(0, shouldReduceMotion)}
@@ -68,6 +68,6 @@ export default function NotFound() {
       >
         ただいま準備中です
       </motion.p>
-    </main>
+    </div>
   );
 }
