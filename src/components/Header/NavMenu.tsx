@@ -32,7 +32,7 @@ export function NavMenu({ navItems }: { navItems: NavItem[] }) {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-54 md:w-64 h-full bg-soypoy-main border-none p-0 [&>button]:text-soypoy-secondary [&>button]:hover:bg-black/5"
+        className="w-64 md:w-72 h-full bg-soypoy-main border-none p-0 [&>button]:text-soypoy-secondary [&>button]:hover:bg-black/5"
       >
         <SheetHeader className="absolute top-0 left-0 w-0 h-0 overflow-hidden">
           <SheetTitle className="sr-only">ナビゲーションメニュー</SheetTitle>
@@ -45,7 +45,7 @@ export function NavMenu({ navItems }: { navItems: NavItem[] }) {
             "md:py-16 md:px-10",
           )}
         >
-          <ul className="space-y-4">
+          <ul className="divide-y-2 divide-soypoy-secondary/20">
             {navItems.map((item) => (
               <NavMenuItem key={item.name} item={item} />
             ))}
