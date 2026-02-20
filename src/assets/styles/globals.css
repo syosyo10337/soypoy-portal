@@ -12,6 +12,8 @@
   --color-soypoy-secondary: #000000;
   --color-soypoy-accent: #F0433C;
   --color-soypoy-muted: #8E8E8E;
+  --color-day-saturday: #2C3E50;
+  --color-day-sunday: #D6423B;
 
   /* shadcn/ui用のシステムカラー（SOY-POYテーマを反映） */
   --color-background: var(--color-soypoy-main);

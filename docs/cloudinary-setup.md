@@ -12,7 +12,7 @@ User Upload → Cloudinary (画像保存) → URL → Neon DB (URLのみ保存)
 
 ### Step 1: Cloudinaryアカウント作成
 
-1. https://cloudinary.com/users/register_free にアクセス
+1. <https://cloudinary.com/users/register_free> にアクセス
 2. 無料アカウント登録 (クレジットカード不要)
 3. ダッシュボードから以下の情報を取得:
    - Cloud Name
@@ -26,6 +26,7 @@ pnpm add cloudinary next-cloudinary
 ```
 
 **既にインストール済みです!** パッケージは以下の用途で使用します:
+
 - `cloudinary`: サーバーサイドアップロード
 - `next-cloudinary`: クライアントサイド画像表示最適化
 
@@ -61,17 +62,20 @@ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your-cloud-name"
 1. **本番環境 (Production):**
    - Netlify Dashboard → Site settings → Environment variables
    - Scope: `Production`
+
    ```
    APP_ENV="production"
    ```
 
 2. **プレビュー環境 (Deploy Preview):**
    - Scope: `Deploy previews`
+
    ```
    APP_ENV="preview"
    ```
 
 3. **共通設定 (All scopes):**
+
    ```
    CLOUDINARY_CLOUD_NAME="your-cloud-name"
    CLOUDINARY_API_KEY="your-api-key"
@@ -81,7 +85,7 @@ NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="your-cloud-name"
 
 ### Step 4: Cloudinary統合を有効化
 
-**既に実装済みです!** 
+**既に実装済みです!**
 
 `src/services/eventService.ts` が以下の処理を実行します:
 
@@ -101,6 +105,7 @@ async uploadImage(file: File) {
 ```
 
 **アーキテクチャの正しさ:**
+
 - ✅ Schema層: バリデーション + 型変換のみ
 - ✅ Storage層: Cloudinaryアップロード
 - ✅ Service層: 両者をオーケストレーション
@@ -110,17 +115,18 @@ async uploadImage(file: File) {
 ### Step 5: 動作確認
 
 1. 開発サーバー起動:
+
    ```bash
    docker compose up -d
    ```
 
 2. Admin画面でイベント作成:
-   - http://localhost:3000/admin/events/create
+   - <http://localhost:3000/admin/events/create>
    - 画像をアップロード
    - 保存
 
 3. Cloudinaryダッシュボードで確認:
-   - https://cloudinary.com/console/media_library
+   - <https://cloudinary.com/console/media_library>
    - `soypoy-events-dev` フォルダに画像が保存されているか確認
 
 ## 📊 現在のアーキテクチャ
@@ -168,20 +174,24 @@ await repository.create({
 ## 🎯 メリット
 
 ### ✅ パフォーマンス
+
 - **DBサイズ**: URLのみ (数十バイト) vs バイナリ (数MB)
 - **クエリ速度**: 高速 (インデックス可能)
 - **バックアップ**: 軽量
 
 ### ✅ スケーラビリティ
+
 - **CDN配信**: グローバルに高速配信
 - **自動最適化**: WebP/AVIF変換
 - **リサイズ**: URL経由で動的リサイズ可能
 
 ### ✅ コスト
+
 - **Cloudinary無料枠**: 25GB ストレージ、25GB/月 帯域
 - **Neon無料枠**: 0.5GB (画像なしでも十分)
 
 ### ✅ メンテナンス
+
 - **画像変換**: Cloudinaryが自動処理
 - **キャッシュ**: CDNが自動管理
 - **バックアップ**: Cloudinaryが管理
@@ -189,6 +199,7 @@ await repository.create({
 ## 🔒 セキュリティ
 
 ### 実装済み
+
 - ✅ ファイルサイズ制限 (5MB)
 - ✅ MIMEタイプ検証 (JPEG/PNG)
 - ✅ Zodバリデーション
@@ -196,22 +207,26 @@ await repository.create({
 ### 推奨追加設定
 
 **Cloudinaryダッシュボードで設定:**
+
 1. Settings → Security
 2. **Allowed fetch domains**: 自ドメインのみ許可
 3. **Upload presets**: Unsigned uploadを無効化
 
 **本番環境:**
+
 - 署名付きアップロードを使用 (API_SECRETが必要)
 
 ## 📈 使用量モニタリング
 
 ### Cloudinaryダッシュボード
-- https://cloudinary.com/console/usage
+
+- <https://cloudinary.com/console/usage>
 - ストレージ使用量
 - 帯域幅使用量
 - 変換クレジット
 
 ### アラート設定
+
 - Settings → Usage alerts
 - 無料枠の80%で通知
 
@@ -258,6 +273,7 @@ Netlifyのビルトイン環境変数 `CONTEXT` はビルド時のみ利用可�
 **カスタム環境変数 `APP_ENV` はランタイム（Server Actions）でも利用可能**です。
 
 **必須設定:**
+
 ```bash
 # Netlify Environment Variables
 
@@ -292,11 +308,12 @@ Netlifyのビルトイン環境変数 `CONTEXT` は**ビルド時のみ**利用�
 ### 📋 Netlify環境変数設定手順
 
 1. **Netlify Dashboard にアクセス**
-   - https://app.netlify.com/
+   - <https://app.netlify.com/>
 
 2. **Site settings → Environment variables**
 
 3. **共通設定 (All scopes):**
+
    ```
    CLOUDINARY_CLOUD_NAME = "your-cloud-name"
    CLOUDINARY_API_KEY = "your-api-key"
@@ -305,16 +322,19 @@ Netlifyのビルトイン環境変数 `CONTEXT` は**ビルド時のみ**利用�
    ```
 
 4. **Production環境の設定 (Scope: Production):**
+
    ```
    APP_ENV = "production"
    ```
 
 5. **Deploy Preview環境の設定 (Scope: Deploy previews):**
+
    ```
    APP_ENV = "preview"
    ```
 
 6. **ローカル開発 (.env.local):**
+
    ```
    APP_ENV = "development"
    ```
@@ -324,10 +344,12 @@ Netlifyのビルトイン環境変数 `CONTEXT` は**ビルド時のみ**利用�
 ### エラー: "Cloudinary upload failed"
 
 **原因:**
+
 - 環境変数が設定されていない
 - API Keyが間違っている
 
 **解決:**
+
 ```bash
 # 環境変数を確認
 echo $CLOUDINARY_CLOUD_NAME
@@ -345,10 +367,11 @@ docker compose restart
 **確認方法:**
 
 1. **Cloudinaryダッシュボードで確認:**
-   - https://cloudinary.com/console/media_library
+   - <https://cloudinary.com/console/media_library>
    - どのフォルダに画像が保存されているか確認
 
 2. **環境変数を確認:**
+
    ```bash
    # ローカル開発環境
    echo $APP_ENV  # development
@@ -365,9 +388,11 @@ docker compose restart
 ### エラー: "Invalid Cloudinary URL"
 
 **原因:**
+
 - URLフォーマットが想定と異なる
 
 **解決:**
+
 - `deleteImageFromCloudinary` の正規表現を確認
 - CloudinaryのURLフォーマットを確認
 
@@ -387,4 +412,3 @@ docker compose restart
 - [Cloudinary公式ドキュメント](https://cloudinary.com/documentation)
 - [Next.js + Cloudinary](https://next.cloudinary.dev/)
 - [画像最適化ガイド](https://cloudinary.com/documentation/image_optimization)
-

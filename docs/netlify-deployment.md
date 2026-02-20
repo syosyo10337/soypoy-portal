@@ -14,8 +14,6 @@ Netlifyが自動的に提供する環境変数:
 |---------|------|
 | `DEPLOY_PRIME_URL` | 現在のデプロイのプライマリURL |
 
-
-
 ### Netlify UIで設定が必要な環境変数
 
 以下の環境変数をNetlify管理画面で設定してください:
@@ -29,6 +27,7 @@ Scopes: ☑ Production
 ```
 
 生成方法:
+
 ```bash
 # Node.jsで生成
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
@@ -76,10 +75,12 @@ Scopes: ☑ Production ☑ Deploy Previews ☑ Branch deploys
 プロジェクトルートの `netlify.toml` ファイルで以下が設定されています:
 
 ### Production環境
+
 - `BETTER_AUTH_URL`: 本番ドメイン（要変更）
 - `NEXT_PUBLIC_BETTER_AUTH_URL`: 本番ドメイン（要変更）
 
 ### Deploy Preview環境
+
 - `BETTER_AUTH_URL`: `$DEPLOY_PRIME_URL`（自動設定）
 - `NEXT_PUBLIC_BETTER_AUTH_URL`: `$DEPLOY_PRIME_URL`（自動設定）
 
@@ -155,6 +156,7 @@ netlify dev
 
 1. `netlify.toml` で `$DEPLOY_PRIME_URL` が正しく設定されているか確認
 2. ビルドログで環境変数の値を確認:
+
    ```bash
    echo "BETTER_AUTH_URL: $BETTER_AUTH_URL"
    ```
@@ -171,4 +173,3 @@ netlify dev
 - [Netlify Environment Variables](https://docs.netlify.com/configure-builds/environment-variables/)
 - [Netlify Build Configuration](https://docs.netlify.com/configure-builds/file-based-configuration/)
 - [Better Auth Documentation](https://www.better-auth.com/docs)
-

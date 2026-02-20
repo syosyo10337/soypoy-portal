@@ -25,6 +25,7 @@ export const eventService = new EventService(new DrizzleEventRepository());
  */
 export const closedDayService = new ClosedDayService(
   new DrizzleClosedDayRepository(),
+  new DrizzleEventRepository(),
 );
 
 /**

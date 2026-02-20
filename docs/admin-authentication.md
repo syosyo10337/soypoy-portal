@@ -81,4 +81,3 @@ adminプラグインにより、`user`テーブルに以下のカラムが追加
 | `banned` | boolean | BANステータス |
 | `ban_reason` | text | BAN理由 |
 | `ban_expires` | timestamp | BAN期限 |
-

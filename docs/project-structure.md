@@ -1,7 +1,9 @@
 # Project Structure
+
 ## ディレクトリ構成
 
 ### ルートディレクトリ
+
 ```
 /
 ├── bin/                    # 開発用スクリプト
@@ -15,6 +17,7 @@
 ### ソースコード構成 (`/src/`)
 
 #### 1. App Router (`/src/app/`) - プレゼンテーション層
+
 Next.js App Routerを使用したUI層。ページとコンポーネントを管理。
 
 ```
@@ -51,6 +54,7 @@ app/
 ```
 
 **特徴**:
+
 - ルートグループで`(user)`と`admin`を明確に分離
 - ページごとに専用コンポーネントを`_components/`に配置
 - ネストされたルートグループ`(user)/(home)`でルートページを管理
@@ -58,6 +62,7 @@ app/
 - tRPC APIは`/api/trpc`エンドポイントで提供
 
 #### 2. Domain層 (`/src/domain/`) - ドメイン層
+
 ビジネスエンティティとリポジトリインターフェースを定義。
 
 ```
@@ -70,11 +75,13 @@ domain/
 ```
 
 **特徴**:
+
 - 外部依存なし（フレームワーク非依存）
 - ビジネスルールを表現
 - リポジトリパターンでデータアクセスを抽象化
 
 #### 3. Services層 (`/src/services/`) - アプリケーション層
+
 ビジネスロジックとユースケースを実装。
 
 ```
@@ -83,11 +90,13 @@ services/
 ```
 
 **特徴**:
+
 - ドメイン層のみに依存
 - ビジネスロジックを担当
 - リポジトリを依存性注入で受け取る
 
 #### 4. Infrastructure層 (`/src/infrastructure/`) - インフラストラクチャ層
+
 外部システム（Neon Database + Drizzle ORM）との接続を実装。
 
 ```
@@ -107,6 +116,7 @@ infrastructure/
 ```
 
 **特徴**:
+
 - ドメインのリポジトリインターフェースを実装
 - Neon Database（PostgreSQL）との接続を担当
 - Drizzle ORMを使用した型安全なデータアクセス
@@ -115,6 +125,7 @@ infrastructure/
 #### 5. 共通リソース
 
 ##### Components (`/src/components/`) - 共通コンポーネント
+
 ```
 components/
 ├── admin/                 # 管理画面専用コンポーネント
@@ -133,6 +144,7 @@ components/
 ```
 
 ##### Assets (`/src/assets/`) - 共通アセット
+
 ```
 assets/
 ├── fonts/                 # フォントファイル
@@ -144,6 +156,7 @@ assets/
 ```
 
 ##### Utils (`/src/utils/`) - ユーティリティ
+
 ```text
 utils/
 ├── cn.ts                  # className結合ユーティリティ
@@ -151,6 +164,7 @@ utils/
 ```
 
 ##### Constant (`/src/constant/`) - 定数
+
 ```text
 constant/
 ├── adminRoleLabel.ts      # 管理者ロールラベル
@@ -159,6 +173,7 @@ constant/
 ```
 
 ##### Types (`/src/types/`) - 型定義
+
 ```text
 types/
 └── svg.d.ts              # SVG型定義
@@ -189,6 +204,7 @@ types/
 ```
 
 ### ✅ 許可された依存関係（外側 → 内側）
+
 ```
 app/           → services/        ✅ (外→中)
 app/           → domain/          ✅ (外→核心)
@@ -201,6 +217,7 @@ infrastructure/ → services/       ✅ (外→中)
 **重要**: どの層も**より内側の層**に依存できるが、**外側の層**には依存できない
 
 ### ❌ 禁止された依存関係（内側 → 外側）
+
 ```
 domain/        → services/        ❌ (核心→中)
 domain/        → infrastructure/  ❌ (核心→外)
@@ -214,11 +231,13 @@ services/      → app/             ❌ (中→最外)
 ## ファイル配置の特徴
 
 ### 1. フロントエンドの最小化
+
 - ページごとに専用コンポーネントを`_components/`に配置
 - 共通コンポーネントは`/src/components/`に集約
 - アセットは用途別に適切に配置
 
 ### 2. 静的ファイルの配置
+
 - **`/public/layouts/`**: 背景画像などレイアウト用の画像
 - **`/src/assets/`**: アプリケーション内で使用するアセット
 - **`/src/components/*/assets/`**: コンポーネント専用のアセット
