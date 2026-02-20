@@ -11,7 +11,7 @@ export function EventTitle({ title, className }: EventTitleProps) {
       className={cn(
         "font-semibold",
         "text-2xl md:text-4xl",
-        "leading-tight tracking-tight",
+        "leading-tight tracking-tight py-1",
         className,
       )}
     >
