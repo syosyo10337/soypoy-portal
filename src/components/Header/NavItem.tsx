@@ -79,9 +79,8 @@ function SubNavItem({ child }: SubNavItemProps) {
       <SheetClose asChild>
         <Link
           href={child.href}
-          className={cn("flex items-center gap-2 text-xl py-1 px-2", navLinkStyle)}
+          className={cn("block text-xl py-1 px-4", navLinkStyle)}
         >
-          <span aria-hidden="true">•</span>
           {child.name}
         </Link>
       </SheetClose>
