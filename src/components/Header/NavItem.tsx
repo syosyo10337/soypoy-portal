@@ -9,7 +9,7 @@ import { cn } from "@/utils/cn";
 import type { NavItem } from "./constant";
 
 const navLinkStyle =
-  "underline decoration-[1.5px] decoration-transparent hover:decoration-current active:decoration-current transition-colors duration-[400ms]";
+  "rounded-md no-underline hover:bg-soypoy-secondary/10 active:bg-soypoy-secondary/15 transition-colors duration-200";
 
 interface NavMenuItemProps {
   item: NavItem;
@@ -21,12 +21,9 @@ export function NavMenuItem({ item }: NavMenuItemProps) {
 
   return (
     <li>
-      <div className="flex items-center">
+      <div className={cn("flex items-center", navLinkStyle)}>
         <SheetClose asChild>
-          <Link
-            href={item.href}
-            className={cn("block text-2xl py-3 px-4 flex-1", navLinkStyle)}
-          >
+          <Link href={item.href} className="block text-2xl py-3 px-4 flex-1">
             {item.name}
           </Link>
         </SheetClose>
@@ -75,10 +72,12 @@ interface SubNavItemProps {
 
 function SubNavItem({ child }: SubNavItemProps) {
   return (
-    <li className="flex items-center gap-2">
-      <span aria-hidden="true">•</span>
+    <li>
       <SheetClose asChild>
-        <Link href={child.href} className={cn("text-xl py-0.5", navLinkStyle)}>
+        <Link
+          href={child.href}
+          className={cn("block text-xl py-1 px-4", navLinkStyle)}
+        >
           {child.name}
         </Link>
       </SheetClose>
