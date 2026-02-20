@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import {
   EventDateField,
   EventDescriptionField,
+  EventIsPickupField,
   EventPublicationStatusField,
   EventThumbnailField,
   EventTitleField,
@@ -65,6 +66,7 @@ export function EventEditForm() {
       date: "",
       type: undefined,
       thumbnail: undefined,
+      isPickup: false,
     },
   });
 
@@ -115,6 +117,10 @@ export function EventEditForm() {
                 <EventPublicationStatusField
                   control={control}
                   defaultValue={defaultValues.publicationStatus}
+                />
+                <EventIsPickupField
+                  control={control}
+                  defaultValue={defaultValues.isPickup}
                 />
                 <EventDescriptionField
                   control={control}

@@ -66,7 +66,12 @@ export const DeleteButton = React.forwardRef<
   const confirmTitle = defaultConfirmTitle;
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={(v) => {
+        if (!isDisabled) setOpen(v);
+      }}
+    >
       <PopoverTrigger asChild>
         <span>
           <Button
@@ -89,7 +94,12 @@ export const DeleteButton = React.forwardRef<
         <div className="flex flex-col gap-2">
           <p className="text-sm">{confirmTitle}</p>
           <div className="flex justify-end gap-2">
-            <Button variant="outline" size="sm" onClick={() => setOpen(false)}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setOpen(false)}
+              disabled={loading}
+            >
               {confirmCancelText}
             </Button>
             <Button
@@ -100,7 +110,6 @@ export const DeleteButton = React.forwardRef<
                 if (typeof onConfirm === "function") {
                   onConfirm();
                 }
-                setOpen(false);
               }}
             >
               {confirmOkText}

@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import { PICKUP_EVENTS_LIMIT } from "@/constant/pickupEvents";
 import { type EventEntity, PublicationStatus } from "@/domain/entities";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
 
@@ -43,20 +44,35 @@ export class EventService {
   async getEventsByMonth(year: number, month: number): Promise<EventEntity[]> {
     return await this.repository.listByMonth(year, month);
   }
-
-  /**
-   * イベントを公開する
-   */
+  async getPickupEvents(): Promise<EventEntity[]> {
+    const pickupEvents = await this.repository.listPickup();
+    if (pickupEvents.length >= PICKUP_EVENTS_LIMIT) {
+      return pickupEvents;
+    }
+    const remaining = PICKUP_EVENTS_LIMIT - pickupEvents.length;
+    const excludeIds = pickupEvents.map((e) => e.id);
+    const fallbackEvents = await this.repository.listLatestPublished(
+      remaining,
+      excludeIds,
+    );
+    return [...pickupEvents, ...fallbackEvents];
+  }
   async publishEvent(id: string): Promise<EventEntity> {
+    const event = await this.repository.findById(id);
+    if (!event) throw new Error("イベントが見つかりません");
+    if (event.publicationStatus !== PublicationStatus.Draft) {
+      throw new Error("下書きのみ公開できます");
+    }
     return await this.repository.update(id, {
       publicationStatus: PublicationStatus.Published,
     });
   }
-
-  /**
-   * イベントを非公開（下書き）に戻す
-   */
   async unpublishEvent(id: string): Promise<EventEntity> {
+    const event = await this.repository.findById(id);
+    if (!event) throw new Error("イベントが見つかりません");
+    if (event.publicationStatus !== PublicationStatus.Published) {
+      throw new Error("公開中イベントのみ下書きに戻せます");
+    }
     return await this.repository.update(id, {
       publicationStatus: PublicationStatus.Draft,
     });

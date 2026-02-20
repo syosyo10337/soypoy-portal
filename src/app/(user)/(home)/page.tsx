@@ -1,6 +1,7 @@
+import { Suspense } from "react";
 import HeroSection from "./_components/HeroSection";
 import ArchDecoration from "./_components/HeroSection/VideoArea/ArchDecoration";
-import PickUpSection from "./_components/PIckUpSection";
+import PickUpSection from "./_components/PickUpSection";
 import ScrollReset from "./_components/ScrollReset";
 import WhatUpSection from "./_components/WhatUpSection";
 
@@ -10,7 +11,9 @@ export default function Page() {
       <ScrollReset />
       <ArchDecoration />
       <HeroSection />
-      <PickUpSection />
+      <Suspense fallback={null}>
+        <PickUpSection />
+      </Suspense>
       <WhatUpSection />
     </div>
   );
