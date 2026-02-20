@@ -9,7 +9,6 @@ import { cn } from "@/utils/cn";
 import {
   formatDayOfWeek,
   formatMonthDayOnly,
-  formatTime,
   getDayOfWeekColorClass,
 } from "@/utils/date";
 import { truncate } from "@/utils/text";
@@ -93,7 +92,6 @@ export function EventListItem({ event }: EventListItemProps) {
 
         <div className="text-soypoy-muted font-display text-sm md:text-base">
           {priceOrCondition && <p>{priceOrCondition}</p>}
-          <p>{`START: ${formatTime(event.date)}`}</p>
         </div>
       </div>
       {event.isPickup && <PickUpLabel />}

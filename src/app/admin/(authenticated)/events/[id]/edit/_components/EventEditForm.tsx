@@ -10,6 +10,7 @@ import {
   EventIsPickupField,
   EventPublicationStatusField,
   EventThumbnailField,
+  EventTimeField,
   EventTitleField,
   EventTypeField,
 } from "@/components/admin/EventFormFields";
@@ -64,6 +65,7 @@ export function EventEditForm() {
       title: "",
       description: "",
       date: "",
+      time: "",
       type: undefined,
       thumbnail: undefined,
       isPickup: false,
@@ -77,13 +79,17 @@ export function EventEditForm() {
   if (isError) return <EventError viewType="edit" onRetry={refetch} />;
   if (!defaultValues) return <EventNotFound viewType="edit" />;
 
-  const onSubmit = async (formData: UpdateEventFormData) => {
+  const onSubmit = async ({ time, ...formData }: UpdateEventFormData) => {
     try {
-      const submitData = await uploadIfNeeded<UpdateEventFormData>(
-        formData,
-        setError,
-      );
+      const submitData = await uploadIfNeeded<
+        Omit<UpdateEventFormData, "time">
+      >(formData, setError);
       if (!submitData) return; // アップロード失敗
+
+      // 時間が入力されている場合、日付と結合してISO8601形式にする
+      if (time) {
+        submitData.date = `${submitData.date}T${time}`;
+      }
 
       await onFinish(submitData);
     } catch (error) {
@@ -109,6 +115,14 @@ export function EventEditForm() {
                 <EventDateField
                   control={control}
                   defaultValue={defaultValues.date}
+                />
+                <EventTimeField
+                  control={control}
+                  defaultValue={
+                    defaultValues.date.includes("T")
+                      ? defaultValues.date.split("T")[1]?.substring(0, 5)
+                      : undefined
+                  }
                 />
                 <EventTypeField
                   control={control}

@@ -8,6 +8,7 @@ import {
   EventDescriptionField,
   EventIsPickupField,
   EventThumbnailField,
+  EventTimeField,
   EventTitleField,
   EventTypeField,
 } from "@/components/admin/EventFormFields";
@@ -50,16 +51,22 @@ export function CreateEventForm() {
       title: "",
       description: "",
       date: "",
+      time: "",
       type: undefined,
       thumbnail: undefined,
       isPickup: false,
     },
   });
 
-  const onSubmit = async (data: CreateEventFormData) => {
+  const onSubmit = async ({ time, ...data }: CreateEventFormData) => {
     try {
       const submitData = await uploadIfNeeded(data, setError);
       if (!submitData) return; // アップロード失敗
+
+      // 時間が入力されている場合、日付と結合してISO8601形式にする
+      if (time) {
+        submitData.date = `${submitData.date}T${time}`;
+      }
 
       await onFinish(submitData);
     } catch (error) {
@@ -80,6 +87,7 @@ export function CreateEventForm() {
               <div className="space-y-4">
                 <EventTitleField control={control} />
                 <EventDateField control={control} />
+                <EventTimeField control={control} />
                 <EventTypeField control={control} />
                 <EventIsPickupField control={control} />
                 <EventDescriptionField control={control} />
