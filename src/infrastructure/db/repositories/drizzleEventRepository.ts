@@ -66,6 +66,7 @@ export class DrizzleEventRepository implements EventRepository {
     limit: number,
     excludeIds: string[] = [],
   ): Promise<EventEntity[]> {
+    if (limit <= 0) return [];
     const conditions = [
       eq(events.publicationStatus, PublicationStatus.Published),
     ];
