@@ -24,7 +24,7 @@ export function AboutLinkButton() {
       <Link href="/about" className="flex items-center justify-center gap-2">
         <span className="text-xl leading-5">About</span>
         <span className="text-3xl leading-8">SOY-POY</span>
-        <CircleArrowRight className="!size-5 md:!size-6" />
+        <CircleArrowRight className="size-5! md:size-6!" />
       </Link>
     </Button>
   );
