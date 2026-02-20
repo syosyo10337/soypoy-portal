@@ -18,7 +18,7 @@ import taitoProfile from "./assets/taito-profile.webp";
 export interface Member {
   id: string;
   name: string;
-  role: string;
+  role: string[];
   profileImage?: string | StaticImageData;
 }
 
@@ -26,79 +26,79 @@ export const MEMBERS: Member[] = [
   {
     id: "1",
     name: "Taito Katsumata",
-    role: "Writer",
+    role: ["Writer"],
     profileImage: taitoProfile,
   },
   {
     id: "2",
     name: "Hisaaki Matsuda",
-    role: "Back Officer",
+    role: ["Back Officer"],
     profileImage: hisProfile,
   },
   {
     id: "3",
     name: "Michael Yoshioka",
-    role: "Director",
+    role: ["Director"],
     profileImage: michaelProfile,
   },
   {
     id: "4",
     name: "Genki Miyachi",
-    role: "Engineer",
+    role: ["Engineer"],
     profileImage: miyachiProfile,
   },
   {
     id: "5",
     name: "Hibiki Ueda",
-    role: "Jazz Musician",
+    role: ["Jazz Musician"],
     profileImage: hibikiProfile,
   },
   {
     id: "6",
     name: "Mizuki Araki",
-    role: "Manager",
+    role: ["Manager"],
     profileImage: mizukiProfile,
   },
   {
     id: "7",
     name: "Masanao Takahashi",
-    role: "Drummer / Engineer",
+    role: ["Drummer", "Engineer"],
     profileImage: masaProfile,
   },
   {
     id: "8",
     name: "Mizuki Niino",
-    role: "Communication Designer",
+    role: ["Communication Designer"],
     profileImage: niinoProfile,
   },
   {
     id: "9",
     name: "Hina Okutani",
-    role: " Art Director ",
+    role: ["Art Director"],
     profileImage: okutaniProfile,
   },
   {
     id: "10",
     name: "Kazane",
-    role: "Actor / Script Writer",
+    role: ["Actor", "Script Writer"],
     profileImage: kazaneProfile,
   },
   {
     id: "11",
     name: "Hiromu Kondo",
-    role: "Pianist",
+    role: ["Pianist"],
     profileImage: hiromuProfile,
   },
   {
     id: "12",
     name: "Godo Ouchi",
-    role: "Comedian",
+    role: ["Comedian"],
     profileImage: godoProfile,
   },
   {
     id: "13",
     name: "Ken Amanome",
-    role: "Dancer / Physical Therapist",
+    role: ["Dancer", "Physical Therapist"],
     profileImage: kenProfile,
   },
 ];

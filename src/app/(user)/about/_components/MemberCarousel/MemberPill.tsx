@@ -4,7 +4,7 @@ import { cn } from "@/utils/cn";
 
 export interface MemberPillProps {
   name: string;
-  role: string;
+  role: string[];
   profileImage?: string | StaticImageData;
   color: string;
 }
@@ -15,7 +15,6 @@ export default function MemberPill({
   profileImage,
   color,
 }: MemberPillProps) {
-  const roles = role.split(/\s*\/\s*/);
   const names = name.split(/\s+/).filter((n) => n.trim() !== "");
 
   return (
@@ -43,9 +42,7 @@ export default function MemberPill({
           "line-clamp-3",
         )}
       >
-        {roles.map((role) => (
-          <p key={role}>{role}</p>
-        ))}
+        {role.join(", ")}
       </div>
 
       {/* 画像（絶対配置・中央固定） */}
