@@ -29,10 +29,11 @@ export function MirrorBall({ className }: MirrorBallProps) {
         ease: "easeInOut",
       }}
       className={className}
+      aria-hidden="true"
     >
       <Image
         src={mirrorballImage}
-        alt="ミラーボール"
+        alt=""
         className="w-full h-auto"
         priority
       />
