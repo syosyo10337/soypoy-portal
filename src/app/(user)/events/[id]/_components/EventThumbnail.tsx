@@ -26,7 +26,9 @@ export function EventThumbnail({
       <EventImage src={src} alt={alt} />
       <div
         className={cn(
-          getLabelPositionClassName(getRandomNumberWithRange(4)),
+          getLabelPositionClassName(getRandomNumberWithRange(4), {
+            skipTopLeft: true,
+          }),
           "scale-100 md:scale-110",
         )}
       >
