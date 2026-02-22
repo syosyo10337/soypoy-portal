@@ -1,35 +1,23 @@
 @theme {
-  --film-roll-duration: 60s;
-  --film-roll-timing: linear;
-  --film-roll-iteration: infinite;
+  --film-roll-duration: 38s;
 }
 
-@keyframes film-roll-flow {
-  0% {
-    background-position: 0 0;
+@keyframes film-roll-scroll {
+  from {
+    transform: translateY(-50%);
   }
-  100% {
-    background-position: 0 -100%;
+  to {
+    transform: translateY(0);
   }
 }
 
-.film-roll-flow {
-  background-repeat: repeat-y;
-  background-size: 100% auto;
-  animation: film-roll-flow var(--film-roll-duration) var(--film-roll-timing) var(--film-roll-iteration);
-}
-
-/* Film Roll Background Images */
-.bg-filmroll-left {
-  background-image: url('/layouts/fuda_filmroll_left.webp');
-}
-
-.bg-filmroll-right {
-  background-image: url('/layouts/fuda_filmroll_right.webp');
+.film-roll-scroll {
+  will-change: transform;
+  animation: film-roll-scroll var(--film-roll-duration) linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .film-roll-flow {
+  .film-roll-scroll {
     animation: none;
   }
 }
