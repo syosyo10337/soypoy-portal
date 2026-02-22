@@ -5,7 +5,7 @@ import Image from "next/image";
 import { cn } from "@/utils/cn";
 import { Z_INDEX } from "../../constants";
 import FudaOverLay from "./FudaOverLay";
-import ArchImage from "./soypoyArch.png";
+import ArchImage from "./soypoyArch.webp";
 import { useArchAnimation } from "./useArchAnimation";
 
 export default function ArchDecoration() {
@@ -32,7 +32,7 @@ export default function ArchDecoration() {
       }}
     >
       {/* aspect-ratioを固定してレスポンシブ時の位置ずれを防ぐ */}
-      <div className="relative w-full aspect-[1420/426]">
+      <div className="relative w-full aspect-1420/426">
         <Image
           src={ArchImage}
           alt="Arch Decoration"
