@@ -2,6 +2,9 @@ import { and, desc, eq, notInArray, sql } from "drizzle-orm";
 import { PICKUP_EVENTS_LIMIT } from "@/constant/pickupEvents";
 import { PublicationStatus } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities/";
+import type { Performer } from "@/domain/entities/event/performer";
+import type { PricingTier } from "@/domain/entities/event/pricing";
+import type { Venue } from "@/domain/entities/event/venue";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
 import { dateTimeFromISO, dateToIsoFull } from "@/utils/date";
 import { db } from "../index";
@@ -108,6 +111,12 @@ export class DrizzleEventRepository implements EventRepository {
       thumbnail: event.thumbnail ?? null,
       type: event.type,
       isPickup: event.isPickup,
+      openTime: event.openTime ?? null,
+      startTime: event.startTime ?? null,
+      pricing: event.pricing ?? null,
+      venue: event.venue ?? null,
+      performers: event.performers ?? null,
+      hashtags: event.hashtags ?? null,
     };
 
     await db.insert(events).values(insertData);
@@ -138,6 +147,24 @@ export class DrizzleEventRepository implements EventRepository {
       }),
       ...(event.type !== undefined && { type: event.type }),
       ...(event.isPickup !== undefined && { isPickup: event.isPickup }),
+      ...(event.openTime !== undefined && {
+        openTime: event.openTime ?? null,
+      }),
+      ...(event.startTime !== undefined && {
+        startTime: event.startTime ?? null,
+      }),
+      ...(event.pricing !== undefined && {
+        pricing: event.pricing ?? null,
+      }),
+      ...(event.venue !== undefined && {
+        venue: event.venue ?? null,
+      }),
+      ...(event.performers !== undefined && {
+        performers: event.performers ?? null,
+      }),
+      ...(event.hashtags !== undefined && {
+        hashtags: event.hashtags ?? null,
+      }),
     };
 
     const [updated] = await db
@@ -182,6 +209,12 @@ export class DrizzleEventRepository implements EventRepository {
       thumbnail: drizzleEvent.thumbnail ?? undefined,
       type: drizzleEvent.type as EventEntity["type"],
       isPickup: drizzleEvent.isPickup,
+      openTime: drizzleEvent.openTime ?? null,
+      startTime: drizzleEvent.startTime ?? null,
+      pricing: (drizzleEvent.pricing as PricingTier[]) ?? null,
+      venue: (drizzleEvent.venue as Venue) ?? null,
+      performers: (drizzleEvent.performers as Performer[]) ?? null,
+      hashtags: drizzleEvent.hashtags ?? null,
     };
   }
 }

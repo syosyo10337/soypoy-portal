@@ -71,6 +71,13 @@
       "when": 1771580639558,
       "tag": "0009_plain_captain_midlands",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1771742952412,
+      "tag": "0010_productive_kulan_gath",
+      "breakpoints": true
     }
   ]
 }

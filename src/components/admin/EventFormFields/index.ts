@@ -1,8 +1,12 @@
 export { EventDateField } from "./EventDateField";
 export { EventDescriptionField } from "./EventDescriptionField";
+export { EventHashtagsField } from "./EventHashtagsField";
 export { EventIsPickupField } from "./EventIsPickupField";
+export { EventPerformersField } from "./EventPerformersField";
+export { EventPricingField } from "./EventPricingField";
 export { EventPublicationStatusField } from "./EventPublicationStatusField";
 export { EventThumbnailField } from "./EventThumbnailField";
-export { EventTimeField } from "./EventTimeField";
+export { EventTimeFields } from "./EventTimeFields";
 export { EventTitleField } from "./EventTitleField";
 export { EventTypeField } from "./EventTypeField";
+export { EventVenueField } from "./EventVenueField";

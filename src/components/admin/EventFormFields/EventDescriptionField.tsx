@@ -25,6 +25,7 @@ export function EventDescriptionField<T extends FieldValues>({
           <Textarea
             {...field}
             id="description"
+            rows={5}
             aria-invalid={fieldState.invalid}
             placeholder="イベントの説明を入力"
             rows={4}

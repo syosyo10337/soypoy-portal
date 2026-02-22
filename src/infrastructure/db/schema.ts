@@ -1,6 +1,7 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import {
   boolean,
+  jsonb,
   pgEnum,
   pgTable,
   text,
@@ -42,6 +43,12 @@ export const events = pgTable("events", {
   thumbnail: text(),
   type: eventTypeEnum().notNull(),
   isPickup: boolean().notNull().default(false),
+  openTime: varchar({ length: 5 }),
+  startTime: varchar({ length: 5 }),
+  pricing: jsonb(),
+  venue: jsonb(),
+  performers: jsonb(),
+  hashtags: text().array(),
 });
 
 export const closedDays = pgTable("closed_days", {
