@@ -21,11 +21,11 @@
 
 /* Film Roll Background Images */
 .bg-filmroll-left {
-  background-image: url('/layouts/fuda_filmroll_left.png');
+  background-image: url('/layouts/fuda_filmroll_left.webp');
 }
 
 .bg-filmroll-right {
-  background-image: url('/layouts/fuda_filmroll_right.png');
+  background-image: url('/layouts/fuda_filmroll_right.webp');
 }
 
 @media (prefers-reduced-motion: reduce) {
