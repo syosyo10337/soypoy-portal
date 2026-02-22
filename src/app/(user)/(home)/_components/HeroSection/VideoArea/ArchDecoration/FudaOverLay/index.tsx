@@ -132,6 +132,7 @@ function FudaOverLayBottom() {
           src={StatueOfLibertyImage}
           alt="Statue of Liberty"
           className="w-[10vw]"
+          priority
         />
       </div>
       <div

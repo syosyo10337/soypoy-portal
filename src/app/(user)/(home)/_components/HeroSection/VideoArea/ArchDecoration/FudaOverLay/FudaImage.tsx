@@ -5,16 +5,22 @@ interface FudaImageProps {
   src: StaticImageData;
   alt: string;
   className?: string;
+  priority?: boolean;
 }
 
-export default function FudaImage({ src, alt, className }: FudaImageProps) {
+export default function FudaImage({
+  src,
+  alt,
+  className,
+  priority = false,
+}: FudaImageProps) {
   return (
     <Image
       src={src}
       alt={alt}
       className={cn("h-auto", className)}
       quality={85}
-      priority={false}
+      priority={priority}
     />
   );
 }
