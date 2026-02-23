@@ -31,7 +31,7 @@ export default async function WhatsUpPage({ searchParams }: WhatsUpPageProps) {
           className={cn(
             "font-anymale",
             "text-5xl md:text-[66px]",
-            "leading-tight md:leading-[66px]",
+            "leading-tight md:leading-16.5",
             "tracking-tight md:tracking-[-1.32px]",
             "text-black",
           )}
