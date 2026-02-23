@@ -28,8 +28,9 @@ function FilmRollStrip({ image }: { image: StaticImageData }) {
   return (
     <div className="shrink-0 w-7 md:w-13 overflow-hidden">
       <div className="film-roll-scroll">
-        {/* 2枚並べることでシームレスなループを実現 */}
+        {/* 3枚並べて4Kディスプレイでもカバー */}
         <Image src={image} alt="" priority className="block w-full h-auto" />
+        <Image src={image} alt="" className="block w-full h-auto" />
         <Image src={image} alt="" className="block w-full h-auto" />
       </div>
     </div>
