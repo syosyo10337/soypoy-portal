@@ -32,7 +32,7 @@ export default function ArchDecoration() {
       }}
     >
       {/* aspect-ratioを固定してレスポンシブ時の位置ずれを防ぐ */}
-      <div className="relative w-full aspect-1420/426">
+      <div className="relative w-full aspect-2849/861">
         {/*
          * fill + sizes でモバイルに最適な画像サイズを配信する
          * - width/height 指定だと srcSet が 1x/2x の2択 → モバイルでも常に元画像(1424px)をそのまま取得
