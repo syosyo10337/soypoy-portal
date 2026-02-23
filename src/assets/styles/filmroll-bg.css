@@ -19,5 +19,6 @@
 @media (prefers-reduced-motion: reduce) {
   .film-roll-scroll {
     animation: none;
+    will-change: auto;
   }
 }
