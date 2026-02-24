@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useHydrationSafeReducedMotion } from "@/hooks/useHydrationSafeReducedMotion";
 import { mirrorballImage } from "./assets";
 
 interface MirrorBallProps {
@@ -28,8 +27,6 @@ const GLINTS: Array<{
 ];
 
 export function MirrorBall({ className }: MirrorBallProps) {
-  const shouldReduceMotion = useHydrationSafeReducedMotion();
-
   return (
     <div
       className={`relative select-none ${className ?? ""}`}
@@ -41,27 +38,26 @@ export function MirrorBall({ className }: MirrorBallProps) {
         className="w-full h-auto"
         fetchPriority="high"
       />
-      {!shouldReduceMotion && (
-        <div className="mirrorball-glints">
-          {GLINTS.map((glint) => (
-            <div
-              key={glint.id}
-              className="mirrorball-glint"
-              style={{
-                top: glint.top,
-                width: `${glint.size}px`,
-                height: `${glint.size}px`,
-                animationName:
-                  glint.direction === "ltr"
-                    ? "mirrorball-glint-ltr"
-                    : "mirrorball-glint-rtl",
-                animationDuration: `${glint.duration}s`,
-                animationDelay: `${glint.delay}s`,
-              }}
-            />
-          ))}
-        </div>
-      )}
+      {/* reduced-motion は CSS @media で制御するため JS チェック不要 */}
+      <div className="mirrorball-glints">
+        {GLINTS.map((glint) => (
+          <div
+            key={glint.id}
+            className="mirrorball-glint"
+            style={{
+              top: glint.top,
+              width: `${glint.size}px`,
+              height: `${glint.size}px`,
+              animationName:
+                glint.direction === "ltr"
+                  ? "mirrorball-glint-ltr"
+                  : "mirrorball-glint-rtl",
+              animationDuration: `${glint.duration}s`,
+              animationDelay: `${glint.delay}s`,
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }

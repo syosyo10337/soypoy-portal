@@ -7,10 +7,12 @@
   border-radius: 50%;
   overflow: hidden;
   pointer-events: none;
+  container-type: inline-size;
 }
 
 .mirrorball-glint {
   position: absolute;
+  left: 0;
   border-radius: 50%;
   background: radial-gradient(
     circle,
@@ -18,14 +20,16 @@
     rgba(255, 255, 255, 0.5) 35%,
     rgba(255, 255, 255, 0) 100%
   );
-  transform: translateY(-50%);
+  /* CSS translate プロパティで縦位置を調整（transform とは独立して合成される） */
+  translate: 0 -50%;
+  will-change: transform;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
 @keyframes mirrorball-glint-ltr {
-  0% {
-    left: -16px;
+  from {
+    transform: translateX(-20px);
     opacity: 0;
   }
   5% {
@@ -34,15 +38,15 @@
   95% {
     opacity: 1;
   }
-  100% {
-    left: calc(100% + 16px);
+  to {
+    transform: translateX(calc(100cqw + 20px));
     opacity: 0;
   }
 }
 
 @keyframes mirrorball-glint-rtl {
-  0% {
-    left: calc(100% + 16px);
+  from {
+    transform: translateX(calc(100cqw + 20px));
     opacity: 0;
   }
   5% {
@@ -51,8 +55,15 @@
   95% {
     opacity: 1;
   }
-  100% {
-    left: -16px;
+  to {
+    transform: translateX(-20px);
     opacity: 0;
+  }
+}
+
+/* filmroll と同じパターン: CSS側でも確実にモーションを止める */
+@media (prefers-reduced-motion: reduce) {
+  .mirrorball-glints {
+    display: none;
   }
 }
