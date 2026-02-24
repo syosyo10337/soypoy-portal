@@ -1,7 +1,20 @@
+"use client";
+
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+
 export default function VideoPlayer() {
+  const isMobile = useMediaQuery("(max-width: 639px)");
+
+  if (isMobile === null) {
+    return <div className="w-full h-full" />;
+  }
+
+  const src = isMobile ? "/videos/hero_sp.webm" : "/videos/hero.webm";
+
   return (
     <div className="w-full h-full">
       <video
+        key={src}
         autoPlay
         muted
         loop
@@ -10,10 +23,7 @@ export default function VideoPlayer() {
         className="w-full h-full object-cover"
         aria-label="soy-poy promotional background video"
       >
-        <source src="/videos/hero.webm" type="video/webm" />
-        <source src="/videos/hero.mp4" type="video/mp4" />
-        <source src="/videos/hero_sp.webm" type="video/webm" />
-        <source src="/videos/hero_sp.mp4" type="video/mp4" />
+        <source src={src} type="video/webm" />
       </video>
     </div>
   );
