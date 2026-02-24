@@ -4,7 +4,7 @@ export const ANIMATION_CONFIG = {
     damping: 9,
     mass: 2,
   },
-  DEFAULT_DELAY: 900,
+  DEFAULT_DELAY: 400,
   ANIMATION_CURVE: {
     input: [0, 0.5, 0.8, 1.0],
     output: [0, 1.1, 0.85, 1.0],
