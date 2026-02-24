@@ -32,11 +32,11 @@ function FilmRollStrip({ image }: { image: StaticImageData }) {
         <Image
           src={image}
           alt=""
-          fetchPriority="high"
+          preload
           className="block w-full h-auto"
         />
-        <Image src={image} alt="" className="block w-full h-auto" />
-        <Image src={image} alt="" className="block w-full h-auto" />
+        <Image src={image} alt="" loading="eager" className="block w-full h-auto" />
+        <Image src={image} alt="" loading="eager" className="block w-full h-auto" />
       </div>
     </div>
   );
