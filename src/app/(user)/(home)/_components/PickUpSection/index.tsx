@@ -1,10 +1,10 @@
-import { createServerCaller } from "@/infrastructure/trpc/server";
+import { createPublicServerCaller } from "@/infrastructure/trpc/server";
 import EventGrid from "./EventGrid";
 import { MarqueeDirection, PickUpMarquee } from "./PickUpMarquee";
 
 export default async function PickUpSection() {
   try {
-    const trpc = await createServerCaller();
+    const trpc = await createPublicServerCaller();
     const events = await trpc.events.listPickup();
 
     if (events.length === 0) {

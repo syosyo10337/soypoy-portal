@@ -12,6 +12,10 @@ services:
       - /app/.next
       - node_modules:/app/node_modules
       - pnpm_store:/pnpm/store
+    # Google DNSを追加 for google font
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     environment:
       - NODE_ENV=development
 

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "./bin/runenv next dev",
     "build": "pnpm db:migrate && NODE_ENV=production next build",
+    "build:local": "NODE_ENV=production ./bin/runenv next build",
     "start": "next start",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",

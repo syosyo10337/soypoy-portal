@@ -1,0 +1,19 @@
+#!/bin/bash
+# ローカルビルド確認用スクリプト
+# Docker コンテナ内で環境変数を復号化して next build を実行する
+# db:migrate はスキップ（ローカル確認では不要）
+#
+# 使用方法: ./bin/build
+
+set -euo pipefail
+
+CONTAINER_RUNNING=$(docker compose ps --status running --services | grep app || true)
+
+if [ -z "$CONTAINER_RUNNING" ]; then
+  echo "ℹ️  開発コンテナが実行されていません。一時的なコンテナで実行します..."
+  echo "🔄 ビルドを実行中..."
+  docker compose run --rm app pnpm build:local
+else
+  echo "🔄 開発コンテナ内でビルドを実行中..."
+  docker compose exec app pnpm build:local
+fi

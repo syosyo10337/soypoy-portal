@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { PageTitle } from "@/components/PageTitle";
-import { createServerCaller } from "@/infrastructure/trpc/server";
+import { createPublicServerCaller } from "@/infrastructure/trpc/server";
 import { cn } from "@/utils/cn";
 import { APP_TIMEZONE } from "@/utils/date";
 import { EventList } from "./_components/EventList";
@@ -42,7 +42,7 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
 }
 
 async function EventsContent({ year, month }: { year: number; month: number }) {
-  const trpc = await createServerCaller();
+  const trpc = await createPublicServerCaller();
   const [events, closedDays] = await Promise.all([
     trpc.events.listByMonth({ year, month }),
     trpc.closedDays.listByMonth({ year, month }),
