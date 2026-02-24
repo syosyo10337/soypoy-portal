@@ -14,7 +14,6 @@ export default function FudaImage({ src, alt, className }: FudaImageProps) {
       alt={alt}
       className={cn("h-auto", className)}
       quality={85}
-      priority={false}
     />
   );
 }

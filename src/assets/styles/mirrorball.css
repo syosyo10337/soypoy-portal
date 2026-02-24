@@ -1,0 +1,58 @@
+.mirrorball-glints {
+  position: absolute;
+  top: 5%;
+  left: 4%;
+  right: 4%;
+  bottom: 2%;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.mirrorball-glint {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.5) 35%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateY(-50%);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes mirrorball-glint-ltr {
+  0% {
+    left: -16px;
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% + 16px);
+    opacity: 0;
+  }
+}
+
+@keyframes mirrorball-glint-rtl {
+  0% {
+    left: calc(100% + 16px);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    left: -16px;
+    opacity: 0;
+  }
+}

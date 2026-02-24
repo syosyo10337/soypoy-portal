@@ -44,6 +44,6 @@ export const zenOldMincho = Zen_Old_Mincho({
 export const shipporiMincho = Shippori_Mincho({
   variable: "--font-shippori-mincho",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "700",
   display: "swap",
 });
