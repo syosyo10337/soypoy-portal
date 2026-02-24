@@ -21,7 +21,7 @@ export default function ArchDecoration() {
         y: ["100%", "0%"],
       }}
       transition={{
-        duration: 1.5,
+        duration: 1.1,
         ease: "easeInOut",
       }}
       onAnimationComplete={() => setIsInitialAnimationComplete(true)}

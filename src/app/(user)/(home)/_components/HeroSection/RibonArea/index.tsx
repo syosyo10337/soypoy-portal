@@ -16,8 +16,8 @@ export default function RibonArea() {
       initial={{ opacity: 0, y: 0 }}
       animate={{ opacity: 1, y: -10 }}
       transition={{
-        delay: shouldReduceMotion ? 0 : 2.4,
-        duration: shouldReduceMotion ? 0 : 1,
+        delay: shouldReduceMotion ? 0 : 1.8,
+        duration: shouldReduceMotion ? 0 : 0.8,
         ease: "easeOut",
       }}
       className={cn(
