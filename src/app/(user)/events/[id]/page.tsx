@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageTitle } from "@/components/PageTitle";
-import { createServerCaller } from "@/infrastructure/trpc/server";
+import { createPublicServerCaller } from "@/infrastructure/trpc/server";
 import { cn } from "@/utils/cn";
 
 import {
@@ -23,7 +23,7 @@ export async function generateMetadata({
   params,
 }: EventDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const trpc = await createServerCaller();
+  const trpc = await createPublicServerCaller();
   const event = await trpc.events.getById(id);
 
   if (!event) {
@@ -54,7 +54,7 @@ export default async function EventDetailPage({
 }: EventDetailPageProps) {
   const { id } = await params;
 
-  const trpc = await createServerCaller();
+  const trpc = await createPublicServerCaller();
   const event = await trpc.events.getById(id);
 
   if (!event) notFound();

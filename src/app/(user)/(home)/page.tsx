@@ -6,6 +6,8 @@ import { PickUpSkeleton } from "./_components/PickUpSection/PickUpSkeleton";
 import ScrollReset from "./_components/ScrollReset";
 import WhatUpSection from "./_components/WhatUpSection";
 
+export const revalidate = 300;
+
 export default function Page() {
   return (
     <div className="min-h-screen">
