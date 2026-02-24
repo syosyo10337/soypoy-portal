@@ -1,8 +1,8 @@
 export const ANIMATION_CONFIG = {
   DEFAULT_SPRING: {
-    stiffness: 12,
+    stiffness: 13,
     damping: 9,
-    mass: 3,
+    mass: 2,
   },
   DEFAULT_DELAY: 900,
   ANIMATION_CURVE: {
