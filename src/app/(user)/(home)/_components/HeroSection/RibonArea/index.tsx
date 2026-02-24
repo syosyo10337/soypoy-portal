@@ -37,6 +37,7 @@ export default function RibonArea() {
         alt=""
         aria-hidden="true"
         sizes="(min-width: 1536px) 60vw, (min-width: 1280px) 64rem, (min-width: 768px) 56rem, 100vw"
+        loading="eager"
         className={cn(
           "relative w-full h-auto",
           `z-[${Z_INDEX.archDecoration}]`,

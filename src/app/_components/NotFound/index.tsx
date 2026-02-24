@@ -34,14 +34,14 @@ export default function NotFound() {
             src={fourImage}
             alt=""
             className="h-28 sm:h-40 md:h-72 w-auto"
-            priority
+            fetchPriority="high"
           />
           <MirrorBall className="w-24 sm:w-32 md:w-56 mx-4 sm:mx-8 md:mx-16" />
           <Image
             src={fourImage}
             alt=""
             className="h-28 sm:h-40 md:h-72 w-auto"
-            priority
+            fetchPriority="high"
           />
         </h1>
 

@@ -45,6 +45,7 @@ export default function ArchDecoration() {
           fill
           sizes="(max-width: 1424px) 100vw, 1424px"
           className="object-contain"
+          fetchPriority="high"
         />
         {/* FudaOverLayを同じaspect-ratio内に配置 */}
         <FudaOverLay

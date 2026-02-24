@@ -52,7 +52,7 @@ export function EventImage({ src, alt, className }: EventImageProps) {
       className={cn("w-full max-w-sm aspect-insta object-cover", className)}
       width={600}
       height={750}
-      priority
+      preload
     />
   ) : (
     <CldImage
@@ -63,7 +63,7 @@ export function EventImage({ src, alt, className }: EventImageProps) {
       height={750}
       crop="fill"
       gravity="auto"
-      priority
+      preload
     />
   );
 }

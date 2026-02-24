@@ -35,7 +35,12 @@ export function MirrorBall({ className }: MirrorBallProps) {
       className={className}
       aria-hidden="true"
     >
-      <Image src={mirrorballImage} alt="" className="w-full h-auto" priority />
+      <Image
+        src={mirrorballImage}
+        alt=""
+        className="w-full h-auto"
+        fetchPriority="high"
+      />
     </motion.div>
   );
 }

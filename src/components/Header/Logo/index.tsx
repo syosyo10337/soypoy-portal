@@ -11,7 +11,7 @@ export default function Logo() {
         alt="SOYPOY"
         width={167}
         height={27}
-        priority
+        fetchPriority="high"
         className={cn("object-contain", "w-24")}
       />
     </Link>
