@@ -13,7 +13,7 @@ export default function Footer() {
       )}
     >
       <h1 className="text-2xl xl:text-3xl font-bold font-anymale mb-8">
-        Infomation
+        Information
       </h1>
       <MainContent />
       <ContactSection />
