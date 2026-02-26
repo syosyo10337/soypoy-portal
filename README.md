@@ -1,4 +1,5 @@
 # SOY-POY Portal
+[![Netlify Status](https://api.netlify.com/api/v1/badges/cf2087d6-8935-4bf5-a173-760c2662b661/deploy-status)](https://app.netlify.com/projects/soypoy-portal/deploys)
 
 SOY-POYのイベント管理・公開Webサイトです。
 
