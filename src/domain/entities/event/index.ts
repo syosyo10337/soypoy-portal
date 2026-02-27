@@ -5,11 +5,11 @@ import type { PublicationStatus } from "./publicationStatus";
 import type { Venue } from "./venue";
 
 export { EventType } from "./eventType";
-export { PublicationStatus } from "./publicationStatus";
-export type { Venue, PresetVenueId } from "./venue";
-export { PRESET_VENUES } from "./venue";
 export type { Performer } from "./performer";
 export type { PricingTier } from "./pricing";
+export { PublicationStatus } from "./publicationStatus";
+export type { PresetVenueId, Venue } from "./venue";
+export { PRESET_VENUES } from "./venue";
 
 /**
  * イベントエンティティ
@@ -19,10 +19,7 @@ export interface EventEntity {
   id: string;
   publicationStatus: PublicationStatus;
   title: string;
-  /**
-   * 日時文字列
-   * 時刻がある時はISO8601形式、ない時はYYYY-MM-DD形式
-   */
+  /** 日付 (YYYY-MM-DD) */
   date: string;
   description?: string;
   /**

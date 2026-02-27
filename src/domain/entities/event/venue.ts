@@ -5,12 +5,8 @@ export const PRESET_VENUES = {
   soypoy: {
     id: "soypoy",
     name: "soypoy",
-    instagramHandle: "soypoy_bar",
   },
-} as const satisfies Record<
-  string,
-  { id: string; name: string; instagramHandle?: string }
->;
+} as const satisfies Record<string, { id: string; name: string }>;
 
 export type PresetVenueId = keyof typeof PRESET_VENUES;
 
