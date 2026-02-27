@@ -23,31 +23,37 @@ SOY-POY Portal is a full-stack web application for a community bar's event manag
 
 ## Quick Commands
 
+> **重要**: ローカルマシンから `pnpm` や `node` コマンドを直接実行しないでください。
+> すべてのコマンドは `./bin/*` ラッパースクリプト経由でDockerコンテナ内で実行してください。
+> AIアシスタントも同様に、`pnpm xxx` ではなく `./bin/pnpm xxx` や専用の `./bin/*` スクリプトを使用してください。
+
 ```bash
 # Development
-pnpm dev              # Start dev server with dotenvx (port 3000)
-./bin/dev             # Start via Docker container (recommended)
+./bin/dev              # Start dev server (port 3000)
+./bin/build            # Run production build locally
 
-# Code Quality
-pnpm check            # Run tsc + lint:fix + format (use before commits)
-pnpm lint             # Lint only
-pnpm lint:fix         # Lint with auto-fix
-pnpm format           # Format code
-pnpm tsc              # Type check
+# Code Quality (use before commits)
+./bin/check            # Run tsc + lint:fix + format
+./bin/lint             # Lint only
+./bin/lint:fix         # Lint with auto-fix
+./bin/format           # Format code
+./bin/pnpm tsc         # Type check
 
 # Database
-pnpm db:migrate       # Apply migrations (used in production build)
-pnpm db:seed          # Seed database with initial data
-pnpm drzl:gen         # Generate migrations after schema changes
-pnpm drzl:migrate     # Apply migrations to database
-pnpm drzl:studio      # Open Drizzle Studio GUI
+./bin/pnpm db:migrate       # Apply migrations
+./bin/pnpm db:seed          # Seed database with initial data
+./bin/pnpm drzl:gen         # Generate migrations after schema changes
+./bin/pnpm drzl:migrate     # Apply migrations to database
+./bin/pnpm drzl:studio      # Open Drizzle Studio GUI
 
-# Docker Wrapper Scripts (from host machine)
-./bin/check           # Run code quality checks in container
-./bin/lint            # Lint in container
-./bin/format          # Format in container
-./bin/pnpm [cmd]      # Run any pnpm command in container
-./bin/node [file]     # Run Node.js script in container
+# General Purpose
+./bin/pnpm [cmd]       # Run any pnpm command in container
+./bin/node [file]      # Run Node.js script in container
+
+# Setup / Maintenance (host machine)
+./bin/setup            # Initial project setup (Neon branch + .env.local.dev)
+./bin/cleanup          # Delete personal Neon branch + .env.local.dev
+./bin/runenv [cmd]     # Run command with dotenvx-decrypted env vars
 ```
 
 ## Architecture: Clean Architecture / DDD
@@ -237,7 +243,7 @@ Follow the guide in `docs/database-setup.md`:
 3. Add Drizzle schema in `src/infrastructure/db/schema.ts`
 4. Implement repository in `src/infrastructure/db/repositories/`
 5. Create service in `src/services/`
-6. Run `pnpm drzl:gen` then `pnpm drzl:migrate`
+6. Run `./bin/pnpm drzl:gen` then `./bin/pnpm drzl:migrate`
 
 ## Authentication & Authorization
 
@@ -335,8 +341,8 @@ No test framework is currently configured. Code quality is maintained through:
 
 ### Don't Forget
 
-- Run `pnpm check` before committing (type check + lint + format)
-- The project uses Docker dev containers for consistent environments
+- Run `./bin/check` before committing (type check + lint + format)
+- **Never run `pnpm` directly on the host** — always use `./bin/*` wrapper scripts
 - Use `./bin/dev` to start development server (auto-handles env decryption)
 - SVGs are transformed to React components via SVGR webpack loader
 - Unique IDs are generated using `nanoid`
@@ -372,7 +378,7 @@ No test framework is currently configured. Code quality is maintained through:
 1. Update enum in `src/domain/entities/event.ts`
 2. Update Drizzle schema enum in `src/infrastructure/db/schema.ts`
 3. Update Zod schema in `src/infrastructure/trpc/schemas/`
-4. Generate and run migration: `pnpm drzl:gen` then `pnpm drzl:migrate`
+4. Generate and run migration: `./bin/pnpm drzl:gen` then `./bin/pnpm drzl:migrate`
 
 ### Add Protected Admin Route
 
