@@ -59,7 +59,10 @@ export function EventPricingField<T extends FieldValues>({
                       type="number"
                       min={0}
                       placeholder="金額"
-                      onChange={(e) => f.onChange(Number(e.target.value))}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        f.onChange(v === "" ? undefined : Number(v));
+                      }}
                       aria-invalid={fieldState.invalid}
                     />
                     {fieldState.invalid && (
@@ -85,6 +88,7 @@ export function EventPricingField<T extends FieldValues>({
               variant="ghost"
               size="icon"
               onClick={() => remove(index)}
+              aria-label={`${index + 1}件目の料金を削除`}
             >
               <TrashIcon />
             </Button>

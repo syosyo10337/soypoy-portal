@@ -64,15 +64,18 @@ function HashtagInput({
       <span className="text-sm font-medium">ハッシュタグ</span>
       <div className="flex flex-wrap gap-2">
         {value.map((tag) => (
-          <Badge
+          <button
             key={tag}
-            variant="secondary"
-            className="cursor-pointer gap-1"
+            type="button"
             onClick={() => removeTag(tag)}
+            aria-label={`ハッシュタグ ${tag} を削除`}
+            className="inline-flex"
           >
-            #{tag}
-            <XIcon className="size-3" />
-          </Badge>
+            <Badge variant="secondary" className="gap-1">
+              #{tag}
+              <XIcon className="size-3" aria-hidden="true" />
+            </Badge>
+          </button>
         ))}
       </div>
       <Input

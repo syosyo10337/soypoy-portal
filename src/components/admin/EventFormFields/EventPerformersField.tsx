@@ -77,6 +77,7 @@ export function EventPerformersField<T extends FieldValues>({
               variant="ghost"
               size="icon"
               onClick={() => remove(index)}
+              aria-label={`${index + 1}件目の出演者を削除`}
             >
               <TrashIcon />
             </Button>
