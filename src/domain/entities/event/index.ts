@@ -11,6 +11,11 @@ export { PublicationStatus } from "./publicationStatus";
 export type { PresetVenueId, Venue } from "./venue";
 export { PRESET_VENUES } from "./venue";
 
+/** デフォルト開場時間 */
+export const DEFAULT_OPEN_TIME = "19:00";
+/** デフォルト開始時間 */
+export const DEFAULT_START_TIME = "20:00";
+
 /**
  * イベントエンティティ
  * ドメイン層のイベントを表す
@@ -32,9 +37,9 @@ export interface EventEntity {
    */
   isPickup: boolean;
   /** 開場時間 (HH:mm) */
-  openTime?: string | null;
+  openTime: string;
   /** 開始時間 (HH:mm) */
-  startTime?: string | null;
+  startTime: string;
   /** 料金一覧 */
   pricing?: PricingTier[] | null;
   /** 会場情報 */

@@ -29,16 +29,9 @@ export function EventDetailCard({ event }: EventDetailCardProps) {
 
               <DetailItem label="日付">{formatDateJP(event.date)}</DetailItem>
 
-              {(event.openTime || event.startTime) && (
-                <DetailItem label="時間">
-                  {[
-                    event.openTime && `開場 ${event.openTime}`,
-                    event.startTime && `開始 ${event.startTime}`,
-                  ]
-                    .filter(Boolean)
-                    .join(" / ")}
-                </DetailItem>
-              )}
+              <DetailItem label="時間">
+                {`開場 ${event.openTime} / 開始 ${event.startTime}`}
+              </DetailItem>
 
               <DetailItem label="種類">
                 <Badge variant="outline">{event.type}</Badge>

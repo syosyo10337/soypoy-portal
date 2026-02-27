@@ -37,12 +37,11 @@ const eventTypeValues = [
   EventType.Other,
 ] as const;
 
-/** HH:mm 形式の時刻文字列 */
-const timeStringSchema = z
-  .string()
-  .regex(/^([01]\d|2[0-3]):[0-5]\d$/, "HH:mm形式で入力してください")
-  .optional()
-  .nullable();
+/** HH:mm 形式の時刻文字列（必須） */
+const timeStringSchema = z.iso.time({
+  precision: -1,
+  message: "時間を選択してください",
+});
 
 /** 料金区分 */
 export const pricingTierSchema = z.object({

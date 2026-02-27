@@ -85,6 +85,13 @@
       "when": 1772208130047,
       "tag": "0011_loving_barracuda",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1772210285722,
+      "tag": "0012_fast_eddie_brock",
+      "breakpoints": true
     }
   ]
 }

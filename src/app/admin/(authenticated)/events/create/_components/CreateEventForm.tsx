@@ -27,6 +27,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/card";
+import { DEFAULT_OPEN_TIME, DEFAULT_START_TIME } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities";
 import {
   type CreateEventFormData,
@@ -40,8 +41,6 @@ import { useImageUpload } from "../../_hooks/useImageUpload";
 function cleanFormData(data: CreateEventFormData): CreateEventFormData {
   return {
     ...data,
-    openTime: data.openTime || null,
-    startTime: data.startTime || null,
     pricing: data.pricing?.length ? data.pricing : null,
     venue: data.venue?.type ? data.venue : null,
     performers: data.performers?.length ? data.performers : null,
@@ -73,8 +72,8 @@ export function CreateEventForm() {
       type: undefined,
       thumbnail: undefined,
       isPickup: false,
-      openTime: "",
-      startTime: "",
+      openTime: DEFAULT_OPEN_TIME,
+      startTime: DEFAULT_START_TIME,
       pricing: [],
       venue: undefined,
       performers: [],
