@@ -56,51 +56,51 @@ export function EventVenueField<T extends FieldValues>({
       <VenueSelect control={control} defaultValue={defaultValue} />
 
       {venueType === CUSTOM_VALUE && (
-          <>
-            <Controller
-              name={"venue.customName" as Path<T>}
-              control={control}
-              defaultValue={
-                (defaultValue?.customName ?? "") as PathValue<T, Path<T>>
-              }
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="venue-custom-name">会場名</FieldLabel>
-                  <Input
-                    {...field}
-                    id="venue-custom-name"
-                    value={field.value ?? ""}
-                    placeholder="会場名を入力"
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name={"venue.instagramHandle" as Path<T>}
-              control={control}
-              defaultValue={
-                (defaultValue?.instagramHandle ?? "") as PathValue<T, Path<T>>
-              }
-              render={({ field }) => (
-                <Field>
-                  <FieldLabel htmlFor="venue-instagram">
-                    Instagram ハンドル
-                  </FieldLabel>
-                  <Input
-                    {...field}
-                    id="venue-instagram"
-                    value={field.value ?? ""}
-                    placeholder="@なしで入力"
-                  />
-                </Field>
-              )}
-            />
-          </>
-        )}
+        <>
+          <Controller
+            name={"venue.customName" as Path<T>}
+            control={control}
+            defaultValue={
+              (defaultValue?.customName ?? "") as PathValue<T, Path<T>>
+            }
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="venue-custom-name">会場名</FieldLabel>
+                <Input
+                  {...field}
+                  id="venue-custom-name"
+                  value={field.value ?? ""}
+                  placeholder="会場名を入力"
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name={"venue.instagramHandle" as Path<T>}
+            control={control}
+            defaultValue={
+              (defaultValue?.instagramHandle ?? "") as PathValue<T, Path<T>>
+            }
+            render={({ field }) => (
+              <Field>
+                <FieldLabel htmlFor="venue-instagram">
+                  Instagram ハンドル
+                </FieldLabel>
+                <Input
+                  {...field}
+                  id="venue-instagram"
+                  value={field.value ?? ""}
+                  placeholder="@なしで入力"
+                />
+              </Field>
+            )}
+          />
+        </>
+      )}
     </div>
   );
 }

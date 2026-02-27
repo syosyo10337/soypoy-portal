@@ -1,11 +1,11 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import {
   boolean,
+  date,
   jsonb,
   pgEnum,
   pgTable,
   text,
-  timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
 import { EventType, PublicationStatus } from "@/domain/entities";
@@ -38,7 +38,7 @@ export const events = pgTable("events", {
   id: text().primaryKey(),
   publicationStatus: publicationStatusEnum().notNull(),
   title: varchar({ length: 255 }).notNull(),
-  date: timestamp({ mode: "date", withTimezone: true }).notNull(),
+  date: date({ mode: "string" }).notNull(),
   description: text(),
   thumbnail: text(),
   type: eventTypeEnum().notNull(),
@@ -53,7 +53,7 @@ export const events = pgTable("events", {
 
 export const closedDays = pgTable("closed_days", {
   id: text().primaryKey(),
-  date: timestamp({ mode: "date", withTimezone: true }).notNull().unique(),
+  date: date({ mode: "string" }).notNull().unique(),
 });
 
 export type DrizzleEvent = InferSelectModel<typeof events>;
