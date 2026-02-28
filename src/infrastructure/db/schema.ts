@@ -46,7 +46,6 @@ export const events = pgTable("events", {
   openTime: varchar({ length: 5 }).notNull(),
   startTime: varchar({ length: 5 }).notNull(),
   pricing: jsonb(),
-  venue: jsonb(),
   performers: jsonb(),
   hashtags: text().array(),
 });

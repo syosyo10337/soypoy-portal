@@ -2,14 +2,10 @@ import type { EventType } from "./eventType";
 import type { Performer } from "./performer";
 import type { PricingTier } from "./pricing";
 import type { PublicationStatus } from "./publicationStatus";
-import type { Venue } from "./venue";
-
 export { EventType } from "./eventType";
 export type { Performer } from "./performer";
 export type { PricingTier } from "./pricing";
 export { PublicationStatus } from "./publicationStatus";
-export type { PresetVenueId, Venue } from "./venue";
-export { PRESET_VENUES } from "./venue";
 
 /** デフォルト開場時間 */
 export const DEFAULT_OPEN_TIME = "19:00";
@@ -42,8 +38,6 @@ export interface EventEntity {
   startTime: string;
   /** 料金一覧 */
   pricing?: PricingTier[] | null;
-  /** 会場情報 */
-  venue?: Venue | null;
   /** 出演者一覧 */
   performers?: Performer[] | null;
   /** ハッシュタグ (#なし) */

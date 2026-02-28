@@ -9,4 +9,3 @@ export { EventThumbnailField } from "./EventThumbnailField";
 export { EventTimeFields } from "./EventTimeFields";
 export { EventTitleField } from "./EventTitleField";
 export { EventTypeField } from "./EventTypeField";
-export { EventVenueField } from "./EventVenueField";

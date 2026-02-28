@@ -4,7 +4,6 @@ import { PublicationStatus } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities/";
 import type { Performer } from "@/domain/entities/event/performer";
 import type { PricingTier } from "@/domain/entities/event/pricing";
-import type { Venue } from "@/domain/entities/event/venue";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
 import { db } from "../index";
 import type { DrizzleEvent, DrizzleEventInsert } from "../schema";
@@ -113,7 +112,6 @@ export class DrizzleEventRepository implements EventRepository {
       openTime: event.openTime,
       startTime: event.startTime,
       pricing: event.pricing ?? null,
-      venue: event.venue ?? null,
       performers: event.performers ?? null,
       hashtags: event.hashtags ?? null,
     };
@@ -152,9 +150,6 @@ export class DrizzleEventRepository implements EventRepository {
       }),
       ...(event.pricing !== undefined && {
         pricing: event.pricing ?? null,
-      }),
-      ...(event.venue !== undefined && {
-        venue: event.venue ?? null,
       }),
       ...(event.performers !== undefined && {
         performers: event.performers ?? null,
@@ -209,7 +204,6 @@ export class DrizzleEventRepository implements EventRepository {
       openTime: drizzleEvent.openTime,
       startTime: drizzleEvent.startTime,
       pricing: (drizzleEvent.pricing as PricingTier[]) ?? null,
-      venue: (drizzleEvent.venue as Venue) ?? null,
       performers: (drizzleEvent.performers as Performer[]) ?? null,
       hashtags: drizzleEvent.hashtags ?? null,
     };

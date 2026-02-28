@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/shadcn/card";
 import type { EventEntity } from "@/domain/entities";
-import { PRESET_VENUES } from "@/domain/entities";
 import { formatDateJP } from "@/utils/date";
 
 interface EventDetailCardProps {
@@ -75,7 +74,6 @@ export function EventDetailCard({ event }: EventDetailCardProps) {
       </Card>
 
       {(event.pricing?.length ||
-        event.venue ||
         event.performers?.length ||
         event.hashtags?.length) && (
         <Card>
@@ -105,26 +103,6 @@ export function EventDetailCard({ event }: EventDetailCardProps) {
                     ))}
                   </tbody>
                 </table>
-              </DetailItem>
-            )}
-
-            {event.venue && (
-              <DetailItem label="会場">
-                {event.venue.type === "preset" ? (
-                  <span>
-                    {PRESET_VENUES[event.venue.presetId]?.name ??
-                      event.venue.presetId}
-                  </span>
-                ) : (
-                  <span>
-                    {event.venue.customName}
-                    {event.venue.instagramHandle && (
-                      <span className="text-muted-foreground ml-2">
-                        @{event.venue.instagramHandle}
-                      </span>
-                    )}
-                  </span>
-                )}
               </DetailItem>
             )}
 

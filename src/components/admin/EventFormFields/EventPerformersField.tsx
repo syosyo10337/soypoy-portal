@@ -6,10 +6,9 @@ import type {
   Control,
   FieldArray,
   FieldValues,
+  Path,
 } from "react-hook-form";
-import { useFieldArray } from "react-hook-form";
-import { Controller } from "react-hook-form";
-import type { Path } from "react-hook-form";
+import { Controller, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/shadcn/button";
 import { FieldError } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";

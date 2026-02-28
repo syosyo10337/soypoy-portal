@@ -14,7 +14,6 @@ import {
   EventTimeFields,
   EventTitleField,
   EventTypeField,
-  EventVenueField,
 } from "@/components/admin/EventFormFields";
 import {
   CreateView,
@@ -42,7 +41,6 @@ function cleanFormData(data: CreateEventFormData): CreateEventFormData {
   return {
     ...data,
     pricing: data.pricing?.length ? data.pricing : null,
-    venue: data.venue?.type ? data.venue : null,
     performers: data.performers?.length ? data.performers : null,
     hashtags: data.hashtags?.length ? data.hashtags : null,
   };
@@ -75,7 +73,6 @@ export function CreateEventForm() {
       openTime: DEFAULT_OPEN_TIME,
       startTime: DEFAULT_START_TIME,
       pricing: [],
-      venue: undefined,
       performers: [],
       hashtags: [],
     },
@@ -124,7 +121,6 @@ export function CreateEventForm() {
           <CardContent className="space-y-6">
             <EventDescriptionField control={control} />
             <EventPricingField control={control} />
-            <EventVenueField control={control} />
             <EventPerformersField control={control} />
             <EventHashtagsField control={control} />
           </CardContent>

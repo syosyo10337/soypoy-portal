@@ -1,6 +1,5 @@
 import { z } from "zod";
-import type { PresetVenueId } from "@/domain/entities";
-import { EventType, PRESET_VENUES, PublicationStatus } from "@/domain/entities";
+import { EventType, PublicationStatus } from "@/domain/entities";
 import { imageFileSchema } from "./ImageFileSchema";
 
 /**
@@ -50,24 +49,6 @@ export const pricingTierSchema = z.object({
   note: z.string().optional(),
 });
 
-const presetVenueIds = Object.keys(PRESET_VENUES) as [
-  PresetVenueId,
-  ...PresetVenueId[],
-];
-
-/** 会場 */
-export const venueSchema = z.discriminatedUnion("type", [
-  z.object({
-    type: z.literal("preset"),
-    presetId: z.enum(presetVenueIds),
-  }),
-  z.object({
-    type: z.literal("custom"),
-    customName: z.string().min(1, "会場名を入力してください"),
-    instagramHandle: z.string().optional(),
-  }),
-]);
-
 /** 出演者 */
 export const performerSchema = z.object({
   name: z.string().min(1, "名前を入力してください"),
@@ -75,12 +56,11 @@ export const performerSchema = z.object({
   instagramHandle: z.string().optional(),
 });
 
-/** 構造化フィールド（時間・料金・会場・出演者・ハッシュタグ） */
+/** 構造化フィールド（時間・料金・出演者・ハッシュタグ） */
 const structuredFieldsSchema = z.object({
   openTime: timeStringSchema,
   startTime: timeStringSchema,
   pricing: z.array(pricingTierSchema).optional().nullable(),
-  venue: venueSchema.optional().nullable(),
   performers: z.array(performerSchema).optional().nullable(),
   hashtags: z.array(z.string()).optional().nullable(),
 });
