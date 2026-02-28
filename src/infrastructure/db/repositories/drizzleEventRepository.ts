@@ -2,8 +2,9 @@ import { and, desc, eq, notInArray, sql } from "drizzle-orm";
 import { PICKUP_EVENTS_LIMIT } from "@/constant/pickupEvents";
 import { PublicationStatus } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities/";
+import type { Performer } from "@/domain/entities/event/performer";
+import type { PricingTier } from "@/domain/entities/event/pricing";
 import type { EventRepository } from "@/domain/repositories/eventRepository";
-import { dateTimeFromISO, dateToIsoFull } from "@/utils/date";
 import { db } from "../index";
 import type { DrizzleEvent, DrizzleEventInsert } from "../schema";
 import { events } from "../schema";
@@ -103,11 +104,16 @@ export class DrizzleEventRepository implements EventRepository {
       id: event.id,
       publicationStatus: event.publicationStatus,
       title: event.title,
-      date: dateTimeFromISO(event.date).toJSDate(),
+      date: event.date,
       description: event.description ?? null,
       thumbnail: event.thumbnail ?? null,
       type: event.type,
       isPickup: event.isPickup,
+      openTime: event.openTime,
+      startTime: event.startTime,
+      pricing: event.pricing ?? null,
+      performers: event.performers ?? null,
+      hashtags: event.hashtags ?? null,
     };
 
     await db.insert(events).values(insertData);
@@ -127,9 +133,7 @@ export class DrizzleEventRepository implements EventRepository {
         publicationStatus: event.publicationStatus,
       }),
       ...(event.title !== undefined && { title: event.title }),
-      ...(event.date !== undefined && {
-        date: dateTimeFromISO(event.date).toJSDate(),
-      }),
+      ...(event.date !== undefined && { date: event.date }),
       ...(event.description !== undefined && {
         description: event.description ?? null,
       }),
@@ -138,6 +142,21 @@ export class DrizzleEventRepository implements EventRepository {
       }),
       ...(event.type !== undefined && { type: event.type }),
       ...(event.isPickup !== undefined && { isPickup: event.isPickup }),
+      ...(event.openTime !== undefined && {
+        openTime: event.openTime,
+      }),
+      ...(event.startTime !== undefined && {
+        startTime: event.startTime,
+      }),
+      ...(event.pricing !== undefined && {
+        pricing: event.pricing ?? null,
+      }),
+      ...(event.performers !== undefined && {
+        performers: event.performers ?? null,
+      }),
+      ...(event.hashtags !== undefined && {
+        hashtags: event.hashtags ?? null,
+      }),
     };
 
     const [updated] = await db
@@ -177,11 +196,16 @@ export class DrizzleEventRepository implements EventRepository {
       publicationStatus:
         drizzleEvent.publicationStatus as EventEntity["publicationStatus"],
       title: drizzleEvent.title,
-      date: dateToIsoFull(drizzleEvent.date),
+      date: drizzleEvent.date,
       description: drizzleEvent.description ?? undefined,
       thumbnail: drizzleEvent.thumbnail ?? undefined,
       type: drizzleEvent.type as EventEntity["type"],
       isPickup: drizzleEvent.isPickup,
+      openTime: drizzleEvent.openTime,
+      startTime: drizzleEvent.startTime,
+      pricing: (drizzleEvent.pricing as PricingTier[]) ?? null,
+      performers: (drizzleEvent.performers as Performer[]) ?? null,
+      hashtags: drizzleEvent.hashtags ?? null,
     };
   }
 }

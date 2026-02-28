@@ -21,7 +21,7 @@ export function EventThumbnailField<T extends FieldValues>({
       defaultValue={defaultValue as PathValue<T, Path<T>>}
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
-          <FieldLabel htmlFor="thumbnail">サムネイルURL</FieldLabel>
+          <FieldLabel>サムネイルURL</FieldLabel>
           <ImageUploader
             value={field.value}
             onChange={(value) => field.onChange(value)}

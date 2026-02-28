@@ -71,6 +71,34 @@
       "when": 1771580639558,
       "tag": "0009_plain_captain_midlands",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1771742952412,
+      "tag": "0010_productive_kulan_gath",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1772208130047,
+      "tag": "0011_loving_barracuda",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1772210285722,
+      "tag": "0012_fast_eddie_brock",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1772269097393,
+      "tag": "0013_strong_mentor",
+      "breakpoints": true
     }
   ]
 }

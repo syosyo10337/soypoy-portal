@@ -7,10 +7,13 @@ import { useParams } from "next/navigation";
 import {
   EventDateField,
   EventDescriptionField,
+  EventHashtagsField,
   EventIsPickupField,
+  EventPerformersField,
+  EventPricingField,
   EventPublicationStatusField,
   EventThumbnailField,
-  EventTimeField,
+  EventTimeFields,
   EventTitleField,
   EventTypeField,
 } from "@/components/admin/EventFormFields";
@@ -26,6 +29,7 @@ import {
   CardTitle,
 } from "@/components/shadcn/card";
 import type { EventEntity } from "@/domain/entities";
+import { DEFAULT_OPEN_TIME, DEFAULT_START_TIME } from "@/domain/entities";
 import {
   type UpdateEventFormData,
   updateEventFormSchema,
@@ -34,6 +38,18 @@ import { useImageUpload } from "../../../_hooks/useImageUpload";
 import { EventError } from "../../_components/EventError";
 import { EventLoading } from "../../_components/EventLoading";
 import { EventNotFound } from "../../_components/EventNotFound";
+
+/**
+ * 空配列をnullに変換する
+ */
+function cleanFormData(data: UpdateEventFormData): UpdateEventFormData {
+  return {
+    ...data,
+    pricing: data.pricing?.length ? data.pricing : null,
+    performers: data.performers?.length ? data.performers : null,
+    hashtags: data.hashtags?.length ? data.hashtags : null,
+  };
+}
 
 /**
  * イベント編集フォーム
@@ -59,16 +75,23 @@ export function EventEditForm() {
       action: "edit",
       redirect: "show",
     },
-    // NOTE: to avoid uncontrolled component
+    // NOTE: uncontrolled→controlled切替を防ぐための初期値。
+    // Refineのedit用useFormはAPI取得後にreset()で上書きするため、
+    // ここのdefaultValuesはあくまでプレースホルダー。
+    // 実際のサーバーデータは各フィールドのdefaultValue propで明示的に渡している。
     // cf. https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable
     defaultValues: {
       title: "",
       description: "",
       date: "",
-      time: "",
       type: undefined,
       thumbnail: undefined,
       isPickup: false,
+      openTime: DEFAULT_OPEN_TIME,
+      startTime: DEFAULT_START_TIME,
+      pricing: [],
+      performers: [],
+      hashtags: [],
     },
   });
 
@@ -79,17 +102,14 @@ export function EventEditForm() {
   if (isError) return <EventError viewType="edit" onRetry={refetch} />;
   if (!defaultValues) return <EventNotFound viewType="edit" />;
 
-  const onSubmit = async ({ time, ...formData }: UpdateEventFormData) => {
+  const onSubmit = async (formData: UpdateEventFormData) => {
     try {
-      const submitData = await uploadIfNeeded<
-        Omit<UpdateEventFormData, "time">
-      >(formData, setError);
+      const cleaned = cleanFormData(formData);
+      const submitData = await uploadIfNeeded<UpdateEventFormData>(
+        cleaned,
+        setError,
+      );
       if (!submitData) return; // アップロード失敗
-
-      // 時間が入力されている場合、日付と結合してISO8601形式にする
-      if (time) {
-        submitData.date = `${submitData.date}T${time}`;
-      }
 
       await onFinish(submitData);
     } catch (error) {
@@ -100,10 +120,10 @@ export function EventEditForm() {
   return (
     <EditView>
       <EditViewHeader />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>イベント情報</CardTitle>
+            <CardTitle>イベント基本情報</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -116,13 +136,10 @@ export function EventEditForm() {
                   control={control}
                   defaultValue={defaultValues.date}
                 />
-                <EventTimeField
+                <EventTimeFields
                   control={control}
-                  defaultValue={
-                    defaultValues.date.includes("T")
-                      ? defaultValues.date.split("T")[1]?.substring(0, 5)
-                      : undefined
-                  }
+                  defaultOpenTime={defaultValues.openTime}
+                  defaultStartTime={defaultValues.startTime}
                 />
                 <EventTypeField
                   control={control}
@@ -136,10 +153,6 @@ export function EventEditForm() {
                   control={control}
                   defaultValue={defaultValues.isPickup}
                 />
-                <EventDescriptionField
-                  control={control}
-                  defaultValue={defaultValues.description}
-                />
               </div>
               <div>
                 <EventThumbnailField
@@ -148,14 +161,38 @@ export function EventEditForm() {
                 />
               </div>
             </div>
-
-            <div className="flex justify-end gap-2">
-              <Button type="submit" disabled={isFileUploading}>
-                {isFileUploading ? "画像をアップロード中..." : "更新"}
-              </Button>
-            </div>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>イベント詳細</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <EventDescriptionField
+              control={control}
+              defaultValue={defaultValues.description}
+            />
+            <EventPricingField
+              control={control}
+              defaultValue={defaultValues.pricing}
+            />
+            <EventPerformersField
+              control={control}
+              defaultValue={defaultValues.performers}
+            />
+            <EventHashtagsField
+              control={control}
+              defaultValue={defaultValues.hashtags}
+            />
+          </CardContent>
+        </Card>
+
+        <div className="flex justify-end gap-2">
+          <Button type="submit" disabled={isFileUploading}>
+            {isFileUploading ? "画像をアップロード中..." : "更新"}
+          </Button>
+        </div>
       </form>
     </EditView>
   );

@@ -24,7 +24,7 @@
   --color-secondary: oklch(0.97 0.001 106.424);
   --color-secondary-foreground: var(--color-soypoy-secondary);
   --color-muted: var(--color-soypoy-muted);
-  --color-muted-foreground: var(--color-soypoy-secondary);
+  --color-muted-foreground: var(--color-soypoy-muted);
   --color-accent: var(--color-soypoy-accent);
   --color-accent-foreground: #FFFFFF;
   --color-destructive: oklch(0.577 0.245 27.325);

@@ -45,7 +45,7 @@ export function EventTableRow({ event }: EventTableRowProps) {
             />
           </div>
         ) : (
-          <div className="w-16 h-16 rounded-md bg-muted flex items-center justify-center text-muted-foreground text-xs">
+          <div className="w-16 h-16 rounded-md bg-muted flex items-center justify-center text-white text-xs">
             No Image
           </div>
         )}

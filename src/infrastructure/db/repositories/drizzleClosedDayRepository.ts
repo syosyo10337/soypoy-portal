@@ -1,7 +1,6 @@
 import { and, sql } from "drizzle-orm";
 import type { ClosedDayEntity } from "@/domain/entities/closedDay";
 import type { ClosedDayRepository } from "@/domain/repositories/closedDayRepository";
-import { dateTimeFromISO, dateToIso } from "@/utils/date";
 import { db } from "../index";
 import type { DrizzleClosedDay, DrizzleClosedDayInsert } from "../schema";
 import { closedDays } from "../schema";
@@ -49,7 +48,7 @@ export class DrizzleClosedDayRepository implements ClosedDayRepository {
 
     const insertData: DrizzleClosedDayInsert[] = entities.map((entity) => ({
       id: entity.id,
-      date: dateTimeFromISO(entity.date).toJSDate(),
+      date: entity.date,
     }));
 
     await db.insert(closedDays).values(insertData);
@@ -62,7 +61,7 @@ export class DrizzleClosedDayRepository implements ClosedDayRepository {
   private toDomainEntity(drizzleClosedDay: DrizzleClosedDay): ClosedDayEntity {
     return {
       id: drizzleClosedDay.id,
-      date: dateToIso(drizzleClosedDay.date) ?? "",
+      date: drizzleClosedDay.date,
     };
   }
 }

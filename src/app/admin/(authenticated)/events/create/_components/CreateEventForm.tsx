@@ -6,9 +6,12 @@ import { useForm } from "@refinedev/react-hook-form";
 import {
   EventDateField,
   EventDescriptionField,
+  EventHashtagsField,
   EventIsPickupField,
+  EventPerformersField,
+  EventPricingField,
   EventThumbnailField,
-  EventTimeField,
+  EventTimeFields,
   EventTitleField,
   EventTypeField,
 } from "@/components/admin/EventFormFields";
@@ -24,11 +27,24 @@ import {
   CardTitle,
 } from "@/components/shadcn/card";
 import type { EventEntity } from "@/domain/entities";
+import { DEFAULT_OPEN_TIME, DEFAULT_START_TIME } from "@/domain/entities";
 import {
   type CreateEventFormData,
   createEventFormSchema,
 } from "@/domain/validation";
 import { useImageUpload } from "../../_hooks/useImageUpload";
+
+/**
+ * 空配列をnullに変換する
+ */
+function cleanFormData(data: CreateEventFormData): CreateEventFormData {
+  return {
+    ...data,
+    pricing: data.pricing?.length ? data.pricing : null,
+    performers: data.performers?.length ? data.performers : null,
+    hashtags: data.hashtags?.length ? data.hashtags : null,
+  };
+}
 
 export function CreateEventForm() {
   const { isFileUploading, uploadIfNeeded } = useImageUpload();
@@ -51,22 +67,22 @@ export function CreateEventForm() {
       title: "",
       description: "",
       date: "",
-      time: "",
       type: undefined,
       thumbnail: undefined,
       isPickup: false,
+      openTime: DEFAULT_OPEN_TIME,
+      startTime: DEFAULT_START_TIME,
+      pricing: [],
+      performers: [],
+      hashtags: [],
     },
   });
 
-  const onSubmit = async ({ time, ...data }: CreateEventFormData) => {
+  const onSubmit = async (data: CreateEventFormData) => {
     try {
-      const submitData = await uploadIfNeeded(data, setError);
+      const cleaned = cleanFormData(data);
+      const submitData = await uploadIfNeeded(cleaned, setError);
       if (!submitData) return; // アップロード失敗
-
-      // 時間が入力されている場合、日付と結合してISO8601形式にする
-      if (time) {
-        submitData.date = `${submitData.date}T${time}`;
-      }
 
       await onFinish(submitData);
     } catch (error) {
@@ -77,33 +93,44 @@ export function CreateEventForm() {
   return (
     <CreateView>
       <CreateViewHeader />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>イベント情報</CardTitle>
+            <CardTitle>イベント基本情報</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <EventTitleField control={control} />
                 <EventDateField control={control} />
-                <EventTimeField control={control} />
+                <EventTimeFields control={control} />
                 <EventTypeField control={control} />
                 <EventIsPickupField control={control} />
-                <EventDescriptionField control={control} />
               </div>
               <div>
                 <EventThumbnailField control={control} />
               </div>
             </div>
-
-            <div className="flex justify-end gap-2">
-              <Button type="submit" disabled={isFileUploading}>
-                {isFileUploading ? "画像をアップロード中..." : "作成"}
-              </Button>
-            </div>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>イベント詳細</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <EventDescriptionField control={control} />
+            <EventPricingField control={control} />
+            <EventPerformersField control={control} />
+            <EventHashtagsField control={control} />
+          </CardContent>
+        </Card>
+
+        <div className="flex justify-end gap-2">
+          <Button type="submit" disabled={isFileUploading}>
+            {isFileUploading ? "画像をアップロード中..." : "作成"}
+          </Button>
+        </div>
       </form>
     </CreateView>
   );
