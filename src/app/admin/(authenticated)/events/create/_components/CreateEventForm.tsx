@@ -27,8 +27,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcn/card";
-import { DEFAULT_OPEN_TIME, DEFAULT_START_TIME } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities";
+import { DEFAULT_OPEN_TIME, DEFAULT_START_TIME } from "@/domain/entities";
 import {
   type CreateEventFormData,
   createEventFormSchema,
