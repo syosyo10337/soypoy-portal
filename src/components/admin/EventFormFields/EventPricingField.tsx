@@ -15,14 +15,19 @@ import { Input } from "@/components/shadcn/input";
 
 interface EventPricingFieldProps<T extends FieldValues> {
   control: Control<T>;
+  defaultValue?: Array<{ label: string; amount: number; note?: string }> | null;
 }
 
 export function EventPricingField<T extends FieldValues>({
   control,
+  defaultValue,
 }: EventPricingFieldProps<T>) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "pricing" as ArrayPath<T>,
+    ...(defaultValue?.length && {
+      defaultValue: defaultValue as FieldArray<T, ArrayPath<T>>[],
+    }),
   });
 
   return (

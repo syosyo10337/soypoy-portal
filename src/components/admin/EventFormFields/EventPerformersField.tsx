@@ -15,14 +15,23 @@ import { Input } from "@/components/shadcn/input";
 
 interface EventPerformersFieldProps<T extends FieldValues> {
   control: Control<T>;
+  defaultValue?: Array<{
+    name: string;
+    role?: string;
+    instagramHandle?: string;
+  }> | null;
 }
 
 export function EventPerformersField<T extends FieldValues>({
   control,
+  defaultValue,
 }: EventPerformersFieldProps<T>) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "performers" as ArrayPath<T>,
+    ...(defaultValue?.length && {
+      defaultValue: defaultValue as FieldArray<T, ArrayPath<T>>[],
+    }),
   });
 
   return (

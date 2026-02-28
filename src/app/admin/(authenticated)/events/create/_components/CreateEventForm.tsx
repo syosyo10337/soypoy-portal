@@ -35,7 +35,7 @@ import {
 import { useImageUpload } from "../../_hooks/useImageUpload";
 
 /**
- * 空文字列をnullに変換し、空配列をnullに変換する
+ * 空配列をnullに変換する
  */
 function cleanFormData(data: CreateEventFormData): CreateEventFormData {
   return {

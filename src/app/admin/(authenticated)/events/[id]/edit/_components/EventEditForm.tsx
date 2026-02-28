@@ -40,7 +40,7 @@ import { EventLoading } from "../../_components/EventLoading";
 import { EventNotFound } from "../../_components/EventNotFound";
 
 /**
- * 空文字列をnullに変換し、空配列をnullに変換する
+ * 空配列をnullに変換する
  */
 function cleanFormData(data: UpdateEventFormData): UpdateEventFormData {
   return {
@@ -75,7 +75,10 @@ export function EventEditForm() {
       action: "edit",
       redirect: "show",
     },
-    // NOTE: to avoid uncontrolled component
+    // NOTE: uncontrolled→controlled切替を防ぐための初期値。
+    // Refineのedit用useFormはAPI取得後にreset()で上書きするため、
+    // ここのdefaultValuesはあくまでプレースホルダー。
+    // 実際のサーバーデータは各フィールドのdefaultValue propで明示的に渡している。
     // cf. https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable
     defaultValues: {
       title: "",
@@ -170,8 +173,14 @@ export function EventEditForm() {
               control={control}
               defaultValue={defaultValues.description}
             />
-            <EventPricingField control={control} />
-            <EventPerformersField control={control} />
+            <EventPricingField
+              control={control}
+              defaultValue={defaultValues.pricing}
+            />
+            <EventPerformersField
+              control={control}
+              defaultValue={defaultValues.performers}
+            />
             <EventHashtagsField
               control={control}
               defaultValue={defaultValues.hashtags}
