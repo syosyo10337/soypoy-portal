@@ -27,7 +27,12 @@ export function EventPerformersField<T extends FieldValues>({
 
   return (
     <div className="space-y-2">
-      <span className="text-sm font-medium">出演者</span>
+      <div>
+        <span className="text-sm font-medium">出演者</span>
+        <p className="text-xs text-muted-foreground mt-1">
+          SNS連携は現在Instagramのみ対応しています（X連携は未実装）
+        </p>
+      </div>
       <div className="space-y-3">
         {fields.map((field, index) => (
           <div key={field.id} className="flex items-start gap-2">
@@ -65,8 +70,12 @@ export function EventPerformersField<T extends FieldValues>({
                 render={({ field: f }) => (
                   <Input
                     {...f}
-                    placeholder="Instagram（任意）"
+                    placeholder="@なしで入力（任意）"
                     value={f.value ?? ""}
+                    onBlur={(e) => {
+                      f.onChange(e.target.value.trim().replace(/^@/, ""));
+                      f.onBlur();
+                    }}
                   />
                 )}
               />
