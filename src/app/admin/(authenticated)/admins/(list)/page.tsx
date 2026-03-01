@@ -3,7 +3,7 @@ import {
   ListView,
   ListViewHeader,
 } from "@/components/refine-ui/views/list-view";
-import { AdminsTable } from "./_components/AdminsTable";
+import { AdminsContent } from "./_components/AdminsContent";
 
 export const metadata: Metadata = {
   title: "管理者一覧",
@@ -13,7 +13,7 @@ export default function AdminsListPage() {
   return (
     <ListView>
       <ListViewHeader />
-      <AdminsTable />
+      <AdminsContent />
     </ListView>
   );
 }
