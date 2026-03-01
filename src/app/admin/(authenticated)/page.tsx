@@ -15,8 +15,10 @@ export const metadata: Metadata = {
 
 export default function AdminDashboard() {
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">管理画面ダッシュボード</h1>
+    <div className="container mx-auto p-2 md:p-6">
+      <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
+        管理画面ダッシュボード
+      </h1>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader>

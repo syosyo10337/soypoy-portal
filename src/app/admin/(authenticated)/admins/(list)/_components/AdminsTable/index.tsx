@@ -31,7 +31,7 @@ export function AdminsTable() {
               <TableHead>名前</TableHead>
               <TableHead>メールアドレス</TableHead>
               <TableHead>ロール</TableHead>
-              <TableHead>作成日</TableHead>
+              <TableHead className="hidden md:table-cell">作成日</TableHead>
               <TableHead className="text-right">操作</TableHead>
             </TableRow>
           </TableHeader>

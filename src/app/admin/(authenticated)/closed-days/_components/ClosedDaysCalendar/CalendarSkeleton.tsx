@@ -5,7 +5,7 @@ export function CalendarSkeleton() {
     <div className="space-y-6">
       <div>
         <DayLabelsRow />
-        <div className="grid grid-cols-7 gap-4">
+        <div className="grid grid-cols-7 gap-1 md:gap-4">
           {Array.from({ length: 35 }, (_, i) => (
             <div
               // biome-ignore lint/suspicious/noArrayIndexKey: skeletonなので問題ない

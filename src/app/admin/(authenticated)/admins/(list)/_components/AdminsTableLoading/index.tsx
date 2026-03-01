@@ -17,7 +17,7 @@ export function AdminsTableLoading() {
             <TableHead>名前</TableHead>
             <TableHead>メールアドレス</TableHead>
             <TableHead>ロール</TableHead>
-            <TableHead>作成日</TableHead>
+            <TableHead className="hidden md:table-cell">作成日</TableHead>
             <TableHead className="text-right">操作</TableHead>
           </TableRow>
         </TableHeader>
@@ -33,7 +33,7 @@ export function AdminsTableLoading() {
               <TableCell>
                 <Skeleton className="h-6 w-20" />
               </TableCell>
-              <TableCell>
+              <TableCell className="hidden md:table-cell">
                 <Skeleton className="h-4 w-24" />
               </TableCell>
               <TableCell className="text-right">

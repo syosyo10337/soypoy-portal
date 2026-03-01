@@ -21,7 +21,7 @@ export default function AuthenticatedAdminLayout({
     <Authenticated key="authenticated-admin-layout" loading={<AdminLoading />}>
       <div className="min-h-screen">
         <AdminSidebar />
-        <main className="p-16">{children}</main>
+        <main className="p-4 md:p-8 lg:p-16">{children}</main>
       </div>
     </Authenticated>
   );

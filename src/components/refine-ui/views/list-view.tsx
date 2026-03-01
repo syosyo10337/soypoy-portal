@@ -56,8 +56,17 @@ export const ListViewHeader = ({
         </div>
         <Separator className={cn("absolute", "left-0", "right-0", "z-[1]")} />
       </div>
-      <div className={cn("flex", "justify-between", "gap-4", headerClassName)}>
-        <h2 className="text-2xl font-bold">{title}</h2>
+      <div
+        className={cn(
+          "flex",
+          "items-center",
+          "justify-between",
+          "gap-2",
+          "md:gap-4",
+          headerClassName,
+        )}
+      >
+        <h2 className="text-xl md:text-2xl font-bold truncate">{title}</h2>
         {isCreateButtonVisible && (
           <div className="flex items-center gap-2">
             <CreateButton resource={resourceName} />

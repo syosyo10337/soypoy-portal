@@ -70,7 +70,7 @@ export const CreateViewHeader = ({
         <Button variant="ghost" size="icon" onClick={back}>
           <ArrowLeftIcon className="h-4 w-4" />
         </Button>
-        <h2 className="text-2xl font-bold">{title}</h2>
+        <h2 className="text-xl md:text-2xl font-bold truncate">{title}</h2>
       </div>
     </div>
   );

@@ -16,7 +16,9 @@ export function AdminTableRow({ admin }: AdminTableRowProps) {
       <TableCell>
         <AdminRoleBadge variant={admin.role} />
       </TableCell>
-      <TableCell>{formatDateJP(admin.createdAt)}</TableCell>
+      <TableCell className="hidden md:table-cell">
+        {formatDateJP(admin.createdAt)}
+      </TableCell>
       <TableCell className="text-right">
         <AdminActions adminId={admin.id} />
       </TableCell>

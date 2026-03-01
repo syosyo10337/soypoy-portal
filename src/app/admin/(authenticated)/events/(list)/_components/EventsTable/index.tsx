@@ -31,12 +31,14 @@ export function EventsTable() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>サムネイル</TableHead>
+              <TableHead className="hidden md:table-cell">サムネイル</TableHead>
               <TableHead>タイトル</TableHead>
               <TableHead>日付</TableHead>
-              <TableHead>種類</TableHead>
+              <TableHead className="hidden md:table-cell">種類</TableHead>
               <TableHead>ステータス</TableHead>
-              <TableHead>ピックアップ</TableHead>
+              <TableHead className="hidden md:table-cell">
+                ピックアップ
+              </TableHead>
               <TableHead className="text-center">操作</TableHead>
             </TableRow>
           </TableHeader>
