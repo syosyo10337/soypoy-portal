@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 interface UsePaginationResult<T> {
   paginatedItems: T[];
@@ -24,7 +24,8 @@ export function usePagination<T>(
 
   const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
 
-  // items.length が変わったらページ1にリセット
+  // items.length が変わったらページ1にリセット（レンダー中のstate調整パターン）
+  // cf. https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
   const prevLengthRef = useRef(items.length);
   if (prevLengthRef.current !== items.length) {
     prevLengthRef.current = items.length;
@@ -34,25 +35,20 @@ export function usePagination<T>(
   // 現在のページが totalPages を超えていたら補正
   const safePage = Math.min(currentPage, totalPages);
 
-  const paginatedItems = useMemo(() => {
-    const start = (safePage - 1) * pageSize;
-    return items.slice(start, start + pageSize);
-  }, [items, safePage, pageSize]);
+  const start = (safePage - 1) * pageSize;
+  const paginatedItems = items.slice(start, start + pageSize);
 
-  const goToPage = useCallback(
-    (page: number) => {
-      setCurrentPage(Math.max(1, Math.min(page, totalPages)));
-    },
-    [totalPages],
-  );
+  const goToPage = (page: number) => {
+    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+  };
 
-  const goNext = useCallback(() => {
+  const goNext = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  }, [totalPages]);
+  };
 
-  const goPrev = useCallback(() => {
+  const goPrev = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
-  }, []);
+  };
 
   return {
     paginatedItems,
