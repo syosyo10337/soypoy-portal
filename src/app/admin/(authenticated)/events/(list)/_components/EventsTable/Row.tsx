@@ -31,7 +31,7 @@ export function EventTableRow({ event }: EventTableRowProps) {
 
   return (
     <TableRow onClick={handleRowClick} className="cursor-pointer">
-      <TableCell>
+      <TableCell className="hidden md:table-cell">
         {event.thumbnail ? (
           <div className="relative w-16 h-16 rounded-md overflow-hidden">
             <CldImage
@@ -52,13 +52,13 @@ export function EventTableRow({ event }: EventTableRowProps) {
       </TableCell>
       <TableCell className="font-medium">{event.title}</TableCell>
       <TableCell>{formatDateJP(event.date)}</TableCell>
-      <TableCell>
+      <TableCell className="hidden md:table-cell">
         <Badge variant="outline">{event.type}</Badge>
       </TableCell>
       <TableCell>
         <EventStatusBadge variant={event.publicationStatus} />
       </TableCell>
-      <TableCell>
+      <TableCell className="hidden md:table-cell">
         <Badge variant={event.isPickup ? "default" : "secondary"}>
           {event.isPickup ? "ON" : "OFF"}
         </Badge>

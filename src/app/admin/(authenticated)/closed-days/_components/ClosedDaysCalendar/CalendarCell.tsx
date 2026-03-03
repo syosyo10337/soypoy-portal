@@ -26,7 +26,7 @@ export function CalendarCell({
       disabled={!isClickable}
       onClick={isClickable ? onClick : undefined}
       className={cn(
-        "aspect-square flex flex-col items-center rounded-md text-sm transition-colors pt-1.5",
+        "aspect-square flex flex-col items-center rounded-md text-xs md:text-sm transition-colors pt-1 md:pt-1.5",
         status === DayStatus.WeekDay &&
           "bg-gray-100 text-gray-400 cursor-not-allowed",
         status === DayStatus.Event &&
@@ -47,7 +47,7 @@ export function CalendarCell({
         </span>
       )}
       {status === DayStatus.Closed && (
-        <span className="text-sm font-semibold flex-1 flex items-center">
+        <span className="text-xs md:text-sm font-semibold flex-1 flex items-center">
           休業
         </span>
       )}

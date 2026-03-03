@@ -36,7 +36,7 @@ export function ClosedDaysCalendar() {
   };
 
   return (
-    <div className="px-16 space-y-6">
+    <div className="px-0 md:px-8 lg:px-16 space-y-6">
       <MonthSelector
         year={currentYear}
         month={currentMonth}

@@ -91,7 +91,7 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-muted-foreground">作成日時</p>
               <p className="font-medium">{formatDateTimeJP(admin.createdAt)}</p>
@@ -103,7 +103,7 @@ export function AdminDetailCard({ admin }: AdminDetailCardProps) {
           </div>
 
           {isSuperAdmin && (
-            <div className="flex gap-2 pt-4 border-t">
+            <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t">
               <Button
                 variant="outline"
                 onClick={() => setIsResetDialogOpen(true)}

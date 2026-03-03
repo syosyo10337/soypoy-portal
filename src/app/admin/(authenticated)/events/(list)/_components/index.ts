@@ -7,5 +7,6 @@
  * - 状態表示コンポーネント（ローディング、空状態）
  */
 
+export { EventsContent } from "./EventsContent";
 export { EventsTable } from "./EventsTable";
 export { EventsTableLoading } from "./EventsTableLoading";

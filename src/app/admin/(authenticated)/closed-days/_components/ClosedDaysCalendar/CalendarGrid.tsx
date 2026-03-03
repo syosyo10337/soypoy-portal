@@ -49,7 +49,7 @@ export function CalendarGrid({
   return (
     <div>
       <DayLabelsRow />
-      <div className="grid grid-cols-7 gap-4">
+      <div className="grid grid-cols-7 gap-1 md:gap-4">
         {emptyCells}
         {dayCells}
       </div>

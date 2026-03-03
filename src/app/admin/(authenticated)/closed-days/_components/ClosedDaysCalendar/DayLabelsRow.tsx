@@ -4,7 +4,7 @@ const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export function DayLabelsRow() {
   return (
-    <div className="grid grid-cols-7 gap-4 mb-1">
+    <div className="grid grid-cols-7 gap-1 md:gap-4 mb-1">
       {DAY_LABELS.map((label, index) => (
         <div
           key={label}
