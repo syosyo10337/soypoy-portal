@@ -30,7 +30,7 @@ export default function EventDetailLoading() {
           <Skeleton className="h-8 md:h-10 w-full" />
         </div>
         {/* Thumbnail */}
-        <div className="order-3">
+        <div className="order-3 max-w-sm mx-auto md:mx-0">
           <Skeleton className="w-full aspect-insta" />
         </div>
         {/* Description */}
