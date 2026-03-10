@@ -34,7 +34,7 @@
     "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
     "@refinedev/core": "^5.0.9",
-    "@refinedev/nextjs-router": "^7.0.4",
+    "@refinedev/nextjs-router": "^7.0.5",
     "@refinedev/react-hook-form": "^5.0.2",
     "@tanstack/react-query": "^5.90.21",
     "@trpc/client": "^11.10.0",
