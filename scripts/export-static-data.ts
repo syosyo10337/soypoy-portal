@@ -1,10 +1,10 @@
-import { desc } from "drizzle-orm";
 import { writeFileSync } from "node:fs";
 import path from "node:path";
+import { desc } from "drizzle-orm";
+import type { ClosedDayEntity } from "@/domain/entities/closedDay";
 import { db } from "@/infrastructure/db";
 import { DrizzleEventRepository } from "@/infrastructure/db/repositories/drizzleEventRepository";
 import { closedDays as closedDaysTable } from "@/infrastructure/db/schema";
-import type { ClosedDayEntity } from "@/domain/entities/closedDay";
 
 async function main() {
   const eventRepository = new DrizzleEventRepository();
