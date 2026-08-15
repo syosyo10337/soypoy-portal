@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { PageTitle } from "@/components/PageTitle";
-import { createPublicServerCaller } from "@/infrastructure/trpc/server";
+import { closedDayService, eventService } from "@/services";
 import { cn } from "@/utils/cn";
 import { APP_TIMEZONE } from "@/utils/date";
 import { EventList } from "./_components/EventList";
@@ -15,8 +15,6 @@ export const metadata: Metadata = {
   description:
     "SOY-POYで開催されるイベント一覧。オープンマイク、コンサート、ワークショップなど。",
 };
-
-export const revalidate = 300;
 
 interface EventsPageProps {
   searchParams: Promise<{ month: string }>;
@@ -42,10 +40,9 @@ export default async function EventsPage({ searchParams }: EventsPageProps) {
 }
 
 async function EventsContent({ year, month }: { year: number; month: number }) {
-  const trpc = await createPublicServerCaller();
   const [events, closedDays] = await Promise.all([
-    trpc.events.listByMonth({ year, month }),
-    trpc.closedDays.listByMonth({ year, month }),
+    eventService.getEventsByMonth(year, month),
+    closedDayService.getClosedDaysByMonth(year, month),
   ]);
 
   return (
