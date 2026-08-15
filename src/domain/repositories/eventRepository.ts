@@ -16,24 +16,6 @@ export interface EventRepository {
   findById(id: string): Promise<EventEntity | undefined>;
 
   /**
-   * イベントを作成
-   */
-  create(event: EventEntity): Promise<EventEntity>;
-
-  /**
-   * イベントを更新
-   */
-  update(
-    id: string,
-    event: Partial<Omit<EventEntity, "id">>,
-  ): Promise<EventEntity>;
-
-  /**
-   * イベントを削除
-   */
-  delete(id: string): Promise<void>;
-
-  /**
    * 指定月のイベントを取得
    */
   listByMonth(year: number, month: number): Promise<EventEntity[]>;

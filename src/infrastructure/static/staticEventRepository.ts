@@ -1,9 +1,7 @@
 import { PICKUP_EVENTS_LIMIT } from "@/constant/pickupEvents";
 import { PublicationStatus } from "@/domain/entities";
 import type { EventEntity } from "@/domain/entities/event";
-// NOTE: EventRepository still requires create/update/delete at this point in the
-// migration (Task 3 trims it to read-only). This class only implements the read
-// subset, so `implements EventRepository` is intentionally omitted for now.
+import type { EventRepository } from "@/domain/repositories/eventRepository";
 import { events } from "@/data/events";
 
 function byDateDesc(a: EventEntity, b: EventEntity): number {
@@ -14,7 +12,7 @@ function byDateDesc(a: EventEntity, b: EventEntity): number {
  * 静的データを使用したEventRepository実装
  * DBの代わりに src/data/events.ts の配列を参照する
  */
-export class StaticEventRepository {
+export class StaticEventRepository implements EventRepository {
   async list(): Promise<EventEntity[]> {
     return [...events].sort(byDateDesc);
   }
