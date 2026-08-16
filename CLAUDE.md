@@ -188,6 +188,14 @@ No test framework is currently configured. Code quality is maintained through:
 
 ## Common Tasks
 
+### Add a New Event
+
+1. Copy an existing object in `src/data/events.ts` as a template
+2. Generate a new unique `id` (any unique string; existing ids look like `nanoid` output, but the exact format doesn't matter — no generator is run)
+3. Fill in the required `EventEntity` fields (see `src/domain/entities/event/index.ts`): `title`, `date` (`YYYY-MM-DD`), `type` (see `EventType` in `src/domain/entities/event/eventType.ts`), `publicationStatus` (`"draft"` / `"published"` / `"archived"` — must be `"published"` to appear on the site), `isPickup` (boolean), `openTime`/`startTime` (`HH:mm`, default to `DEFAULT_OPEN_TIME`/`DEFAULT_START_TIME` = `"19:00"`/`"20:00"` if unspecified)
+4. Optionally set `description`, `thumbnail` (Cloudinary URL — see "Add an Event Thumbnail" below), `pricing` (`PricingTier[]`: `{ label, amount, note? }`), `performers` (`Performer[]`: `{ name, role?, instagramHandle? }`), `hashtags` (`string[]`, without the `#`)
+5. Open a PR — there is no build/migration step required beyond the normal `./bin/check`
+
 ### Add a New Page
 
 1. Create route in `src/app/(user)/[route-name]/page.tsx`
