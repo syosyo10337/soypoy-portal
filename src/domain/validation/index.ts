@@ -8,6 +8,5 @@
  * Zodはビジネスルールを宣言的に表現するDSLとして機能します。
  */
 
-export * from "./adminSchemas";
 export * from "./authSchemas";
 export * from "./eventSchemas";
