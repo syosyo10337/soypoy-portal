@@ -4,6 +4,8 @@
 
 **承認** (2026-02)
 
+> **Note:** 本ADRが記述するZodスキーマ・入力フォーム・DBマイグレーションの実装詳細は、DB削除・管理画面撤去に伴い過去のものとなっている。ただし決定そのもの（`openTime`/`startTime` を必須とし、デフォルト値を19:00/20:00とする）は現在も有効で、`EventEntity`（`src/domain/entities/event/index.ts`）の必須フィールドと `DEFAULT_OPEN_TIME`/`DEFAULT_START_TIME` 定数に反映されている。
+
 ## コンテキスト
 
 イベントの構造化フィールドとして `openTime`（開場時間）と `startTime`（開始時間）を追加した。当初は既存データとの後方互換性のため nullable（optional）として設計した。
