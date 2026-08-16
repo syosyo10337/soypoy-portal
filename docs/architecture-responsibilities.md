@@ -25,9 +25,10 @@ export interface EventEntity {
   thumbnail?: string;  // URL文字列のみ
 }
 
-// ✅ GOOD: リポジトリインターフェース
+// ✅ GOOD: リポジトリインターフェース（読み取り専用。データは静的ファイル管理のため書き込みメソッドはない）
 export interface EventRepository {
-  create(entity: EventEntity): Promise<EventEntity>;
+  list(): Promise<EventEntity[]>;
+  findById(id: string): Promise<EventEntity | undefined>;
 }
 ```
 
@@ -37,51 +38,24 @@ export interface EventRepository {
 
 **責務:**
 
-- 外部システムとの連携
-- データ永続化の具体実装
-- バリデーションスキーマ
-- 型変換
+- ドメインのリポジトリインターフェースの具体実装
+- データアクセス（DBはなく、`src/data/`配下の静的TypeScriptファイルを読み込むのみ）
 
 **サブレイヤー:**
 
-#### 1. **Schemas** (`infrastructure/schemas/`)
+#### **Static** (`infrastructure/static/`)
 
 ```typescript
-// ✅ 責務: バリデーション + 型変換のみ
-export const requiredImageFieldSchema = z.discriminatedUnion(...);
-export function extractExistingImageUrl(value: ImageFieldValue): string;
-
-// ❌ 禁止: 外部APIアクセス
-// export async function extractImageUrl() {
-//   await uploadImageToCloudinary();  // NG!
-// }
-```
-
-#### 2. **Storage** (`infrastructure/storage/`)
-
-```typescript
-// ✅ 責務: 外部ストレージとの連携
-export async function uploadImageToCloudinary({ file }): Promise<string>;
-export async function deleteImageFromCloudinary(url: string): Promise<void>;
-```
-
-#### 3. **Database** (`infrastructure/db/`)
-
-```typescript
-// ✅ 責務: DB操作の具体実装
-export class DrizzleEventRepository implements EventRepository {
-  async create(entity: EventEntity): Promise<EventEntity>;
+// ✅ 責務: src/data/*.ts の配列をリポジトリインターフェース経由で返すだけ
+export class StaticEventRepository implements EventRepository {
+  async list(): Promise<EventEntity[]> {
+    return events; // src/data/events.ts の配列
+  }
 }
 ```
 
-#### 4. **tRPC** (`infrastructure/trpc/`)
-
-```typescript
-// ✅ 責務: API定義とルーティング
-export const eventsRouter = router({
-  create: publicProcedure.input(createEventSchema).mutation(...),
-});
-```
+- DB接続・外部API呼び出し・バリデーションは行わない（データは`src/data/`の時点で型チェック済み）
+- かつて存在した`infrastructure/db/`（Drizzle）、`infrastructure/trpc/`（tRPCルーター/Zodスキーマ）、`infrastructure/refine/`（Refineデータプロバイダー）、`infrastructure/storage/`（Cloudinaryアップロード）はDB削除・管理画面撤去に伴い削除済み
 
 ---
 
@@ -90,50 +64,33 @@ export const eventsRouter = router({
 **責務:**
 
 - ビジネスロジックのオーケストレーション
-- 複数のInfrastructure層コンポーネントの組み合わせ
-- トランザクション管理
+- 複数のRepositoryの組み合わせ
 
-**正しい実装例:**
+**実装例:**
 
 ```typescript
-// ✅ GOOD: Service層がオーケストレーション
+// ✅ GOOD: Service層はRepositoryから受け取ったデータにビジネスロジックを適用するだけ
 export class EventService {
-  async createEvent(input: ...) {
-    // 1. 画像の種類を判定 (Schema層のヘルパー使用)
-    if (isNewImage(thumbnail) && thumbnail.type === "new") {
-      // 2. 新規画像はアップロード (Storage層を使用)
-      thumbnailUrl = await uploadImageToCloudinary({ file: thumbnail.file });
-    } else {
-      // 3. 既存画像はURL抽出 (Schema層のヘルパー使用)
-      thumbnailUrl = extractExistingImageUrl(thumbnail);
+  constructor(private repository: EventRepository) {}
+
+  async getPickupEvents(): Promise<EventEntity[]> {
+    // 1. ピックアップ指定のイベントを取得
+    const pickupEvents = await this.repository.listPickup();
+    if (pickupEvents.length >= PICKUP_EVENTS_LIMIT) {
+      return pickupEvents;
     }
-
-    // 4. DBに保存 (Repository層を使用)
-    return await this.repository.create({
-      thumbnail: thumbnailUrl,
-      ...
-    });
+    // 2. 不足分は直近の公開イベントで埋める（フォールバックのオーケストレーション）
+    const remaining = PICKUP_EVENTS_LIMIT - pickupEvents.length;
+    const fallbackEvents = await this.repository.listLatestPublished(
+      remaining,
+      pickupEvents.map((e) => e.id),
+    );
+    return [...pickupEvents, ...fallbackEvents];
   }
 }
 ```
 
-**アンチパターン:**
-
-```typescript
-// ❌ BAD: Schema層がアップロード処理を持つ
-// infrastructure/schemas/imageFieldSchema.ts
-export async function extractImageUrl(value: ImageFieldValue) {
-  if (value.type === "new") {
-    return await uploadImageToCloudinary({ file: value.file });  // NG!
-  }
-}
-```
-
-**なぜダメ?**
-
-- スキーマの責務: バリデーション + 型変換
-- アップロードの責務: 外部ストレージ連携
-- **単一責任の原則 (SRP) 違反**
+DBやtRPCがあった当時はService層がアップロード処理（Storage層）とバリデーション（Schema層）のオーケストレーションも担っていたが、静的データ化に伴いその役割は不要になった。現在はRepositoryから返る`EventEntity[]`に対する純粋なビジネスロジック（ピックアップ件数のフォールバックなど）のみを担う。
 
 ---
 
@@ -143,22 +100,19 @@ export async function extractImageUrl(value: ImageFieldValue) {
 
 - UI表示
 - ユーザー操作のハンドリング
-- フォーム管理
 
 **例:**
 
 ```typescript
-// ✅ GOOD: UIコンポーネント
-export function EventThumbnailField({ control }) {
+// ✅ GOOD: UIコンポーネント（src/app/(user)/events/_components/EventList/EventListItem.tsx）
+export function EventListItem({ event }: { event: EventEntity }) {
   return (
-    <Controller
-      render={({ field }) => (
-        <ImageUploader
-          value={imageFieldToImageValue(field.value)}
-          onChange={(value) => field.onChange(imageValueToImageField(value))}
-        />
-      )}
-    />
+    <Link href={`/events/${event.id}`}>
+      <CldImage src={event.thumbnail} alt={event.title} width={...} height={...} />
+      {/* ... */}
+    </Link>
   );
 }
 ```
+
+管理画面（フォーム入力・画像アップロードUI）は削除済み。イベントの追加・編集は`src/data/events.ts`を直接コミットして行うため、App層に入力フォームは存在しない。

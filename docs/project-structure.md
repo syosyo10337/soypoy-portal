@@ -22,6 +22,7 @@ Next.js App Routerを使用したUI層。ページとコンポーネントを管
 
 ```
 app/
+├── _components/           # ルート直下の共通コンポーネント（NotFoundなど）
 ├── (user)/                # ユーザー向けページ（ルートグループ）
 │   ├── (home)/            # ホームページ（ネストされたルートグループ）
 │   │   ├── _components/   # ホームページ専用コンポーネント
@@ -32,34 +33,19 @@ app/
 │   │   └── page.tsx
 │   ├── about/             # アバウトページ
 │   ├── events/            # イベント一覧ページ
-│   │   └── _components/   # イベントページ専用コンポーネント
+│   │   ├── _components/   # イベントページ専用コンポーネント
+│   │   └── [id]/          # イベント詳細ページ
 │   ├── whats-up/          # What's Upページ
 │   └── layout.tsx         # ユーザー向けレイアウト（Header/Footer）
-├── admin/                 # 管理画面（Refine）
-│   ├── events/            # イベント管理
-│   │   ├── (list)/        # 一覧表示
-│   │   ├── [id]/          # 詳細・編集
-│   │   │   ├── edit/
-│   │   │   └── page.tsx
-│   │   └── create/        # 新規作成
-│   ├── layout.tsx         # 管理画面レイアウト
-│   ├── loading.tsx
-│   └── page.tsx
-├── api/                   # API Routes
-│   └── trpc/              # tRPC API
-│       └── [trpc]/
-│           └── route.ts
 ├── layout.tsx             # ルートレイアウト
 └── not-found.tsx          # 404ページ
 ```
 
 **特徴**:
 
-- ルートグループで`(user)`と`admin`を明確に分離
 - ページごとに専用コンポーネントを`_components/`に配置
 - ネストされたルートグループ`(user)/(home)`でルートページを管理
-- 管理画面はRefineフレームワークを使用
-- tRPC APIは`/api/trpc`エンドポイントで提供
+- 管理画面・tRPC APIは存在しない。イベント/休業日データは`src/data/`配下の静的TypeScriptファイルとして管理し、編集はコミット経由で行う（詳細は「Infrastructure層」を参照）
 
 #### 2. Domain層 (`/src/domain/`) - ドメイン層
 
@@ -68,10 +54,11 @@ app/
 ```
 domain/
 ├── entities/              # ドメインエンティティ
-│   ├── event.ts          # イベントエンティティ
-│   └── eventType.ts      # イベントタイプエンティティ
+│   ├── event/             # イベントエンティティ（index.ts, eventType.ts, performer.ts, pricing.ts, publicationStatus.ts）
+│   └── closedDay/         # 休業日エンティティ
 └── repositories/          # リポジトリインターフェース
-    └── eventRepository.ts # イベントリポジトリインターフェース
+    ├── eventRepository.ts     # イベントリポジトリインターフェース
+    └── closedDayRepository.ts # 休業日リポジトリインターフェース
 ```
 
 **特徴**:
@@ -86,7 +73,9 @@ domain/
 
 ```
 services/
-└── eventService.ts        # イベントサービス
+├── eventService.ts        # イベントサービス
+├── closedDayService.ts    # 休業日サービス
+└── index.ts                # サービスのコンポジションルート
 ```
 
 **特徴**:
@@ -97,30 +86,19 @@ services/
 
 #### 4. Infrastructure層 (`/src/infrastructure/`) - インフラストラクチャ層
 
-外部システム（Neon Database + Drizzle ORM）との接続を実装。
+外部システムとの接続を実装。データベースはなく、`src/data/`配下の静的TypeScriptファイルを読み込むリポジトリ実装のみ。
 
 ```
 infrastructure/
-├── db/                    # Neon Database + Drizzle実装
-│   ├── index.ts           # データベース接続設定
-│   ├── schema.ts          # Drizzleスキーマ定義
-│   └── repositories/      # リポジトリ実装
-│       └── drizzleEventRepository.ts
-├── trpc/                  # tRPC設定
-│   ├── context.ts         # tRPCコンテキスト
-│   ├── router.ts          # ルーター統合
-│   ├── routers/           # ルーター実装
-│   └── schemas/           # Zodスキーマ
-└── refine/                # Refine設定
-    └── data-provider.ts   # Refineデータプロバイダー
+└── static/                       # 静的データリポジトリ実装
+    ├── staticEventRepository.ts     # src/data/events.ts を読むリポジトリ
+    └── staticClosedDayRepository.ts # src/data/closedDays.ts を読むリポジトリ
 ```
 
 **特徴**:
 
 - ドメインのリポジトリインターフェースを実装
-- Neon Database（PostgreSQL）との接続を担当
-- Drizzle ORMを使用した型安全なデータアクセス
-- データ変換とエラーハンドリング
+- `src/data/events.ts` / `src/data/closedDays.ts` の配列をそのまま返す（DB接続やネットワークI/Oなし）
 
 #### 5. 共通リソース
 
@@ -128,18 +106,13 @@ infrastructure/
 
 ```
 components/
-├── admin/                 # 管理画面専用コンポーネント
-│   ├── AdminSidebar.tsx
-│   ├── EventFormFields/   # イベントフォームフィールド
-│   └── EventStatusBadge.tsx
+├── Br/                    # 改行制御コンポーネント
 ├── BubleLabel/            # バブルラベルコンポーネント
+├── CircularNavigationButton/ # 円形ナビゲーションボタン
 ├── Footer/                # フッターコンポーネント
 ├── Header/                # ヘッダーコンポーネント
-├── refine-ui/             # Refine用カスタムUIコンポーネント
-│   ├── buttons/           # アクションボタン（create, edit, delete等）
-│   ├── form/              # フォーム関連（自動保存インジケーター等）
-│   ├── layout/            # レイアウト（パンくず、ローディング等）
-│   └── views/             # ビュー（list, create, edit, show）
+├── InstagramLink/         # Instagramリンクコンポーネント
+├── PageTitle/              # ページタイトルコンポーネント
 └── shadcn/                # shadcn/uiコンポーネント
 ```
 
@@ -167,7 +140,6 @@ utils/
 
 ```text
 constant/
-├── adminRoleLabel.ts      # 管理者ロールラベル
 ├── eventPublicationStatusLabel.ts  # 公開ステータスラベル
 └── pickupEvents.ts        # ピックアップイベント定数
 ```
@@ -176,7 +148,7 @@ constant/
 
 ```text
 types/
-└── svg.d.ts              # SVG型定義
+└── cloudinary.d.ts        # Cloudinary関連の環境変数型定義
 ```
 
 ## Clean Architecture 依存関係ルール

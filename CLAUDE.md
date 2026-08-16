@@ -4,16 +4,13 @@ This document provides essential context for AI assistants working on the SOY-PO
 
 ## Project Overview
 
-SOY-POY Portal is a full-stack web application for a community bar's event management platform. It features a public-facing website for event discovery and an admin panel for content management.
+SOY-POY Portal is a Next.js web application for a community bar's event management platform. It is a public-facing website for event discovery; event/closed-day content is maintained by editing static data files directly (see [Static Event Data](#static-event-data)) rather than through an admin panel.
 
 **Tech Stack:**
 
 - **Framework**: Next.js 15 (App Router) + React 19
 - **Language**: TypeScript (strict mode)
-- **Database**: PostgreSQL (Neon serverless) + Drizzle ORM
-- **API**: tRPC for type-safe client-server communication
-- **Authentication**: Better Auth (admin authentication with role-based access)
-- **Admin**: Refine framework with custom components
+- **Data**: Static in-repo TypeScript data (`src/data/events.ts`, `src/data/closedDays.ts`) — no database, no admin panel. Events/closed-days are edited directly by committing to these files.
 - **Styling**: Tailwind CSS v4 + shadcn/ui
 - **Animation**: Motion (Framer Motion successor)
 - **Image Management**: Cloudinary + Next Cloudinary
@@ -39,20 +36,9 @@ SOY-POY Portal is a full-stack web application for a community bar's event manag
 ./bin/format           # Format code
 ./bin/pnpm tsc         # Type check
 
-# Database
-./bin/pnpm db:migrate       # Apply migrations
-./bin/pnpm db:seed          # Seed database with initial data
-./bin/pnpm drzl:gen         # Generate migrations after schema changes
-./bin/pnpm drzl:migrate     # Apply migrations to database
-./bin/pnpm drzl:studio      # Open Drizzle Studio GUI
-
 # General Purpose
 ./bin/pnpm [cmd]       # Run any pnpm command in container
 ./bin/node [file]      # Run Node.js script in container
-
-# Setup / Maintenance (host machine)
-./bin/setup            # Initial project setup (Neon branch + .env.local.dev)
-./bin/cleanup          # Delete personal Neon branch + .env.local.dev
 ./bin/runenv [cmd]     # Run command with dotenvx-decrypted env vars
 ```
 
@@ -69,9 +55,7 @@ src/
 │   └── repositories/    # Data access interfaces
 ├── services/            # Application Layer (business logic)
 ├── infrastructure/      # Infrastructure Layer
-│   ├── db/              # Drizzle ORM + PostgreSQL
-│   ├── trpc/            # tRPC routers and schemas
-│   └── refine/          # Refine data provider
+│   └── static/          # Static-data repository implementations (src/data/*)
 ├── assets/              # Fonts, icons, styles
 ├── hooks/               # Custom React hooks
 └── utils/               # Utility functions
@@ -135,160 +119,16 @@ src/
 - Use Luxon for date operations (not date-fns for complex operations)
 - Timezone: Asia/Tokyo (hardcoded)
 - Import utility: `import { dateTimeFromISO } from "@/utils/date"`
-- Database storage: `timestamp with timezone` type
-- Convert between Date objects and database timestamps as needed
+- Data storage: `EventEntity.date` / `ClosedDayEntity.date` are plain `YYYY-MM-DD` strings in `src/data/*.ts`
 
-## tRPC API Structure
+## Static Event Data
 
-### Available Routers
+Events and closed days are **not** stored in a database — they live as plain TypeScript arrays, typed against the domain entities:
 
-**Events Router (`events.*`):**
+- `src/data/events.ts` — `export const events: EventEntity[]`
+- `src/data/closedDays.ts` — `export const closedDays: ClosedDayEntity[]`
 
-- `events.list` - Get all published events
-- `events.listByMonth({ year, month })` - Get events for specific month
-- `events.getById(id)` - Get single event
-- `events.create(data)` - Create new event (requires admin auth)
-- `events.update({ id, data })` - Update event (requires admin auth)
-- `events.delete(id)` - Delete event (requires admin auth)
-
-**Closed Days Router (`closedDays.*`):**
-
-- `closedDays.listByMonth({ year, month })` - Get closed days for month
-
-**Admins Router (`admins.*`):** (requires admin authentication)
-
-- `admins.list` - Get all admin users
-- `admins.getById(id)` - Get single admin user
-- `admins.create(data)` - Create new admin (SuperAdmin only)
-- `admins.update({ id, data })` - Update admin (SuperAdmin only)
-- `admins.delete(id)` - Delete admin (SuperAdmin only)
-- `admins.resetPassword({ userId })` - Reset admin password (SuperAdmin only)
-
-**Auth Router (`auth.*`):** (requires admin authentication)
-
-- `auth.changePassword({ oldPassword, newPassword })` - Change own password
-
-### Adding New API Routes
-
-1. Define Zod schema in `src/infrastructure/trpc/schemas/`
-2. Create router in `src/infrastructure/trpc/routers/`
-3. Add to main router in `src/infrastructure/trpc/router.ts`
-4. Services are injected via tRPC context
-
-## Database Schema
-
-### Tables
-
-**events:**
-
-- `id` (text, PK)
-- `publicationStatus` (enum: Draft, Published, Archived)
-- `title` (varchar 255)
-- `date` (timestamp with timezone)
-- `description` (text, nullable)
-- `thumbnail` (text, nullable)
-- `type` (enum: Art, Comedy, Dance, Design, Impro, Impro_Kanji, Movie, Music, Photo, Talk, Theater, Workshop, Other)
-
-**closed_days:**
-
-- `id` (text, PK)
-- `date` (timestamp with timezone)
-
-**admin_user:** (Better Auth)
-
-- `id` (text, PK)
-- `name` (text)
-- `email` (text, unique)
-- `emailVerified` (boolean)
-- `image` (text, nullable)
-- `role` (enum: Admin, SuperAdmin)
-- `banned` (boolean)
-- `banReason` (text, nullable)
-- `banExpires` (timestamp, nullable)
-- `createdAt`, `updatedAt` (timestamp)
-
-**admin_session:** (Better Auth)
-
-- `id` (text, PK)
-- `userId` (text, FK to admin_user)
-- `token` (text, unique)
-- `expiresAt` (timestamp)
-- `ipAddress`, `userAgent` (text, nullable)
-- `createdAt`, `updatedAt` (timestamp)
-
-**admin_account:** (Better Auth)
-
-- `id` (text, PK)
-- `userId` (text, FK to admin_user)
-- `accountId`, `providerId` (text)
-- `password` (text, nullable)
-- `accessToken`, `refreshToken`, `idToken` (text, nullable)
-- `accessTokenExpiresAt`, `refreshTokenExpiresAt` (timestamp, nullable)
-- `scope` (text, nullable)
-- `createdAt`, `updatedAt` (timestamp)
-
-**verification:** (Better Auth)
-
-- `id` (text, PK)
-- `identifier`, `value` (text)
-- `expiresAt` (timestamp)
-- `createdAt`, `updatedAt` (timestamp)
-
-### Adding New Tables
-
-Follow the guide in `docs/database-setup.md`:
-
-1. Define entity in `src/domain/entities/`
-2. Define repository interface in `src/domain/repositories/`
-3. Add Drizzle schema in `src/infrastructure/db/schema.ts`
-4. Implement repository in `src/infrastructure/db/repositories/`
-5. Create service in `src/services/`
-6. Run `./bin/pnpm drzl:gen` then `./bin/pnpm drzl:migrate`
-
-## Authentication & Authorization
-
-This project uses **Better Auth** for admin authentication:
-
-### Key Concepts
-
-- **Two Role Levels**:
-  - `Admin` - Can manage events and content
-  - `SuperAdmin` - Can manage events, content, and other admin users
-- **Session-based Auth**: Secure session tokens stored in database
-- **Protected Routes**: Admin routes in `/admin/(authenticated)/` require authentication
-- **tRPC Middleware**: `adminProcedure` and `superAdminProcedure` protect API routes
-
-### Configuration Files
-
-- `src/infrastructure/auth/server.ts` - Server-side auth config
-- `src/infrastructure/auth/client.ts` - Client-side auth hooks
-- `src/infrastructure/trpc/context.ts` - Auth middleware for tRPC procedures
-
-### Admin Operations
-
-- Login/logout handled by Better Auth
-- Password reset functionality (SuperAdmin only)
-- Session management with expiry
-- Ban/unban users (SuperAdmin only)
-
-### Security Notes
-
-- Passwords are hashed using Better Auth's secure hashing
-- Sessions expire automatically
-- CSRF protection built-in
-- SQL injection prevented by Drizzle ORM parameterization
-- XSS prevented by React's automatic escaping
-
-## Admin Panel
-
-The admin panel uses Refine framework at `/admin`:
-
-- **Authentication**: Protected by Better Auth middleware (see above)
-- **Login**: `/admin/login` for admin access
-- **Custom UI**: `src/components/refine-ui/`
-- **Data Provider**: Bridges Refine to tRPC in `src/infrastructure/refine/data-provider.ts`
-- **Views**: list-view, create-view, edit-view, show-view
-- **Protected Routes**: `/admin/(authenticated)/` requires authentication
+To add, edit, or remove an event or closed day, edit these files directly and open a PR — there is no admin panel and no migration step. `src/infrastructure/static/staticEventRepository.ts` / `staticClosedDayRepository.ts` read from these arrays; `src/services/eventService.ts` / `closedDayService.ts` contain the business logic (e.g. pickup-event backfill logic in `EventService.getPickupEvents()`). See `EventEntity` in `src/domain/entities/event/index.ts` for the exact shape (required fields, `EventType`/`PublicationStatus` enum values).
 
 ## Important Notes
 
@@ -311,10 +151,7 @@ The project uses **dotenvx** for encrypted environment variable management:
 
 **Key Variables:**
 
-- `DATABASE_URL` - PostgreSQL connection string (Neon)
-- `BETTER_AUTH_SECRET` - Secret key for Better Auth
-- `BETTER_AUTH_URL` - Base URL for authentication
-- `CLOUDINARY_*` - Cloudinary API credentials for image uploads
+- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` - Cloudinary cloud name, used by `next-cloudinary`/`CldImage` to serve event thumbnails
 
 **Managing Variables:**
 
@@ -326,7 +163,7 @@ npx dotenvx get -f .env.local
 npx dotenvx set NEW_VAR "value" -f .env.local
 
 # Get specific variable
-npx dotenvx get DATABASE_URL -f .env.local
+npx dotenvx get NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME -f .env.local
 ```
 
 **Important:** Always commit `.env.local` after changes (it's encrypted and safe to commit)
@@ -337,7 +174,6 @@ No test framework is currently configured. Code quality is maintained through:
 
 - TypeScript strict mode
 - Biome linting
-- Zod runtime validation
 
 ### Don't Forget
 
@@ -345,10 +181,10 @@ No test framework is currently configured. Code quality is maintained through:
 - **Never run `pnpm` directly on the host** — always use `./bin/*` wrapper scripts
 - Use `./bin/dev` to start development server (auto-handles env decryption)
 - SVGs are transformed to React components via SVGR webpack loader
-- Unique IDs are generated using `nanoid`
-- Images are uploaded to Cloudinary (use next-cloudinary components)
+- Event/closed-day `id`s are just unique strings hand-typed in `src/data/*.ts` — no generator is run
+- Event thumbnails are Cloudinary URLs (uploaded manually via the Cloudinary dashboard) referenced in `src/data/events.ts`; display uses `next-cloudinary`'s `<CldImage>` component
 - Animations use Motion library (Framer Motion's successor)
-- Date fields in DB are `timestamp with timezone` (not varchar)
+- `EventEntity.date` / `ClosedDayEntity.date` are plain `YYYY-MM-DD` strings in the data files (not DB timestamps)
 
 ## Common Tasks
 
@@ -357,7 +193,6 @@ No test framework is currently configured. Code quality is maintained through:
 1. Create route in `src/app/(user)/[route-name]/page.tsx`
 2. Add page-specific components in `_components/` subdirectory
 3. Use services from `src/services/` for data fetching
-4. For admin pages: Create in `src/app/admin/(authenticated)/[route-name]/`
 
 ### Add a New UI Component
 
@@ -366,39 +201,19 @@ No test framework is currently configured. Code quality is maintained through:
 3. Use Tailwind + `cn()` utility for styling
 4. For animations: Use Motion library components
 
-### Add Image Upload
+### Add an Event Thumbnail
 
-1. Use `next-cloudinary` components (e.g., `<CldUploadWidget>`)
-2. Compress images client-side with `browser-image-compression` before upload
-3. Store Cloudinary URL in database
-4. Use `<CldImage>` component for optimized image display
+1. Upload the image to Cloudinary manually (dashboard or `next-cloudinary` upload tooling outside the app) — there is no in-app upload flow
+2. Set the resulting URL as the `thumbnail` field of the event in `src/data/events.ts`
+3. Display uses the existing `<CldImage>` usages (e.g. `src/app/(user)/events/_components/EventList/EventListItem.tsx`)
 
 ### Modify Event Types
 
-1. Update enum in `src/domain/entities/event.ts`
-2. Update Drizzle schema enum in `src/infrastructure/db/schema.ts`
-3. Update Zod schema in `src/infrastructure/trpc/schemas/`
-4. Generate and run migration: `./bin/pnpm drzl:gen` then `./bin/pnpm drzl:migrate`
-
-### Add Protected Admin Route
-
-1. Create new tRPC procedure in router
-2. Use `adminProcedure` or `superAdminProcedure` middleware
-3. Implement business logic in service layer
-4. Add Zod validation schema for input
-5. Create Refine-based UI in `/admin/(authenticated)/`
-
-### Modify Admin Roles/Permissions
-
-1. Update `AdminUserRole` enum in `src/domain/entities/auth.ts`
-2. Update database schema in `src/infrastructure/db/authSchema.ts`
-3. Create and apply migration
-4. Update tRPC middleware in `src/infrastructure/trpc/context.ts`
-5. Update UI role selectors in admin panel
+1. Update the `EventType` enum in `src/domain/entities/event/eventType.ts`
+2. Update any events in `src/data/events.ts` that need the new/changed type
 
 ## Related Documentation
 
 - `README.md` - Setup instructions and basic usage
 - `docs/project-structure.md` - Detailed directory structure
-- `docs/database-setup.md` - Database operations guide
 - `.github/copilot-instructions.md` - Code review style guide

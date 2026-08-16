@@ -1,7 +1,6 @@
 #!/bin/bash
 # ローカルビルド確認用スクリプト
 # Docker コンテナ内で環境変数を復号化して next build を実行する
-# db:migrate はスキップ（ローカル確認では不要）
 #
 # 使用方法: ./bin/build
 
