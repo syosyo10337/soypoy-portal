@@ -2,20 +2,6 @@ import type { EventEntity } from "@/domain/entities/event";
 
 export const events: EventEntity[] = [
   {
-    id: "j3wEi6WU34Dk2DwjRjXzz",
-    publicationStatus: "draft",
-    title: "test",
-    date: "2026-03-24",
-    description: "",
-    type: "theater",
-    isPickup: false,
-    openTime: "19:00",
-    startTime: "20:00",
-    pricing: null,
-    performers: null,
-    hashtags: null,
-  },
-  {
     id: "E2RQh0ME91t3rUQzBAzEz",
     publicationStatus: "published",
     title: "汐音 COME BACK MUSIC LIVE",
