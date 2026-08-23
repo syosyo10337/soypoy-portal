@@ -1,1 +1,0 @@
-ALTER TABLE "closed_days" ADD CONSTRAINT "closed_days_date_unique" UNIQUE("date");
