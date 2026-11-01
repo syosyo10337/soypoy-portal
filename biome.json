@@ -47,6 +47,7 @@
       "!**/node_modules",
       "!**/dist",
       "!**/build",
+      "!**/storybook-static",
       "!**/public",
       "!**/*.css",
       "!**/*.scss",

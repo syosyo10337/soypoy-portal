@@ -8,7 +8,7 @@ SOY-POY Portal is a Next.js web application for a community bar's event manageme
 
 **Tech Stack:**
 
-- **Framework**: Next.js 15 (App Router) + React 19
+- **Framework**: Next.js 16 (App Router) + React 19
 - **Language**: TypeScript (strict mode)
 - **Data**: Static in-repo TypeScript data (`src/data/events.ts`, `src/data/closedDays.ts`) — no database, no admin panel. Events/closed-days are edited directly by committing to these files.
 - **Styling**: Tailwind CSS v4 + shadcn/ui
@@ -28,6 +28,7 @@ SOY-POY Portal is a Next.js web application for a community bar's event manageme
 # Development
 ./bin/dev              # Start dev server (port 3000)
 ./bin/build            # Run production build locally
+./bin/storybook        # Start Storybook (port 6006)
 
 # Code Quality (use before commits)
 ./bin/check            # Run tsc + lint:fix + format
@@ -80,6 +81,7 @@ src/
 - Page-specific components go in `_components/` directory within that route
 - Shared components go in `src/components/`
 - Co-located assets use `assets/` subdirectory within component folder
+- Stories are co-located with their component as `*.stories.tsx`
 - Use `Entity` suffix for domain models (e.g., `EventEntity`)
 - Use `Repository` suffix for data interfaces (e.g., `EventRepository`)
 - Use `Service` suffix for business logic classes (e.g., `EventService`)
@@ -180,7 +182,6 @@ No test framework is currently configured. Code quality is maintained through:
 - Run `./bin/check` before committing (type check + lint + format)
 - **Never run `pnpm` directly on the host** — always use `./bin/*` wrapper scripts
 - Use `./bin/dev` to start development server (auto-handles env decryption)
-- SVGs are transformed to React components via SVGR webpack loader
 - Event/closed-day `id`s are just unique strings hand-typed in `src/data/*.ts` — no generator is run
 - Event thumbnails are Cloudinary URLs (uploaded manually via the Cloudinary dashboard) referenced in `src/data/events.ts`; display uses `next-cloudinary`'s `<CldImage>` component
 - Animations use Motion library (Framer Motion's successor)
