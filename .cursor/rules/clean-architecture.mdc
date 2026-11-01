@@ -53,10 +53,10 @@ services/      → app/             ❌ (Business logic must NOT depend on UI)
 - Examples: `EventService`, use case implementations
 
 ### Infrastructure Layer (`src/infrastructure/`)
-- Contains external system implementations (Neon Database + Drizzle ORM)
+- Contains external system implementations (static in-repo TypeScript data)
 - Implements domain repository interfaces
 - Can depend on domain layer for interfaces
-- Examples: `DrizzleEventRepository`, database schemas, tRPC routers
+- Examples: `StaticEventRepository` (`src/infrastructure/static/staticEventRepository.ts`), `StaticClosedDayRepository` (`src/infrastructure/static/staticClosedDayRepository.ts`), reading from `src/data/*.ts`
 
 ### App Layer (`src/app/`)
 - Contains UI components, pages, hooks
@@ -84,19 +84,19 @@ export class EventService {
 }
 
 // ✅ GOOD: Infrastructure implements domain interface
-export class DrizzleEventRepository implements EventRepository {
+export class StaticEventRepository implements EventRepository {
   // implementation
 }
 
 // ✅ GOOD: Wiring in services layer
-export const eventService = new EventService(new DrizzleEventRepository());
+export const eventService = new EventService(new StaticEventRepository());
 ```
 
 ## Technology Stack
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
 - **Package Manager**: pnpm
-- **Data Source**: Neon Database (PostgreSQL) with Drizzle ORM
+- **Data Source**: Static in-repo TypeScript data (`src/data/events.ts`, `src/data/closedDays.ts`) — no database
 - **Architecture**: Clean Architecture with Repository Pattern
 
 ## Development Rules

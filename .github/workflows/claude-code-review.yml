@@ -74,8 +74,5 @@ jobs:
             3. **Documentation Compliance**: Read all files under the `docs/` directory and verify the changes do not violate any architectural decisions, setup guides, or project conventions documented there. Key docs include:
                - docs/architecture-responsibilities.md
                - docs/project-structure.md
-               - docs/database-setup.md
-               - docs/admin-authentication.md
-               - docs/admin-management.md
 
             If any violations are found, clearly explain which rule or convention is being violated and suggest a fix.

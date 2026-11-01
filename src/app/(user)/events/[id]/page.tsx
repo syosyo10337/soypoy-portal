@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageTitle } from "@/components/PageTitle";
-import { createPublicServerCaller } from "@/infrastructure/trpc/server";
+import { eventService } from "@/services";
 import { cn } from "@/utils/cn";
 
 import {
@@ -13,18 +13,20 @@ import {
   EventTitle,
 } from "./_components";
 
-export const revalidate = 60;
-
 interface EventDetailPageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateStaticParams() {
+  const allEvents = await eventService.getAllEvents();
+  return allEvents.map((event) => ({ id: event.id }));
 }
 
 export async function generateMetadata({
   params,
 }: EventDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const trpc = await createPublicServerCaller();
-  const event = await trpc.events.getById(id);
+  const event = await eventService.getEventById(id);
 
   if (!event) {
     return {
@@ -54,8 +56,7 @@ export default async function EventDetailPage({
 }: EventDetailPageProps) {
   const { id } = await params;
 
-  const trpc = await createPublicServerCaller();
-  const event = await trpc.events.getById(id);
+  const event = await eventService.getEventById(id);
 
   if (!event) notFound();
 
