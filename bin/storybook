@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Storybookをdocker compose経由で起動するシェルスクリプト
+# 使用方法: ./bin/storybook
+#
+# ./bin/pnpm の一時コンテナはポートを公開しないため、
+# 停止中は --service-ports 付きで起動する
+
+set -euo pipefail
+
+CONTAINER_RUNNING=$(docker compose ps --status running --services | grep app || true)
+
+echo "🔹 Storybook: http://localhost:6006"
+
+if [ -z "$CONTAINER_RUNNING" ]; then
+  docker compose run --rm --service-ports app pnpm storybook
+else
+  docker compose exec app pnpm storybook
+fi
