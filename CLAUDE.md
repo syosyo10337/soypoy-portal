@@ -8,7 +8,7 @@ SOY-POY Portal is a full-stack web application for a community bar's event manag
 
 **Tech Stack:**
 
-- **Framework**: Next.js 15 (App Router) + React 19
+- **Framework**: Next.js 16 (App Router) + React 19
 - **Language**: TypeScript (strict mode)
 - **Database**: PostgreSQL (Neon serverless) + Drizzle ORM
 - **API**: tRPC for type-safe client-server communication
@@ -31,6 +31,7 @@ SOY-POY Portal is a full-stack web application for a community bar's event manag
 # Development
 ./bin/dev              # Start dev server (port 3000)
 ./bin/build            # Run production build locally
+./bin/storybook        # Start Storybook (port 6006)
 
 # Code Quality (use before commits)
 ./bin/check            # Run tsc + lint:fix + format
@@ -96,6 +97,7 @@ src/
 - Page-specific components go in `_components/` directory within that route
 - Shared components go in `src/components/`
 - Co-located assets use `assets/` subdirectory within component folder
+- Stories are co-located with their component as `*.stories.tsx`
 - Use `Entity` suffix for domain models (e.g., `EventEntity`)
 - Use `Repository` suffix for data interfaces (e.g., `EventRepository`)
 - Use `Service` suffix for business logic classes (e.g., `EventService`)
@@ -344,7 +346,6 @@ No test framework is currently configured. Code quality is maintained through:
 - Run `./bin/check` before committing (type check + lint + format)
 - **Never run `pnpm` directly on the host** — always use `./bin/*` wrapper scripts
 - Use `./bin/dev` to start development server (auto-handles env decryption)
-- SVGs are transformed to React components via SVGR webpack loader
 - Unique IDs are generated using `nanoid`
 - Images are uploaded to Cloudinary (use next-cloudinary components)
 - Animations use Motion library (Framer Motion's successor)
