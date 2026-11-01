@@ -2,6 +2,8 @@
 
 ## ステータス
 
+**Superseded** — 本ADRが対象とする `ClosedDayService.syncMonth()` のイベント日重複チェック（および `ClosedDayConflictError`、`DrizzleClosedDayRepository` の書き込み系メソッド）は、DB削除・管理画面撤去マイグレーションの一環として削除された。休業日は現在 `src/data/closedDays.ts` の静的配列であり、書き込み経路自体が存在しないためランタイムの重複バリデーションは行われない（詳細は `docs/features/closed-days/00-overview.md` のバリデーションルール節を参照）。以下は当時の意思決定の記録として残す。
+
 **承認** (2026-02)
 
 ## コンテキスト
@@ -149,4 +151,3 @@ FOR EACH ROW EXECUTE FUNCTION check_no_event_on_date();
 ### 関連ドキュメント
 
 - [休業日管理機能 設計](../features/closed-days/00-overview.md)
-- [Phase 2: Service 層](../features/closed-days/02-service.md)

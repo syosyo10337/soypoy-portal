@@ -2,6 +2,8 @@
 
 ## ステータス
 
+**Superseded** — このADRが対象とするNeon/ローカルDB開発フローは、DB削除マイグレーション（静的データ化）の一環として撤去された。`bin/setup` / `bin/cleanup` / `docs/neon-branch-operations.md` は削除済み。以下は当時の意思決定の記録として残す。
+
 **承認** (2026-02)
 
 ## コンテキスト
