@@ -42,8 +42,8 @@ importers:
         specifier: ^3.6.1
         version: 3.6.1
       motion:
-        specifier: ^12.34.5
-        version: 12.34.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: ^14.14.0
+        version: 14.14.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       next:
         specifier: 16.4.1
         version: 16.4.1(@babel/core@7.29.7)(@types/node@25.3.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -1775,18 +1775,18 @@ packages:
       picomatch:
         optional: true
 
-  framer-motion@12.34.5:
-    resolution: {integrity: sha512-Z2dQ+o7BsfpJI3+u0SQUNCrN+ajCKJen1blC4rCHx1Ta2EOHs+xKJegLT2aaD9iSMbU3OoX+WabQXkloUbZmJQ==}
+  framer-motion@14.14.0:
+    resolution: {integrity: sha512-fidRX0VzkZdA9OovFiBSzJtt9/jLcJpna78Z+KCqQQZIWoIpN3tOhEXAhhAw/FObUUh+o3Y18yx1F4BP0mVJ8Q==}
     peerDependencies:
-      '@emotion/is-prop-valid': '*'
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
+      remix: ^3.1.0
     peerDependenciesMeta:
-      '@emotion/is-prop-valid':
-        optional: true
       react:
         optional: true
       react-dom:
+        optional: true
+      remix:
         optional: true
 
   fsevents@2.3.3:
@@ -2105,24 +2105,24 @@ packages:
   module-alias@2.3.4:
     resolution: {integrity: sha512-bOclZt8hkpuGgSSoG07PKmvzTizROilUTvLNyrMqvlC9snhs7y7GzjNWAVbISIOlhCP1T14rH1PDAV9iNyBq/w==}
 
-  motion-dom@12.34.5:
-    resolution: {integrity: sha512-k33CsnxO2K3gBRMUZT+vPmc4Utlb5menKdG0RyVNLtlqRaaJPRWlE9fXl8NTtfZ5z3G8TDvqSu0MENLqSTaHZA==}
+  motion-dom@14.14.0:
+    resolution: {integrity: sha512-IAxcKhYkuQA2W0Tlx1AvVgImfqEoF3/t3IovbPQJlYkefmGsmrXjn967lMII5VmFmLpQEab4+ZkHo/ijJ4Esig==}
 
-  motion-utils@12.29.2:
-    resolution: {integrity: sha512-G3kc34H2cX2gI63RqU+cZq+zWRRPSsNIOjpdl9TN4AQwC4sgwYPl/Q/Obf/d53nOm569T0fYK+tcoSV50BWx8A==}
+  motion-utils@14.7.0:
+    resolution: {integrity: sha512-woO0/Nb7ys75f94fjvQi/6leiHGvZUYkeHUPEZ3vxsV+9OpEVhkxp01x8MlRwX0zt31EqgXsKDAoBoJLC148Tw==}
 
-  motion@12.34.5:
-    resolution: {integrity: sha512-N06NLJ9IeBHeielRqIvYvjPfXuRdyTxa+9++BgpGa+hY2D7TcMkI6QzV3jaRuv0aZRXgMa7cPy9YcBUBisPzAQ==}
+  motion@14.14.0:
+    resolution: {integrity: sha512-a306U6sV5VKq1abtzKiinB+UQjiY88jrsvQzWORP3WPv/DFANyoYVlPbdnmJPMEbusyPXB4GyQJVANaq/pSIYQ==}
     peerDependencies:
-      '@emotion/is-prop-valid': '*'
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
+      remix: ^3.1.0
     peerDependenciesMeta:
-      '@emotion/is-prop-valid':
-        optional: true
       react:
         optional: true
       react-dom:
+        optional: true
+      remix:
         optional: true
 
   ms@2.1.3:
@@ -2499,9 +2499,6 @@ packages:
   tsconfig-paths@4.2.0:
     resolution: {integrity: sha512-NoZ4roiN7LnbKn9QqE1amc9DJfzvZXxF4xDavcOWt1BPkdx+m+0gJuPM+S0vCe7zTJMYUP0R8pO2XMr+Y8oLIg==}
     engines: {node: '>=6'}
-
-  tslib@2.8.1:
-    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
   tslib@2.9.1:
     resolution: {integrity: sha512-a4Ux9VKuIMHsOS7ENbEq6hK2ZGYIT27Rtl0E4eD9KqwxhKiQeMZE/9xb3IdYwWaSOyIBQLExhQgXDTYoiCxnWA==}
@@ -3785,7 +3782,7 @@ snapshots:
 
   aria-hidden@1.2.6:
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   aria-query@5.3.0:
     dependencies:
@@ -3797,7 +3794,7 @@ snapshots:
 
   ast-types@0.16.3:
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   balanced-match@4.0.4: {}
 
@@ -4007,11 +4004,11 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.7
 
-  framer-motion@12.34.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  framer-motion@14.14.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
-      motion-dom: 12.34.5
-      motion-utils: 12.29.2
-      tslib: 2.8.1
+      motion-dom: 14.14.0
+      motion-utils: 14.7.0
+      tslib: 2.9.1
     optionalDependencies:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
@@ -4227,16 +4224,16 @@ snapshots:
 
   module-alias@2.3.4: {}
 
-  motion-dom@12.34.5:
+  motion-dom@14.14.0:
     dependencies:
-      motion-utils: 12.29.2
+      motion-utils: 14.7.0
 
-  motion-utils@12.29.2: {}
+  motion-utils@14.7.0: {}
 
-  motion@12.34.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  motion@14.14.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
-      framer-motion: 12.34.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      tslib: 2.8.1
+      framer-motion: 14.14.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      tslib: 2.9.1
     optionalDependencies:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
@@ -4434,7 +4431,7 @@ snapshots:
     dependencies:
       react: 19.2.4
       react-style-singleton: 2.2.3(@types/react@19.2.14)(react@19.2.4)
-      tslib: 2.8.1
+      tslib: 2.9.1
     optionalDependencies:
       '@types/react': 19.2.14
 
@@ -4443,7 +4440,7 @@ snapshots:
       react: 19.2.4
       react-remove-scroll-bar: 2.3.8(@types/react@19.2.14)(react@19.2.4)
       react-style-singleton: 2.2.3(@types/react@19.2.14)(react@19.2.4)
-      tslib: 2.8.1
+      tslib: 2.9.1
       use-callback-ref: 1.3.3(@types/react@19.2.14)(react@19.2.4)
       use-sidecar: 1.1.3(@types/react@19.2.14)(react@19.2.4)
     optionalDependencies:
@@ -4453,7 +4450,7 @@ snapshots:
     dependencies:
       get-nonce: 1.0.1
       react: 19.2.4
-      tslib: 2.8.1
+      tslib: 2.9.1
     optionalDependencies:
       '@types/react': 19.2.14
 
@@ -4465,7 +4462,7 @@ snapshots:
       esprima: 4.0.1
       source-map: 0.6.1
       tiny-invariant: 1.3.3
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   redent@3.0.0:
     dependencies:
@@ -4506,7 +4503,7 @@ snapshots:
 
   rxjs@7.8.2:
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   safer-buffer@2.1.2: {}
 
@@ -4667,8 +4664,6 @@ snapshots:
       minimist: 1.2.8
       strip-bom: 3.0.0
 
-  tslib@2.8.1: {}
-
   tslib@2.9.1: {}
 
   tw-animate-css@1.4.0: {}
@@ -4693,7 +4688,7 @@ snapshots:
   use-callback-ref@1.3.3(@types/react@19.2.14)(react@19.2.4):
     dependencies:
       react: 19.2.4
-      tslib: 2.8.1
+      tslib: 2.9.1
     optionalDependencies:
       '@types/react': 19.2.14
 
@@ -4701,7 +4696,7 @@ snapshots:
     dependencies:
       detect-node-es: 1.1.0
       react: 19.2.4
-      tslib: 2.8.1
+      tslib: 2.9.1
     optionalDependencies:
       '@types/react': 19.2.14
 
